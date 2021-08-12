@@ -32,13 +32,13 @@ public class Employee {
 	@Column(name = "salary")
 	private Integer salary;
 	
-	@Column(name="comp_id", insertable = false, updatable = false)
+	@Column(name="cmp_id", insertable = false, updatable = false)
 	//@Transient
 	private Integer companyId;
 	
 	@ManyToOne
 	//@Fetch(FetchMode.SELECT)
-	@JoinColumn(name="comp_id")
+	@JoinColumn(name="cmp_id")
 	//@Transient
 	//@Where(clause=" city = 'ahmedabad' ")
 	private Company compnayToEmpMap;

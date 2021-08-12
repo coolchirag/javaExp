@@ -1,5 +1,6 @@
 package com.example.springjpa.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -51,7 +52,23 @@ public class CompanyService {
 		System.out.println("Done1");
 	}
 	
-	public void insertCompany() {
+	public void insertCompanyWithEmp() {
+		Company cmp = new Company();
+		cmp.setCompanyName("test");
+		cmp.setCity("cmp");
+		
+		Employee emp = new Employee();
+		emp.setEmployeeName("test");
+		emp.setSalary(100000);
+		emp.setCompnayToEmpMap(cmp);
+		
+		cmp.setEmployeeList(Collections.singletonList(emp));
+		
+		cmpRepo.save(cmp);
+	}
+	
+	
+	public void insertMultipleCompany() {
 		for(int i=0; i<10;i++) {
 		Company c = new Company();
 		c.setCity("test");
