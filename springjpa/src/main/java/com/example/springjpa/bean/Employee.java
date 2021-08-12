@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -17,8 +18,8 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name = "Employee")
-//@Where(clause = " salary = 1000 ")
+@Table(name = "employee")
+@Where(clause = " is_active = 1 ")
 public class Employee {
 
 	@Id
@@ -31,21 +32,39 @@ public class Employee {
 	@Column(name = "salary")
 	private Integer salary;
 	
-	@Column(name = "cmp_name")
-	private String cmpName;
-	
-	@Column(name="company_id", insertable = false, updatable = false)
+	@Column(name="comp_id", insertable = false, updatable = false)
 	//@Transient
 	private Integer companyId;
 	
 	@ManyToOne
 	//@Fetch(FetchMode.SELECT)
-	@JoinColumn(name="company_id")
+	@JoinColumn(name="comp_id")
 	//@Transient
 	//@Where(clause=" city = 'ahmedabad' ")
 	private Company compnayToEmpMap;
 	
+	@Column(name = "is_active")
+	private Integer isActive;
 	
+	
+	@PrePersist
+	private void onCreate() {
+		isActive = 1;
+	}
+	
+	
+
+	public Integer getIsActive() {
+		return isActive;
+	}
+
+
+
+	public void setIsActive(Integer isActive) {
+		this.isActive = isActive;
+	}
+
+
 
 	public int getId() {
 		return id;
@@ -90,18 +109,11 @@ public class Employee {
 		this.companyId = companyId;
 	}
 
-	public String getCmpName() {
-		return cmpName;
-	}
-
-	public void setCmpName(String cmpName) {
-		this.cmpName = cmpName;
-	}
+	
 
 	@Override
 	public String toString() {
-		return "Employee [id=" + id + ", employeeName=" + employeeName + ", salary=" + salary + ", cmpName=" + cmpName
-				+ ", companyId=" + companyId +"]";
+		return "Employee [id=" + id + ", employeeName=" + employeeName + ", salary=" + salary + ", companyId=" + companyId +"]";
 	}
 
 	

@@ -24,7 +24,6 @@ public class EmployeeService {
 		System.out.println("Compnay fetched");
 		Employee emp = new Employee();
 		emp.setEmployeeName("emp2_3");
-		emp.setCmpName("IBM");
 		emp.setSalary(6000);
 		emp.setCompnayToEmpMap(c);
 		

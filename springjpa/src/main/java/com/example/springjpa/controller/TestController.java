@@ -18,8 +18,8 @@ public class TestController {
 	@GetMapping("/")
 	public String test() throws InterruptedException {
 		//cs.callJpaRepo();
-		cs.criteriaBuilderDemo2();
-		//cs.insertCompany();
+		//cs.criteriaBuilderDemo2();
+		cs.insertCompany();
 		//System.out.println("test "+Thread.currentThread().getId());
 		//Thread.sleep(60*1000);
 		

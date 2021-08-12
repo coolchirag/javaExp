@@ -13,5 +13,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
 	
 	@Query("select count(c.id), c.city from Company c group by c.city")
 	List<Object> countDemo();
+	
+	
 
 }
