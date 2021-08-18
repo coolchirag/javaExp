@@ -1,9 +1,11 @@
 package com.chirag.spring.experiment.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.zip.GZIPOutputStream;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.core.ParameterizedTypeReference;
@@ -85,6 +87,28 @@ public class FileHandlingController {
 		MultiValueMap<String, Object> formData = new LinkedMultiValueMap<String, Object>();
 		formData.add("data", "TestData");
 		formData.add("file", new FileSystemResource("/home/chiragj/git/javaExp/spring-experiment/src/main/resources/test.txt"));
+		
+		ResponseEntity<String> response = restTemplate.exchange(new URI("http://localhost:8080/uploadFileData"), HttpMethod.POST, new HttpEntity<MultiValueMap>(formData, headers), new ParameterizedTypeReference<String>() {
+		});
+		return "Done : " + response.getBody();
+	}
+	
+	@GetMapping("/internalUploadFileDataWithCompression")
+	public String internalUploadFileDataWithCompression() throws RestClientException, URISyntaxException, IOException {
+		RestTemplate restTemplate = new RestTemplate();
+		
+		final FileSystemResource fsr = new FileSystemResource("/home/chiragj/git/javaExp/spring-experiment/src/main/resources/test.txt");
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		GZIPOutputStream gzipOutputStream = new GZIPOutputStream(byteArrayOutputStream);
+		//gzipOutputStream.wri
+		
+		final MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+		headers.add(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE);
+		
+		MultiValueMap<String, Object> formData = new LinkedMultiValueMap<String, Object>();
+		formData.add("data", "TestData");
+		
+		//formData.add("file", );
 		
 		ResponseEntity<String> response = restTemplate.exchange(new URI("http://localhost:8080/uploadFileData"), HttpMethod.POST, new HttpEntity<MultiValueMap>(formData, headers), new ParameterizedTypeReference<String>() {
 		});
