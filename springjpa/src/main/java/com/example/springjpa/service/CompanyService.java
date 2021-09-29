@@ -31,25 +31,34 @@ public class CompanyService {
 	private CompanyRepository cmpRepo;
 
 	public void getCompany() {
-		Company c = em.find(Company.class, 1);
+		Company c = em.find(Company.class, 2);//em.find(Company.class, 2);
 		/*
 		 * c.setCity("c5"); c.setCompanyName("c5"); c.setEmployeeList(new
 		 * ArrayList<Employee>());
 		 */
 		System.out.println("Compnay fetched");
+		Company c2 = cmpRepo.findCMTest("test");
+		System.out.println("Compnay fetched c2");
 		/*
 		 * Employee emp = new Employee(); emp.setEmployeeName("emp2_3");
 		 * emp.setCmpName("IBM"); emp.setSalary(6000); emp.setCompnayToEmpMap(c);
 		 * c.getEmployeeList().add(emp);
 		 */
 		//c.getEmployeeList().remove(0);
-		c.setCity(c.getCity());
+		//c.setCity(c.getCity()+"test");
+		//c.setCompanyName("test");
+		
+		System.out.println("City : "+c.getCity()+" : "+c2.getCity());
 		/*
 		 * try { Thread.sleep(100*1000); } catch (InterruptedException e) { // TODO
 		 * Auto-generated catch block e.printStackTrace(); }
 		 */
-		System.out.println("Saved1");
-		System.out.println("Done1");
+		//cmpRepo.save(c);
+		/*
+		 * em.flush(); em.persist(c); System.out.println("Saved1");
+		 * 
+		 * System.out.println("Done1");
+		 */
 	}
 	
 	public void insertCompanyWithEmp() {
@@ -65,6 +74,7 @@ public class CompanyService {
 		cmp.setEmployeeList(Collections.singletonList(emp));
 		
 		cmpRepo.save(cmp);
+		System.out.println("Exit from insertCompanyWithEmp");
 	}
 	
 	
@@ -152,5 +162,12 @@ public class CompanyService {
         TypedQuery tq = em.createQuery(criteriaQuery);
         List result = tq.getResultList();
         System.out.println(result);
+	}
+	
+	public void deleteCompanyWithEmp() {
+		Company cmp = cmpRepo.findByCompanyName("test");
+		cmp.setCity(cmp.getCity()+"5");
+		cmpRepo.delete(cmp);
+		
 	}
 }

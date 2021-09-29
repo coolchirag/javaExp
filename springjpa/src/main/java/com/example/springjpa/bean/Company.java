@@ -10,15 +10,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PostRemove;
 import javax.persistence.PrePersist;
+import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "company")
 @Where(clause = "is_active=1")
+@SQLDelete(sql = "update company set is_active = null where id = ? ")
 public class Company {
 
 	@Id
@@ -63,10 +67,22 @@ public class Company {
 	
 	@PreUpdate
 	protected void onUpdate() {
-		companyName = companyName+"5";
+		//companyName = companyName+"5";
 		System.out.println("on update");
 	}
 
+	@PreRemove
+	private void preDelete() {
+		System.out.println("Pre Delete");
+		setCity("predeleted");
+	}
+	
+	@PostRemove
+	private void postDelete() {
+		System.out.println("Post Delete");
+		setCompanyName("postdeleted");
+	}
+	
 	public int getId() {
 		return id;
 	}

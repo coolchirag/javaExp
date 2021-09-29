@@ -18,17 +18,20 @@ public class TestController {
 	@GetMapping("/")
 	public String test() throws InterruptedException {
 		//cs.callJpaRepo();
+		//cs.getCompany();
 		//cs.criteriaBuilderDemo2();
-		cs.insertCompanyWithEmp();
+		//cs.insertCompanyWithEmp();
+		//cs.deleteCompanyWithEmp();
 		//System.out.println("test "+Thread.currentThread().getId());
 		//Thread.sleep(60*1000);
 		
+		es.findEmp();
 		return "Hello";
 	}
 	
 	@GetMapping("/test2")
 	public String test2() throws InterruptedException {
-		//cs.insertCompany();
+		cs.insertCompanyWithEmp();
 		System.out.println("test2 "+Thread.currentThread().getId());
 		Thread.sleep(60*1000);
 		return "Hello";

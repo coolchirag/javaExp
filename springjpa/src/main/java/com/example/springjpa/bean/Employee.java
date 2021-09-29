@@ -15,11 +15,13 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "employee")
 @Where(clause = " is_active = 1 ")
+@SQLDelete(sql = "update employee set is_active = null where id = ? ")
 public class Employee {
 
 	@Id

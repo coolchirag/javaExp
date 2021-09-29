@@ -1,5 +1,7 @@
 package com.example.springjpa.service;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.springjpa.bean.Company;
 import com.example.springjpa.bean.Employee;
+import com.example.springjpa.repository.EmployeeRepository;
 
 @Service
 @Transactional
@@ -15,6 +18,9 @@ public class EmployeeService {
 	
 	@Autowired
 	private EntityManager em;
+	
+	@Autowired
+	private EmployeeRepository empRepo;
 
 	public void insertEmployee() {
 		Company c = new Company();
@@ -30,5 +36,13 @@ public class EmployeeService {
 		em.persist(emp);
 		System.out.println("Saved");
 		System.out.println("Done");
+	}
+	
+	public void findEmp() {
+		List<Employee> emps = empRepo.getEmployeesByCompanyName();
+		System.out.println(emps);
+		
+		List<Employee> emps2 = empRepo.findByCompnayToEmpMapCompanyName("test");
+		System.out.println(emps2);
 	}
 }
