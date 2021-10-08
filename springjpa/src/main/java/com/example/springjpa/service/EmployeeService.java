@@ -1,6 +1,7 @@
 package com.example.springjpa.service;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 
@@ -39,6 +40,8 @@ public class EmployeeService {
 	}
 	
 	public void findEmp() {
+		Set<Integer> cmpIds = empRepo.findCompanyIdByEmployeeName("test");
+		System.out.println(cmpIds);
 		List<Employee> emps = empRepo.getEmployeesByCompanyName();
 		System.out.println(emps);
 		
