@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.springjpa.bean.Company;
 import com.example.springjpa.bean.Employee;
+import com.example.springjpa.repository.CompanyRepository;
 import com.example.springjpa.repository.EmployeeRepository;
 
 @Service
@@ -22,8 +23,11 @@ public class EmployeeService {
 	
 	@Autowired
 	private EmployeeRepository empRepo;
+	
+	@Autowired
+	private CompanyRepository cmpRepo;
 
-	public void insertEmployee() {
+	public void insertEmployeeWithCompany() {
 		Company c = new Company();
 		c.setCity("c5");
 		c.setCompanyName("c5");
@@ -39,7 +43,24 @@ public class EmployeeService {
 		System.out.println("Done");
 	}
 	
+	public void insertEmployeINExistingCompany() {
+		Company cmp1 = cmpRepo.findOne(1);
+		Employee emp = new Employee();
+		emp.setEmployeeName("emp1_1");
+		emp.setSalary(6000);
+		emp.setCompnayToEmpMap(cmp1);
+		
+		empRepo.save(emp);
+		System.out.println("Emp saved");
+	}
+	
 	public void findEmp() {
+		try {
+			Thread.sleep(20000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Set<Integer> cmpIds = empRepo.findCompanyIdByEmployeeName("test");
 		System.out.println(cmpIds);
 		List<Employee> emps = empRepo.getEmployeesByCompanyName();

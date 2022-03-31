@@ -38,7 +38,7 @@ public class Employee {
 	//@Transient
 	private Integer companyId;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	//@Fetch(FetchMode.SELECT)
 	@JoinColumn(name="cmp_id")
 	//@Transient
