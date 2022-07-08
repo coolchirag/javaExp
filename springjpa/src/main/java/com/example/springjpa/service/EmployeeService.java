@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.springjpa.bean.Company;
@@ -44,13 +45,21 @@ public class EmployeeService {
 	}
 	
 	public void insertEmployeINExistingCompany() {
-		Company cmp1 = cmpRepo.findOne(1);
+		//Company cmp1 = cmpRepo.findOne(1);
 		Employee emp = new Employee();
-		emp.setEmployeeName("emp1_1");
+		emp.setEmployeeName("emp1_3");
 		emp.setSalary(6000);
-		emp.setCompnayToEmpMap(cmp1);
+		emp.setCompanyId(1);
+		//emp.setCompnayToEmpMap(cmp1);
 		
 		empRepo.save(emp);
+		
+		System.out.println("Employe saved....................");
+		
+		em.detach(emp);
+		
+		Employee fetchedEmp = empRepo.findByEmployeeNameAndCompanyId("emp1_2", 1);
+		System.out.println("EMployee fetched : "+fetchedEmp.getCompnayToEmpMap().getCompanyName());
 		System.out.println("Emp saved");
 	}
 	
@@ -69,4 +78,17 @@ public class EmployeeService {
 		List<Employee> emps2 = empRepo.findByCompnayToEmpMapCompanyName("test");
 		System.out.println(emps2);
 	}
+	
+	//@Transactional(propagation = Propagation.NESTED)
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void insertCompany(Company cmp) {
+		try {
+		//Company cmp = new Company();
+		cmp.setCity(null);
+		cmpRepo.save(cmp);
+		} catch (Exception e) {
+			System.out.println("Error occured in emp Service : "+e.getMessage());
+		}
+	}
+		
 }

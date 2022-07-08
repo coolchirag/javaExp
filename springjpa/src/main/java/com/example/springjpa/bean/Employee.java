@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -34,15 +35,19 @@ public class Employee {
 	@Column(name = "salary")
 	private Integer salary;
 	
-	@Column(name="cmp_id", insertable = false, updatable = false)
+	@Column(name = "cmp_id"/* , insertable = false, updatable = false */)
 	//@Transient
 	private Integer companyId;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	//@ManyToOne(/* cascade = CascadeType.ALL */)
 	//@Fetch(FetchMode.SELECT)
-	@JoinColumn(name="cmp_id")
+	
+	//@JoinColumn(name="cmp_id", insertable = false, updatable = false)
 	//@Transient
 	//@Where(clause=" city = 'ahmedabad' ")
+	
+	@OneToOne
+	@JoinColumn(name = "cmp_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private Company compnayToEmpMap;
 	
 	@Column(name = "is_active")

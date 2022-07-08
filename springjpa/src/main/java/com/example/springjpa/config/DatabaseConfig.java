@@ -18,19 +18,45 @@ public class DatabaseConfig {
 	@Bean
 	@Primary
 	public DataSource getDatasource() {
-		return generateDataSource("newuser", "password1", false);
+		//return generateDataSource("test_db@int-coding-platform-document-pipeline", "password", false);
+		return generateDataSource("newuser", "password2", false);
 	}
 	
-	//@LiquibaseDataSource
-	//@Bean
+	@LiquibaseDataSource
+	@Bean
 	public DataSource getLiquibasedDatasource() {
-		return generateDataSource("newlbuser", "password", true);
+		//return generateDataSource("test_db@int-coding-platform-document-pipeline", "password", true);
+		return generateDataSource("newuser", "password2", true);
 	}
 	
 	private DataSource generateDataSource(String username, String password, boolean isLbDataSource) {
+
+		/*
+		 * String importCert = " -import "+ " -alias mysqlServerCACert "+ " -file " +
+		 * "/home/chiragjivani/temp/DigiCertGlobalRootCA.crt.pem" +
+		 * " -keystore truststore "+ " -trustcacerts " +
+		 * " -storepass password -noprompt "; String genKey = " -genkey -keyalg rsa " +
+		 * " -alias mysqlClientCertificate -keystore keystore " +
+		 * " -storepass password123 -keypass password " + " -dname CN=MS "; try {
+		 * sun.security.tools.keytool.Main.main(importCert.trim().split("\\s+")); }
+		 * catch (Exception e) { // TODO Auto-generated catch block e.printStackTrace();
+		 * } try { sun.security.tools.keytool.Main.main(genKey.trim().split("\\s+")); }
+		 * catch (Exception e) { // TODO Auto-generated catch block e.printStackTrace();
+		 * }
+		 * 
+		 * // use the generated keystore and truststore
+		 * 
+		 * System.setProperty("javax.net.ssl.keyStore",
+		 * "/home/chiragjivani/git/javaExp/springjpa/keystore");
+		 * System.setProperty("javax.net.ssl.keyStorePassword","password");
+		 * System.setProperty("javax.net.ssl.trustStore",
+		 * "/home/chiragjivani/git/javaExp/springjpa/truststore");
+		 * System.setProperty("javax.net.ssl.trustStorePassword","password");
+		 */
 		DataSourceBuilder dsBuilder = DataSourceBuilder.create();
-		dsBuilder.driverClassName("com.mysql.jdbc.Driver");
-		dsBuilder.url("jdbc:mysql://localhost/test_db?useSSL=false");
+		dsBuilder.driverClassName("com.mysql.cj.jdbc.Driver");
+		//dsBuilder.url("jdbc:mysql://int-coding-platform-document-pipeline.mysql.database.usgovcloudapi.net/test_db?useSSL=true&serverTimezone=UTC");
+		dsBuilder.url("jdbc:mysql://localhost:3306/test_db");
 		dsBuilder.username(username);
 		dsBuilder.password(password);
 		DataSource dataSource = dsBuilder.build();
@@ -43,8 +69,9 @@ public class DatabaseConfig {
 					apacheDataSource.setMinIdle(1);
 					apacheDataSource.setMaxIdle(3);
 				} else {
-					apacheDataSource.setMinIdle(1);
+					apacheDataSource.setMinIdle(3);
 				}
+				apacheDataSource.setInitialSize(apacheDataSource.getMinIdle());
 		} else {
 			final String errorMsg = "Connection pool property is not set for DataSource of type : "+dataSource.getClass(); 
 			LOG.warn(errorMsg);

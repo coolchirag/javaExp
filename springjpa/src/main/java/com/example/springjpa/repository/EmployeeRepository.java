@@ -32,6 +32,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	List<Employee> getEmployeesByCompanyName();
 	
 	List<Employee> findByCompnayToEmpMapCompanyName(String companyName);
+	
+	Employee findByEmployeeNameAndCompanyId(String name, Integer id);
 
 	
 }

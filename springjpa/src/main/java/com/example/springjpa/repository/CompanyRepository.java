@@ -17,12 +17,21 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
 	Company findByCompanyName(String name);
 	
-	@Query("select c from Company c where c.companyName=:name")
+	@Query("from Company where companyName=:name")
 	Company findCMTest(@Param("name") String name);
 	
 	Company findFirstByCompanyNameOrderByIdDesc(String name);
 	
+	@Query("select c.city from Company c group by c.city having count(1) > 1")
+	List<Object> findByCityCount();
 	
+	@Query("select distinct c.city from Company c where c.companyName=:name")
+	List<String> findDistinctCityByCompanyName(@Param("name") String name);
+	
+	@Query("select distinct c from Company c inner join c.emp e on e.salary > 10000 "
+			+ "left join c.emp e2 on e2.salary <1000"
+			+ "where  c.companyName=:name and c.isActive = true and e2.id is null")
+	List<Company> findByNameWithEmployee(@Param("name") String name);
 
 	/*
 	 * @Override default void delete(Integer id) { delete(findOne(id));

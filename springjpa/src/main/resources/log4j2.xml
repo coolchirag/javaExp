@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="debug">
+	<Properties>
+		<Property name="log-path">${sys:user.home}/logs/spring-jpa2</Property>
+		<Property name="log-filename">app</Property>
+	</Properties>
+	<Appenders>
+		<RollingFile name="file-log" fileName="${log-path}/${log-filename}.log"
+					 filePattern="${log-path}/${log-filename}-%d{yyyy-MM-dd}-%i.log">
+		<!-- <JsonLayout>
+  				<KeyValuePair key="containerId" value="id1"/>
+  <KeyValuePair key="containerName" value="dockerName"/>
+  
+</JsonLayout> -->
+<!-- <JsonLayout compact="true" properties="true" locationInfo="true" eventEol="true" includeStacktrace="true"> -->
+ <JsonLayout compact="true" properties="true" locationInfo="true" eventEol="true" includeStacktrace="true">
+				<KeyValuePair key="datetime" value="$${date:yyyy-MM-dd'T'HH:mm:ss.SSSZ}" />
+				<KeyValuePair key="ServiceID" value="$${ctx:ServiceID}" />
+				<KeyValuePair key="event" value="$${ctx:event}" />
+			</JsonLayout>
+			<!-- <JsonLayout compact="true" properties="true" locationInfo="true" eventEol="true" includeStacktrace="true">
+			<KeyValuePari key="customFieldDate" value="$${ctx:ServiceID}"/>
+			</JsonLayout> -->
+			<Policies>
+				<SizeBasedTriggeringPolicy size="20 MB"/>
+			</Policies>
+			<DefaultRolloverStrategy max="20" />
+		</RollingFile>
+		<RollingFile name="file-console" fileName="${log-path}/${log-filename}.console" filePattern="${log-path}/${log-filename}-%d{yyyy-MM-dd}-%i.console">
+			<PatternLayout
+					pattern="[%-5level] %X{IP}:%X{ServiceID}:%X{corel}:%X{trans} %d{yyyy-MM-dd HH:mm:ss.SSS} %X{client} %X{username} [%t] %c{10} [%M] - %msg%n" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="20 MB"/>
+			</Policies>
+			<DefaultRolloverStrategy max="20" />
+		</RollingFile>
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout
+					pattern="[%-5level] %X{IP}:%X{ServiceID}:%X{corel}:%X{trans} %d{yyyy-MM-dd HH:mm:ss.SSS} %X{client} %X{username} [%t] %c{15}:%M || %msg%n" />
+		</Console>
+	</Appenders>
+	<Loggers>
+		<logger name="org.springframework" level="all" additivity="false">
+			<appender-ref ref="console" level="all" />
+			<appender-ref ref="file-log" level="error" />
+			<appender-ref ref="file-console" level="error" />
+		</logger>
+		<logger name="org.apache" level="error" additivity="false">
+			<appender-ref ref="console" level="error" />
+			<appender-ref ref="file-log" level="error" />
+			<appender-ref ref="file-console" level="error" />
+		</logger>
+		<logger name="org.hibernate" level="error" additivity="false">
+			<appender-ref ref="console" level="error" />
+			<appender-ref ref="file-log" level="error" />
+			<appender-ref ref="file-console" level="error" />
+		</logger>
+		<logger name="com.example" level="debug" additivity="false">
+			<appender-ref ref="console" level="debug" />
+			<appender-ref ref="file-log" level="debug" />
+			<appender-ref ref="file-console" level="debug" />
+		</logger>
+		<Root level="error">
+			<appender-ref ref="console" level="error" />
+			<appender-ref ref="file-log" level="error" />
+			<appender-ref ref="file-console" level="error" />
+		</Root>
+	</Loggers>
+</Configuration>

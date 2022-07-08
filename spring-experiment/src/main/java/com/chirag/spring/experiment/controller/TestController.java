@@ -17,6 +17,7 @@ import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
@@ -28,16 +29,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.chirag.spring.experiment.dto.FileWithDataRequest;
 import com.chirag.spring.experiment.dto.TestRequest;
+import com.chirag.spring.experiment.service.TestService;
 
 @RestController
 public class TestController {
 	
-	@Value("${trust.store}")
-	private Resource trustStore;
-
-	@Value("${trust.store.password}")
-	private String trustStorePassword;
+	@Autowired
+	private FileWithDataRequest request1;
+	
+	@Autowired
+	private TestRequest request2;
+	
+	@Autowired
+	private TestService testService;
+	
+	/*
+	 * @Value("${trust.store}") private Resource trustStore;
+	 * 
+	 * @Value("${trust.store.password}") private String trustStorePassword;
+	 */
 
 	@GetMapping("/test")
 	public String getData() {
@@ -67,5 +79,10 @@ public class TestController {
 	@PostMapping("/test")
 	public String loadData(@RequestBody(required = false) List<TestRequest> data) {
 		return "hi";
+	}
+	
+	@GetMapping("/testRest")
+	public String testRest() {
+		return testService.performOcrRequest(1, 1, "/home/chiragjivani/data/kpmg/2020_doc.pdf", "test1"	, "AZURE_COMPUTERVISION");
 	}
 }

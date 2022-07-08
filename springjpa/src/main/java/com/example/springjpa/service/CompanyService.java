@@ -13,15 +13,17 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.springjpa.bean.Company;
 import com.example.springjpa.bean.Employee;
 import com.example.springjpa.dto.CustomCmpDto;
 import com.example.springjpa.repository.CompanyRepository;
+import com.example.springjpa.repository.EmployeeRepository;
 
 @Service
-@Transactional
+@Transactional(propagation = Propagation.NESTED)
 public class CompanyService {
 	
 	@Autowired
@@ -29,16 +31,45 @@ public class CompanyService {
 	
 	@Autowired
 	private CompanyRepository cmpRepo;
+	
+	@Autowired
+	private EmployeeRepository empRepo;
+	
+	@Autowired
+	private EmployeeService empService;
+	
+	public void getCmpByCityCount() {
+		List<Object> cmps = cmpRepo.findByCityCount();
+		System.out.println(cmps);
+	}
 
 	public void getCompany() {
-		Company c = em.find(Company.class, 2);//em.find(Company.class, 2);
+		Company cmp = cmpRepo.findCMTest("cmp1");
+		//insertCompanyWithEmp();
+		try {
+		empService.insertCompany(cmp);
+		} catch (Exception e) {
+			System.out.println("Error occured in cmp Service : "+e.getMessage());
+		}
+		/*
+		 * if(cmp!=null) { throw new RuntimeException("Custom exception"); }
+		 */
+				//List<Company> cmps = findByNameWithEmployee("test");
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(cmp);
+		//Company c = em.find(Company.class, 2);//em.find(Company.class, 2);
 		/*
 		 * c.setCity("c5"); c.setCompanyName("c5"); c.setEmployeeList(new
 		 * ArrayList<Employee>());
 		 */
 		System.out.println("Compnay fetched");
-		Company c2 = cmpRepo.findCMTest("test");
-		System.out.println("Compnay fetched c2");
+		//Company c2 = cmpRepo.findCMTest("test");
+		//System.out.println("Compnay fetched c2");
 		/*
 		 * Employee emp = new Employee(); emp.setEmployeeName("emp2_3");
 		 * emp.setCmpName("IBM"); emp.setSalary(6000); emp.setCompnayToEmpMap(c);
@@ -48,7 +79,7 @@ public class CompanyService {
 		//c.setCity(c.getCity()+"test");
 		//c.setCompanyName("test");
 		
-		System.out.println("City : "+c.getCity()+" : "+c2.getCity());
+		//System.out.println("City : "+c.getCity()+" : "+c2.getCity());
 		/*
 		 * try { Thread.sleep(100*1000); } catch (InterruptedException e) { // TODO
 		 * Auto-generated catch block e.printStackTrace(); }
@@ -61,19 +92,28 @@ public class CompanyService {
 		 */
 	}
 	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void insertCompanyWithEmp() {
 		Company cmp = new Company();
-		cmp.setCompanyName("test");
-		cmp.setCity("cmp");
-		
-		Employee emp = new Employee();
-		emp.setEmployeeName("test");
-		emp.setSalary(100000);
-		emp.setCompnayToEmpMap(cmp);
-		
-		cmp.setEmployeeList(Collections.singletonList(emp));
-		
+		cmp.setCompanyName("test2");
+		cmp.setCity("city3");
 		cmpRepo.save(cmp);
+		
+		/*
+		 * Employee emp = new Employee(); emp.setEmployeeName("test2");
+		 * emp.setSalary(100000); emp.setCompanyId(8); empRepo.save(emp);
+		 * 
+		 * em.detach(cmp);
+		 */
+		
+		Company fetchedCmp = cmpRepo.findByCompanyName("test2");
+		
+		System.out.println(fetchedCmp);
+		//emp.setCompnayToEmpMap(cmp);
+		
+		//cmp.setEmployeeList(Collections.singletonList(emp));
+		
+		
 		System.out.println("Exit from insertCompanyWithEmp");
 	}
 	

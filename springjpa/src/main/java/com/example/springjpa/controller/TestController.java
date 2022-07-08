@@ -2,6 +2,9 @@ package com.example.springjpa.controller;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +15,9 @@ import com.example.springjpa.service.EmployeeService;
 
 @RestController
 public class TestController {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(TestController.class);
+	
 	@Autowired
 	private CompanyService cs;
 	
@@ -20,16 +26,29 @@ public class TestController {
 	
 	@GetMapping("/")
 	public String test() throws InterruptedException {
+		MDC.put("event", "Test event");
+		LOG.warn("Inside controller");
+		//cs.getCmpByCityCount();
 		//cs.callJpaRepo();
-		//cs.getCompany();
+		//threadExecution();
+		cs.getCompany();
 		//cs.criteriaBuilderDemo2();
 		//cs.insertCompanyWithEmp();
 		//cs.deleteCompanyWithEmp();
 		//System.out.println("test "+Thread.currentThread().getId());
 		//Thread.sleep(60*1000);
-		
-		es.insertEmployeINExistingCompany();
+		//cs.insertCompanyWithEmp();
+		//es.insertEmployeINExistingCompany();
 		return "Hello";
+	}
+	
+	private void threadExecution() {
+		int threadSize = 10;
+		long threadSleep = 20000;
+		for(int i=0; i<threadSize; i++) {
+			Thread t = new Thread(() -> cs.getCompany());
+			t.start();
+		}
 	}
 	
 	@GetMapping("/test2")

@@ -9,19 +9,23 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PostRemove;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "company")
-@Where(clause = "is_active=1")
+//@Where(clause = "is_active=1")
 @SQLDelete(sql = "update company set is_active = null where id = ? ")
 public class Company {
 
@@ -36,12 +40,16 @@ public class Company {
 	@Column(name = "city")
 	private String city;
 	
-	@OneToMany(mappedBy = "compnayToEmpMap", cascade = CascadeType.ALL/* , fetch=FetchType.EAGER */)
+	//@OneToMany(mappedBy = "compnayToEmpMap", cascade = CascadeType.ALL/* , fetch=FetchType.EAGER */)
 	//@Where(clause = "test2=1")
 	//@OneToMany(mappedBy="compnayToEmpMap")
 	//@OneToMany(cascade = CascadeType.ALL)
 	//@JoinColumn(name = "company_id"/* , insertable = false, updatable = false */)
-	private List<Employee> employeeList;
+	//private List<Employee> employeeList;
+	
+	@OneToMany(mappedBy = "compnayToEmpMap", fetch = FetchType.LAZY)
+	//@Fetch(FetchMode.JOIN)
+	private List<Employee> emp;
 	
 	@Column(name = "is_active")
 	private Boolean isActive;
@@ -65,10 +73,21 @@ public class Company {
 		System.out.println("inside ipdate comapny");
 	}*/
 	
+	
 	@PreUpdate
 	protected void onUpdate() {
 		//companyName = companyName+"5";
 		System.out.println("on update");
+	}
+
+	
+
+	public List<Employee> getEmp() {
+		return emp;
+	}
+
+	public void setEmp(List<Employee> emp) {
+		this.emp = emp;
 	}
 
 	@PreRemove
@@ -108,11 +127,11 @@ public class Company {
 	}
 
 	public List<Employee> getEmployeeList() {
-		return employeeList;
+		return null;
 	}
 
 	public void setEmployeeList(List<Employee> employeeList) {
-		this.employeeList = employeeList;
+		//this.employeeList = employeeList;
 	}
 	
 	
@@ -125,11 +144,11 @@ public class Company {
 		this.isActive = isActive;
 	}
 
-	@Override
-	public String toString() {
-		return "Company [id=" + id + ", companyName=" + companyName + ", city=" + city + ", employeeList="
-				+ employeeList + "]";
-	}
+	/*
+	 * @Override public String toString() { return "Company [id=" + id +
+	 * ", companyName=" + companyName + ", city=" + city + ", employeeList=" +
+	 * employeeList + "]"; }
+	 */
 	
 
 		
