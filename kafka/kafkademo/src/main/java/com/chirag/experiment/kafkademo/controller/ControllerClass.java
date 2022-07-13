@@ -107,7 +107,7 @@ public class ControllerClass {
 			properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest"); //Set this property to start reading messages from earliest/oldest uncommitted message.
 			
 			//300000
-			properties.setProperty(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, "30000");
+			properties.setProperty(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, "30000"); //Set this to block that message in a queue (i.e visibility timeout in AWS SQS)
 			
 			
 			consumer = new  KafkaConsumer<String, String>(properties);
