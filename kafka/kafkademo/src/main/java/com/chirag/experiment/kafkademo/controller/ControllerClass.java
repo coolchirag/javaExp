@@ -101,10 +101,10 @@ public class ControllerClass {
 			properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_HOST);
 			properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
 			properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-			properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "groupId6");
-			properties.setProperty(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
-			properties.setProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "1");
-			properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+			properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "groupId6"); //Set group id
+			properties.setProperty(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false"); //TO disable auto commit
+			properties.setProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "1"); //TO read only single message in each poll
+			properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest"); //Set this property to start reading messages from earliest/oldest uncommitted message.
 			
 			//300000
 			properties.setProperty(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, "30000");
