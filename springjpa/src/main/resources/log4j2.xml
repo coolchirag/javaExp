@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="debug">
+<Configuration status="all" packages="com.example">
 	<Properties>
 		<Property name="log-path">${sys:user.home}/logs/spring-jpa2</Property>
 		<Property name="log-filename">app</Property>
@@ -38,32 +38,41 @@
 			<PatternLayout
 					pattern="[%-5level] %X{IP}:%X{ServiceID}:%X{corel}:%X{trans} %d{yyyy-MM-dd HH:mm:ss.SSS} %X{client} %X{username} [%t] %c{15}:%M || %msg%n" />
 		</Console>
+		<CustomeLog4j2Appender name = "CustomeLog4j2Appender">
+		<PatternLayout
+					pattern="[%-5level] %X{IP}:%X{ServiceID}:%X{corel}:%X{trans} %d{yyyy-MM-dd HH:mm:ss.SSS} %X{client} %X{username} [%t] %c{15}:%M || %msg%n" />
+		</CustomeLog4j2Appender>
 	</Appenders>
 	<Loggers>
 		<logger name="org.springframework" level="all" additivity="false">
 			<appender-ref ref="console" level="all" />
 			<appender-ref ref="file-log" level="error" />
 			<appender-ref ref="file-console" level="error" />
+			<appender-ref ref="CustomeLog4j2Appender" level="all" />
 		</logger>
 		<logger name="org.apache" level="error" additivity="false">
 			<appender-ref ref="console" level="error" />
 			<appender-ref ref="file-log" level="error" />
 			<appender-ref ref="file-console" level="error" />
+			<appender-ref ref="CustomeLog4j2Appender" level="all" />
 		</logger>
 		<logger name="org.hibernate" level="error" additivity="false">
 			<appender-ref ref="console" level="error" />
 			<appender-ref ref="file-log" level="error" />
 			<appender-ref ref="file-console" level="error" />
+			<appender-ref ref="CustomeLog4j2Appender" level="all" />
 		</logger>
 		<logger name="com.example" level="debug" additivity="false">
 			<appender-ref ref="console" level="debug" />
 			<appender-ref ref="file-log" level="debug" />
 			<appender-ref ref="file-console" level="debug" />
+			<appender-ref ref="CustomeLog4j2Appender" level="all" />
 		</logger>
 		<Root level="error">
 			<appender-ref ref="console" level="error" />
 			<appender-ref ref="file-log" level="error" />
 			<appender-ref ref="file-console" level="error" />
+			<appender-ref ref="CustomeLog4j2Appender" level="all" />
 		</Root>
 	</Loggers>
 </Configuration>

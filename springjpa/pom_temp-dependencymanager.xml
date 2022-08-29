@@ -7,8 +7,15 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.8.RELEASE</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath /> 
 	</parent>
+	
+	<!-- <parent>
+		<groupId>com.ezdi.kpmg</groupId>
+		<artifactId>paas-parent</artifactId>
+		<version>1.0.0</version>
+	</parent> -->
+	
 	<groupId>com.example</groupId>
 	<artifactId>springjpa</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -17,7 +24,64 @@
 
 	<properties>
 		<java.version>8</java.version>
+		<log4j.version>2.16.0</log4j.version>
 	</properties>
+	
+	<dependencyManagement>
+    	<dependencies>
+    	<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-core</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-api</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-slf4j-impl</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+			
+    		<dependency>
+    			<artifactId>jackson-databind</artifactId>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<version>2.13.1</version>
+    		</dependency>
+    		<dependency>
+    			<artifactId>jackson-core</artifactId>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<version>2.13.1</version>
+    		</dependency>
+    		<dependency>
+    			<artifactId>jackson-annotations</artifactId>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<version>2.13.1</version>
+    		</dependency>
+    		<dependency>
+			    <groupId>com.fasterxml.jackson.datatype</groupId>
+			    <artifactId>jackson-datatype-jsr310</artifactId>
+			    <version>2.13.1</version>
+			</dependency>
+			<dependency>
+			    <groupId>com.fasterxml.jackson.datatype</groupId>
+			    <artifactId>jackson-datatype-joda</artifactId>
+			    <version>2.10.1</version>
+			</dependency>
+    		<dependency>
+    			<groupId>com.fasterxml.jackson.dataformat</groupId>
+  				<artifactId>jackson-dataformat-xml</artifactId>
+				<version>2.13.1</version>
+    		</dependency>
+    		 <dependency>
+      			<groupId>io.projectreactor</groupId>
+      			<artifactId>reactor-core</artifactId>
+      			<version>3.4.13</version>
+    		</dependency>
+    	</dependencies>
+    </dependencyManagement>
 
 	<dependencies>
 		<dependency>

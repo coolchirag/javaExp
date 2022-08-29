@@ -44,6 +44,11 @@ public class CompanyService {
 	}
 
 	public void getCompany() {
+		//Company nullName = cmpRepo.findByCompanyName(null);
+		//System.out.println(nullName);
+		Integer id = null;
+		Company nullId = cmpRepo.findOne(id);
+		System.out.println(nullId);
 		Company cmp = cmpRepo.findCMTest("cmp1");
 		//insertCompanyWithEmp();
 		try {
@@ -117,6 +122,10 @@ public class CompanyService {
 		System.out.println("Exit from insertCompanyWithEmp");
 	}
 	
+	public void getCmpDetilaInDto() {
+		List<CustomCmpDto> customDtos = cmpRepo.findDtoByName("test");
+		System.out.println(customDtos);
+	}
 	
 	public void insertMultipleCompany() {
 		for(int i=0; i<10;i++) {

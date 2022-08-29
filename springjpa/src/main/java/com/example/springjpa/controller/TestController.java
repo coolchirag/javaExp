@@ -26,12 +26,15 @@ public class TestController {
 	
 	@GetMapping("/")
 	public String test() throws InterruptedException {
-		MDC.put("event", "Test event");
-		LOG.warn("Inside controller");
+		/*
+		 * MDC.put("event", "Test event"); LOG.warn("Inside controller"); int i = 0; int
+		 * j = 5 / i;
+		 */
 		//cs.getCmpByCityCount();
 		//cs.callJpaRepo();
 		//threadExecution();
-		cs.getCompany();
+		//cs.getCompany();
+		cs.getCmpDetilaInDto();
 		//cs.criteriaBuilderDemo2();
 		//cs.insertCompanyWithEmp();
 		//cs.deleteCompanyWithEmp();
