@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,16 +65,23 @@ public class EmployeeService {
 	}
 	
 	public void findEmp() {
-		try {
-			Thread.sleep(20000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Set<Integer> cmpIds = empRepo.findCompanyIdByEmployeeName("test");
-		System.out.println(cmpIds);
-		List<Employee> emps = empRepo.getEmployeesByCompanyName();
-		System.out.println(emps);
+		/*
+		 * try { //Thread.sleep(20000); } catch (InterruptedException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); }
+		 */
+		/*
+		 * Set<Integer> cmpIds = empRepo.findCompanyIdByEmployeeName("test");
+		 * System.out.println(cmpIds);
+		 */
+		/*
+		 * List<Employee> emps = empRepo.getEmployeesByCompanyName();
+		 * System.out.println(emps);
+		 */
+		//Employee employee = empRepo.findOne(19);//empRepo.findByEmployeeName("test");
+		List<Employee> employee = empRepo.findByEmployeeName("test", new PageRequest(0, 10));
+		System.out.println(employee);
+		Company company = employee.get(0).getCompnayToEmpMap();
+		System.out.println(company.getId());
 		
 		List<Employee> emps2 = empRepo.findByCompnayToEmpMapCompanyName("test");
 		System.out.println(emps2);

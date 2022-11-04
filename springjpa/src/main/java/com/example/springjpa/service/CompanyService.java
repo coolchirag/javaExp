@@ -46,9 +46,13 @@ public class CompanyService {
 	public void getCompany() {
 		//Company nullName = cmpRepo.findByCompanyName(null);
 		//System.out.println(nullName);
-		Integer id = null;
-		Company nullId = cmpRepo.findOne(id);
+		Integer id = 7;
+		//Company nullId = cmpRepo.findOne(id);
+		Company nullId = cmpRepo.findByCompanyName("test");
 		System.out.println(nullId);
+		nullId.getEmployeeList();
+		List<Employee> empList = nullId.getEmp();
+		System.out.println(empList.size());
 		Company cmp = cmpRepo.findCMTest("cmp1");
 		//insertCompanyWithEmp();
 		try {
@@ -100,8 +104,9 @@ public class CompanyService {
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void insertCompanyWithEmp() {
 		Company cmp = new Company();
-		cmp.setCompanyName("test2");
-		cmp.setCity("city3");
+		cmp.setCompanyName("test25");
+		String str1 = "Status code 404, \"﻿<?xml";
+		cmp.setCity(str1);
 		cmpRepo.save(cmp);
 		
 		/*

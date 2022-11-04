@@ -1,15 +1,23 @@
 package com.chirag.spring.experiment.controller;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.zip.GZIPOutputStream;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -26,38 +34,93 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.chirag.spring.experiment.dto.FileWithDataRequest;
+import com.chirag.spring.experiment.dto.FileWithDataResponse;
 
 @RestController
 public class FileHandlingController {
 
-	@PostMapping(name = "/uploadFileData", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public String uploadFile(FileWithDataRequest request) {
+	@PostMapping(value = "/uploadFileData", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public String uploadFile(FileWithDataRequest request) throws InterruptedException {
 		System.out.println(request.getData());
+		Thread.sleep(1*60*1000);
+		MultipartFile file = request.getFile();
 			System.out.println(request.getFile().getOriginalFilename());
+		
+		return "Done";
+	}
+	
+	@PostMapping(value = "/uploadFileDataPlainTest")
+	public String uploadFilePlain(@Autowired HttpServletRequest request) {
+		try {
+		BufferedReader reader = request.getReader();
+		int data;
+		while((data = reader.read()) != -1) {
+			System.out.println((char) data);
+		}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		/*
+		 * System.out.println(request.getData()); MultipartFile file =
+		 * request.getFile();
+		 * System.out.println(request.getFile().getOriginalFilename());
+		 */
 		
 		return "Done";
 	}
 
 	@GetMapping("/download")
 	public ResponseEntity<Resource> downloadFile() throws IOException {
-		FileSystemResource fileResource = new FileSystemResource(
-				"/home/chiragj/git/javaExp/spring-experiment/src/main/resources/test.txt");
-
-		ResponseEntity<Resource> response = ResponseEntity.ok().contentLength(fileResource.contentLength())
-				.contentType(MediaType.APPLICATION_OCTET_STREAM).body(fileResource);
+		String filePath = "/home/chiragjivani/git/javaExp/spring-experiment/src/main/resources/test.txt";
+		FileSystemResource fileResource = new FileSystemResource(filePath);
+		File tempFIle = new File(filePath);
+		InputStreamResource resource = new InputStreamResource(new FileInputStream(tempFIle));
+		ResponseEntity<Resource> response = null;
+		/*
+		 * ResponseEntity<Resource> response =
+		 * ResponseEntity.ok().contentLength(fileResource.contentLength())
+		 * .contentType(MediaType.APPLICATION_OCTET_STREAM).body(fileResource);
+		 */
 
 		/* OR */
 
 		final MultiValueMap<String, String> headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
-		headers.add(HttpHeaders.CONTENT_LENGTH, Long.toString(fileResource.contentLength()));
+		headers.add(HttpHeaders.CONTENT_LENGTH, Long.toString(tempFIle.length()));
+		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=content.txt");
 		// headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=" +
 		// fileResource.getFilename());
-		response = new ResponseEntity<Resource>(fileResource, headers, HttpStatus.OK);
+		response = new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
 		return response;
 
+	}
+	
+	@GetMapping(value = "/downloadWithData"/* , produces = MediaType.MULTIPART_FORM_DATA_VALUE */)
+	public ResponseEntity<FileWithDataResponse> downloadWithData(HttpServletResponse httpResponse, HttpServletRequest httpRequest) throws IOException {
+		//httpResponse.getWriter().wri
+		//httpRequest.getReader().r
+		httpRequest.getParameter("data");
+		FileWithDataResponse response = new FileWithDataResponse();
+		response.setData("TestData");
+		//org.apache.tomcat.util.http.fileupload.FileItem fi = new DiskFileItem("file", "text", false, "/home/chiragjivani/git/javaExp/spring-experiment/src/main/resources/test.txt", 10, new File("/home/chiragjivani/git/javaExp/spring-experiment/src/main/resources/ctest.txt"));
+		
+		org.apache.commons.fileupload.FileItem fi2 = new org.apache.commons.fileupload.disk.DiskFileItem("file", "text", false, "/home/chiragjivani/git/javaExp/spring-experiment/src/main/resources/test.txt", 10, new File("/home/chiragjivani/git/javaExp/spring-experiment/src/main/resources/ctest.txt"));
+		fi2.getOutputStream();
+		/*CommonsMultipartFile cmf = new CommonsMultipartFile(fi2);
+		response.setmFile(cmf);*/
+		FileSystemResource fileResource = new FileSystemResource(
+				"/home/chiragjivani/git/javaExp/spring-experiment/src/main/resources/test.txt");
+		response.setFile(fileResource);
+		
+		final MultiValueMap<String, String> headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_TYPE, "multipart/mixed" /* "multipart/form-data"*/ /*MediaType.APPLICATION_OCTET_STREAM_VALUE*/);
+		headers.add(HttpHeaders.CONTENT_LENGTH, Long.toString(fileResource.contentLength()));
+		
+		
+		return new ResponseEntity<FileWithDataResponse>(response, headers, HttpStatus.OK);
 	}
 	
 	@GetMapping("/internalDownloadFile")

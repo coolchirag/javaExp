@@ -15,6 +15,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.azure.messaging.servicebus.ServiceBusReceiverClient;
 import com.ezdi.kpmg.utility.rest.template.CustomRestTemplate;
 import com.ezdi.kpmg.utility.rest.template.RestTemplateUtility;
 
@@ -44,4 +45,15 @@ public class TestService {
 		});
         return "Done";
 	}
+	
+	  public ServiceBusReceiverClient getServiceBusReceiverClient()
+				throws Exception {
+			System.out.println("Creating ServiceBusReceiverClient for queue "+System.currentTimeMillis());
+			ServiceBusReceiverClient client = null;
+			synchronized (this) {
+				System.out.println("Inside thread : "+System.currentTimeMillis());
+				Thread.sleep(5000);
+			}
+			return client;
+		}
 }

@@ -4,20 +4,30 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRebalanceListener;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import com.chirag.experiment.kafkademo.config.CustomConsumerRelabalcingListener;
+import com.chirag.experiment.kafkademo.service.MessageProcessingService;
 
 @Component
 public class ConsumerSchedular {
@@ -27,31 +37,91 @@ public class ConsumerSchedular {
 	private static final Long TOKEN_QUEUE_INTERVAL_IN_MS = 60000l;
 	private static final Long INTERVAL_IN_MS = 30000l;
 	
-	private static final String KAFKA_HOST = "127.0.0.1:9092";
+	private static final String KAFKA_HOST = "34.86.244.86:9092";
 	
-	public static boolean uncommited = false;
+	//public static String uncommitedMessage = null;
 	
+	@Autowired
+	private MessageProcessingService service;
+	
+	private KafkaProducer<String, String> producer;
+	
+	private List<String> queueSequence = new ArrayList<>();
+	
+	
+	
+	public ConsumerSchedular() {
+		super();
+		initProducer();
+		queueSequence.add("ctest1");
+		queueSequence.add("ctest2");
+		queueSequence.add("ctest3");
+		queueSequence.add("ctest4");
+		//queueSequence.add("ctest3");
+	}
+
 	@Scheduled(fixedDelay = 1000)
-	public void performConsumerScheduler() throws Exception {
+	public void performConsumerScheduler1() throws Exception {
 		System.out.println("Hello");
-		String queueName = "ctest3";
-		List<String> messages = receiveMessageWithRetry(queueName, 1, true);
-		System.out.println("ReceivedMessages : "+messages);
+		String queueName = "nlp_v1_service_preprocessing_token_queue";
+		List<String> messages = receiveMessageWithRetry(queueName, 1);
+		System.out.println(queueName+" : ReceivedMessages : "+messages);
 	}
 	
-	private List<String> receiveMessageWithRetry(String queueName, Integer maxNumberOfMessages, boolean allowRetry) throws Exception {
-		System.out.println("Inside receive : "+allowRetry);
+	//@Scheduled(fixedDelay = 1000)
+	public void performConsumerScheduler2() throws Exception {
+		System.out.println("Hello");
+		String queueName = "ctest2";
+		List<String> messages = receiveMessageWithRetry(queueName, 1);
+		System.out.println(queueName+" : ReceivedMessages : "+messages);
+	}
+	
+	//@Scheduled(fixedDelay = 1000)
+	public void performConsumerScheduler3() throws Exception {
+		System.out.println("Hello");
+		String queueName = "ctest3";
+		List<String> messages = receiveMessageWithRetry(queueName, 1);
+		System.out.println(queueName+" : ReceivedMessages : "+messages);
+		
+	}
+	
+	//@Scheduled(fixedDelay = 1000)
+	public void performConsumerScheduler4() throws Exception {
+		System.out.println("Hello");
+		String queueName = "ctest4";
+		List<String> messages = receiveMessageWithRetry(queueName, 1);
+		System.out.println(queueName+" : ReceivedMessages : "+messages);
+	}
+	
+	private List<String> receiveMessageWithRetry(String queueName, Integer maxNumberOfMessages) throws Exception {
 		final List<String> messages = new ArrayList<>();
 		ConsumerDetailDto consumerDto = getConsumerDto(queueName, maxNumberOfMessages);
 		KafkaConsumer<String,String> consumer = consumerDto.getConsumer();
+		if(consumerDto.getLastUncommitedMessage() != null) {
+			System.out.println(queueName+" found uncommited message : "+consumerDto.getLastUncommitedMessage());
+			sendMessage(consumerDto.getLastUncommitedMessage(), queueName);
+			consumer.commitAsync();
+			consumerDto.setLastUncommitedMessage(null);
+			
+		}
 		ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(10));
 		if(records!= null && !records.isEmpty()) {
-			records.forEach(record -> messages.add(record.key()+" : "+record.value()));
-			
+			records.forEach(record -> {
+				messages.add(record.key()+" : "+record.value());
+				System.out.println("------------------ "+queueName+ " : ReceivedMessages : "+messages);
+				consumerDto.setLastUncommitedMessage(record.value());
+				if(service.isProccessed(record.value())) {
+					consumer.commitSync();
+					consumerDto.setLastUncommitedMessage(null);
+					int indexOfNextQueue = queueSequence.indexOf(queueName)+1;
+					
+					if(indexOfNextQueue < queueSequence.size()) {
+						sendMessage(record.value(), queueSequence.get(indexOfNextQueue));
+					}
+				}
+			});
+			//consumerDto.setLastUncommitedMessage(null);
 			//consumer.commitSync();
-		} else if(allowRetry) {
-			Thread.sleep(consumerDto.getInterval()+100);
-			return receiveMessageWithRetry(queueName, maxNumberOfMessages, false);
 		}
 		return messages;
 	}
@@ -64,7 +134,7 @@ public class ConsumerSchedular {
 			properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_HOST);
 			properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
 			properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-			properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "groupId8");
+			properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "groupId12489");
 			properties.setProperty(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
 			properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 			
@@ -74,21 +144,9 @@ public class ConsumerSchedular {
 			properties.setProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "1");
 			
 			KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(properties);
-			consumer.subscribe(Arrays.asList(queueName), new ConsumerRebalanceListener() {
-				
-				@Override
-				public void onPartitionsRevoked(Collection<TopicPartition> partitions) {
-					System.out.println("Inside onPartitionsRevoked : "+partitions);
-					
-				}
-				
-				@Override
-				public void onPartitionsAssigned(Collection<TopicPartition> partitions) {
-					System.out.println("Inside onPartitionsAssigned : "+partitions);
-					
-				}
-			});
-			consumerDetailDto = new ConsumerDetailDto(consumer, interval);
+			CustomConsumerRelabalcingListener listener = new CustomConsumerRelabalcingListener(queueName);
+			consumer.subscribe(Arrays.asList(queueName), listener);
+			consumerDetailDto = new ConsumerDetailDto(consumer, interval, listener);
 			queueToConsumerMap.put(queueName, consumerDetailDto);
 		}
 		return consumerDetailDto;
@@ -97,11 +155,14 @@ public class ConsumerSchedular {
 	private class ConsumerDetailDto {
 		private KafkaConsumer<String, String> consumer;
 		private Long interval;
+		private String lastUncommitedMessage;
+		private CustomConsumerRelabalcingListener listener;
 		
-		private ConsumerDetailDto(KafkaConsumer<String, String> consumer, Long interval) {
+		private ConsumerDetailDto(KafkaConsumer<String, String> consumer, Long interval, CustomConsumerRelabalcingListener listener) {
 			super();
 			this.consumer = consumer;
 			this.interval = interval;
+			this.listener = listener;
 		}
 		private KafkaConsumer<String, String> getConsumer() {
 			return consumer;
@@ -109,7 +170,37 @@ public class ConsumerSchedular {
 		private Long getInterval() {
 			return interval;
 		}
+		private String getLastUncommitedMessage() {
+			return lastUncommitedMessage;
+		}
+		private void setLastUncommitedMessage(String lastUncommitedMessage) {
+			this.lastUncommitedMessage = lastUncommitedMessage;
+		}
+		public CustomConsumerRelabalcingListener getListener() {
+			return listener;
+		}
 		
-		
+	}
+	
+	public void sendMessage(String message, String queueName) {
+		ProducerRecord<String, String> record = new ProducerRecord<>(queueName, message);
+		Future<RecordMetadata> send = producer.send(record);
+		try {
+			RecordMetadata recordMetadata = send.get();
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	
+	private void initProducer() {
+		Properties properties = new Properties();
+		properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_HOST);
+		properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+		properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+		// properties.setProperty(ProducerConfig.PARTITIONER_CLASS_CONFIG,
+		// CustomPartitioner.class.getName());
+		producer = new KafkaProducer<String, String>(properties);
 	}
 }

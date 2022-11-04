@@ -14,11 +14,13 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chirag.experiment.kafkademo.config.CustomPartitioner;
+import com.chirag.experiment.kafkademo.service.MessageProcessingService;
 
 @RestController
 public class ControllerClass {
@@ -31,9 +33,10 @@ public class ControllerClass {
 	 * System.out.println("Done"); return "done"; }
 	 */
 	
-	private static final String KAFKA_HOST = "127.0.0.1:9092";
+	private static final String KAFKA_HOST = "34.86.244.86:9092";
 	
-	private static final String TOPIC_1 = "ctest3";
+	private static final String TOPIC_1 = "ctest3"; 
+			//"nlp_v1_service_preprocessing_token_queue";
 	
 	public static void main(String[] args) {
 		//produce();
@@ -44,6 +47,15 @@ public class ControllerClass {
 	
 	KafkaConsumer<String, String> consumer;
 	
+	@Autowired
+	private MessageProcessingService service;
+	
+	@GetMapping("/processed/{message}")
+	public String processed(@PathVariable("message") String msg) {
+		service.addProccessed(msg);
+		return "Done : "+msg;
+	}
+	
 	@GetMapping("/produce/{message}")
 	public String produce(@PathVariable("message") String msg) {
 		initProducer();
@@ -53,6 +65,8 @@ public class ControllerClass {
 		//producer.close();
 		return "Done";
 	}
+	
+	
 	
 	void initProducer() {
 		if(producer == null) {
@@ -101,7 +115,7 @@ public class ControllerClass {
 			properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_HOST);
 			properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
 			properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-			properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "groupId6"); //Set group id
+			properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "groupId8"); //Set group id
 			properties.setProperty(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false"); //TO disable auto commit
 			properties.setProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "1"); //TO read only single message in each poll
 			properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest"); //Set this property to start reading messages from earliest/oldest uncommitted message.

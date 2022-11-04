@@ -11,6 +11,9 @@ public class BigDecimalDemo {
 		 * System.out.println("Adjust : "+new BigDecimal(5).subtract(new
 		 * BigDecimal(2)));
 		 */
+		int i = 5;
+		i+=10;
+		System.out.println(i);
 		
 		  BigDecimal hccRf = new BigDecimal(2.997); BigDecimal demograohicRf = new
 		  BigDecimal(0.451); BigDecimal totalRf = hccRf.add(demograohicRf);

@@ -3,6 +3,7 @@ package com.example.springjpa.repository;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -30,6 +31,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	
 	@Query("SELECT emp from Employee emp left join  emp.compnayToEmpMap cmp where cmp.companyName = 'test'")
 	List<Employee> getEmployeesByCompanyName();
+	
+	@Query("select emp from Employee emp inner join emp.compnayToEmpMap cmp where emp.employeeName like %:employeeName%")
+	List<Employee> findByEmployeeName(@Param("employeeName") String employeeName, Pageable page);
 	
 	List<Employee> findByCompnayToEmpMapCompanyName(String companyName);
 	

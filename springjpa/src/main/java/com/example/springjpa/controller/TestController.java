@@ -34,7 +34,7 @@ public class TestController {
 		//cs.callJpaRepo();
 		//threadExecution();
 		//cs.getCompany();
-		cs.getCmpDetilaInDto();
+		//cs.getCmpDetilaInDto();
 		//cs.criteriaBuilderDemo2();
 		//cs.insertCompanyWithEmp();
 		//cs.deleteCompanyWithEmp();
@@ -42,6 +42,7 @@ public class TestController {
 		//Thread.sleep(60*1000);
 		//cs.insertCompanyWithEmp();
 		//es.insertEmployeINExistingCompany();
+		es.findEmp();
 		return "Hello";
 	}
 	

@@ -49,6 +49,7 @@ public class Company {
 	
 	@OneToMany(mappedBy = "compnayToEmpMap", fetch = FetchType.LAZY)
 	//@Fetch(FetchMode.JOIN)
+	@Where(clause = "is_active = 1")
 	private List<Employee> emp;
 	
 	@Column(name = "is_active")

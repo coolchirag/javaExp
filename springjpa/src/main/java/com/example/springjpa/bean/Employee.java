@@ -21,7 +21,7 @@ import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "employee")
-@Where(clause = " is_active = 1 ")
+//@Where(clause = " is_active = 1 ")
 @SQLDelete(sql = "update employee set is_active = null where id = ? ")
 public class Employee {
 
@@ -35,19 +35,19 @@ public class Employee {
 	@Column(name = "salary")
 	private Integer salary;
 	
-	@Column(name = "cmp_id"/* , insertable = false, updatable = false */)
+	@Column(name = "cmp_id", insertable = false, updatable = false )
 	//@Transient
 	private Integer companyId;
 	
-	//@ManyToOne(/* cascade = CascadeType.ALL */)
+	@ManyToOne(/* cascade = CascadeType.ALL */)
 	//@Fetch(FetchMode.SELECT)
 	
-	//@JoinColumn(name="cmp_id", insertable = false, updatable = false)
+	@JoinColumn(name="cmp_id"/*, insertable = false, updatable = false*/)
 	//@Transient
-	//@Where(clause=" city = 'ahmedabad' ")
+	@Where(clause=" is_active = 1 ")
 	
-	@OneToOne
-	@JoinColumn(name = "cmp_id", referencedColumnName = "id", insertable = false, updatable = false)
+	//@OneToOne
+	//@JoinColumn(name = "cmp_id", referencedColumnName = "id" /*, insertable = false, updatable = false*/)
 	private Company compnayToEmpMap;
 	
 	@Column(name = "is_active")
