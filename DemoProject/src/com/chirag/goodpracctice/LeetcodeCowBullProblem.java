@@ -15,7 +15,7 @@ public class LeetcodeCowBullProblem {
 	public static String getHint(String secret, String guess) {
 		int cowCount = 0;
 		int bullCount = 0;
-		if(secret !=null && !secret.isBlank() && guess != null && !guess.isBlank()) {
+		if(secret !=null && !secret.isEmpty() && guess != null && !guess.isEmpty()) {
 			char[] secretArray = secret.toCharArray();
 			char[] guessArray = guess.toCharArray();
 			Map<Integer, Set<Integer>> secretMap = new HashMap<>();

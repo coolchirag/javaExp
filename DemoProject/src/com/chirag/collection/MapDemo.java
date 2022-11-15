@@ -14,6 +14,5 @@ public class MapDemo {
 		srs.add("s2");
 		map.put("1", srs);
 		
-		map.values().stream().fl
 	}
 }
