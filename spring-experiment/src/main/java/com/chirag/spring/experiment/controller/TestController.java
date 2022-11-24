@@ -1,9 +1,12 @@
 package com.chirag.spring.experiment.controller;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,8 +19,11 @@ import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +32,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.azure.core.credential.TokenRequestContext;
@@ -36,8 +43,15 @@ import com.azure.messaging.servicebus.ServiceBusClientBuilder;
 import com.azure.messaging.servicebus.ServiceBusReceivedMessage;
 import com.azure.messaging.servicebus.ServiceBusReceiverClient;
 import com.chirag.spring.experiment.dto.FileWithDataRequest;
+import com.chirag.spring.experiment.dto.TempDto;
 import com.chirag.spring.experiment.dto.TestRequest;
 import com.chirag.spring.experiment.service.TestService;
+import com.ezdi.kpmg.utility.rest.template.CustomRestTemplate;
+import com.ezdi.kpmg.utility.rest.template.RestTemplateUtility;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import reactor.core.publisher.Flux;
 
 @RestController
 public class TestController {
@@ -51,6 +65,30 @@ public class TestController {
 	@Autowired
 	private TestService testService;
 	
+	@Autowired
+    private RestTemplateUtility restUtil;
+	
+	@GetMapping("/t")
+	public String getTestData() {
+		return "Hi";
+	}
+	
+	@GetMapping(value =  "/flux", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	public Flux<String> getTestDataFlux() {
+		Flux<Long> interval = Flux.interval(Duration.ofSeconds(10));
+		Flux<String> response = interval.map(sequence -> "Flux - "+sequence.toString());
+		return response;
+	}
+	
+	@GetMapping(value =  "/fluxData", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	public Flux<String> getTestDataFluxData() throws JsonProcessingException {
+		ObjectMapper objMapper = new ObjectMapper();
+		List<String> datas = new ArrayList<>();
+		Flux<String> lowerDataStr = Flux.fromIterable(datas).doOnNext(String::toLowerCase);
+		Flux<String> response = Flux.just(objMapper.writeValueAsString(new TempDto("data1", 1l)), objMapper.writeValueAsString(new TempDto("data2", 2l)));
+		return response;
+	}
+	
 	/*
 	 * @Value("${trust.store}") private Resource trustStore;
 	 * 
@@ -58,10 +96,42 @@ public class TestController {
 	 */
 	@GetMapping("/test")
 	public String getData() {
-		String url = "https://localhost:8082/health";
+		try {
+		String url = "https://intkpmgsaaslicenseservice.healthcarenlp.com/client/KPMG/license/token:generate?apiName=API-ICD10CM-TEXT&requestId=API-ICD10CM-TEXT";
 		RestTemplate rt = new RestTemplate(getRequestFacctoryForSSL());
-		ResponseEntity<Map> responseEntity = rt.exchange(url, HttpMethod.GET	, null, Map.class);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("x-subscription-key", "kpmg-subkey1"); //For saas license service
+		//headers.add("Accept", "application/json");
+		headers.add("Accept", "*/*");
+		/*
+		 * rt.setErrorHandler(new ResponseErrorHandler() {
+		 * 
+		 * @Override public boolean hasError(ClientHttpResponse response) throws
+		 * IOException {
+		 * 
+		 * return true; }
+		 * 
+		 * @Override public void handleError(ClientHttpResponse response) throws
+		 * IOException { System.out.println(response);
+		 * 
+		 * } });
+		 */
+		CustomRestTemplate customRestTemplate = restUtil.getRestTemplateWOSecurity();
+		customRestTemplate.setAllowSelfSignedSSLCertificate(true);
+		ResponseEntity<Map> responseEntity = customRestTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(headers), Map.class);
 		System.out.println(responseEntity.getBody());
+		} catch (HttpClientErrorException e) {
+			URI uri = null;
+			try {
+				uri = new URI("http://localhost/testurl");
+			} catch (URISyntaxException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			String error = "HttpClientErrorException occured for url : "+uri+", method : "+HttpMethod.GET+" : "+e.getMessage()+" : "+e.getCause()+" : "+e.getResponseBodyAsString();
+			throw e;
+		}
+		
 		return "hi";
 	}
 	

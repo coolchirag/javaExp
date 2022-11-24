@@ -30,6 +30,7 @@ public class TestController {
 		 * MDC.put("event", "Test event"); LOG.warn("Inside controller"); int i = 0; int
 		 * j = 5 / i;
 		 */
+		cs.getCompanysByCity();
 		//cs.getCmpByCityCount();
 		//cs.callJpaRepo();
 		//threadExecution();
@@ -42,7 +43,7 @@ public class TestController {
 		//Thread.sleep(60*1000);
 		//cs.insertCompanyWithEmp();
 		//es.insertEmployeINExistingCompany();
-		es.findEmp();
+		//es.findEmp();
 		return "Hello";
 	}
 	

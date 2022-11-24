@@ -1,7 +1,9 @@
 package com.example.springjpa.service;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -42,7 +44,19 @@ public class CompanyService {
 		List<Object> cmps = cmpRepo.findByCityCount();
 		System.out.println(cmps);
 	}
-
+	
+	public void getCompanysByCity() {
+		Map<Integer, String> map = new HashMap();
+		map.put(7, "7");
+		map.put(8, "8");
+		List<Company> companies = cmpRepo.findByIdsWithEmployee(map.keySet());
+		System.out.println(companies.get(0).getEmp());
+		List<Company> list2 = cmpRepo.findByCity("test");
+		System.out.println(list2);
+		List<Company> list3 = cmpRepo.findByCityWithEmployee("test");
+		System.out.println(list3);
+	}
+	
 	public void getCompany() {
 		//Company nullName = cmpRepo.findByCompanyName(null);
 		//System.out.println(nullName);

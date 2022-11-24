@@ -1,6 +1,7 @@
 package com.example.springjpa.repository;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,10 +19,18 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
 	Company findByCompanyName(String name);
 	
+	List<Company> findByCity(String city);
+	
 	@Query("from Company where companyName=:name")
 	Company findCMTest(@Param("name") String name);
 	
 	Company findFirstByCompanyNameOrderByIdDesc(String name);
+	
+	@Query("select c from Company c inner join fetch c.emp e where c.city = :city")
+	List<Company> findByCityWithEmployee(@Param("city") String city);
+	
+	@Query("select c from Company c inner join fetch c.emp e where c.id in (:ids) order by c.id")
+	List<Company> findByIdsWithEmployee(@Param("ids") Set<Integer> ids);
 	
 	@Query("select c.city from Company c group by c.city having count(1) > 1")
 	List<Object> findByCityCount();

@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 
 
 
-//@Aspect
-//@Component
+@Aspect
+@Component
 public class AspectClass {
 
 	@Before("allMethod()")

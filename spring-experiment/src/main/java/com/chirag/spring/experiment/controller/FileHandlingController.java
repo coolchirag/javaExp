@@ -30,6 +30,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestClientException;
@@ -38,6 +40,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.chirag.spring.experiment.dto.FileWithDataRequest;
 import com.chirag.spring.experiment.dto.FileWithDataResponse;
+import com.chirag.spring.experiment.dto.TempDto;
 
 @RestController
 public class FileHandlingController {
@@ -50,6 +53,10 @@ public class FileHandlingController {
 			System.out.println(request.getFile().getOriginalFilename());
 		
 		return "Done";
+	}
+	@PostMapping(value = "/uploadFileWIthJson")
+	public String uploadFileWIthJson(@RequestPart("file") MultipartFile file, @RequestParam("data") String tempDto) {
+		return "received";
 	}
 	
 	@PostMapping(value = "/uploadFileDataPlainTest")
