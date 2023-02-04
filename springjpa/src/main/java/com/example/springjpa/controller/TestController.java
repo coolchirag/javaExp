@@ -30,7 +30,8 @@ public class TestController {
 		 * MDC.put("event", "Test event"); LOG.warn("Inside controller"); int i = 0; int
 		 * j = 5 / i;
 		 */
-		cs.getCompanysByCity();
+		cs.compareCmpBean();
+		//cs.getCompanysByCity();
 		//cs.getCmpByCityCount();
 		//cs.callJpaRepo();
 		//threadExecution();

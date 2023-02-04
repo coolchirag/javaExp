@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AspectClass {
 
-	@Before("allMethod()")
+	//@Before("allMethod()")
 	public void beforeLog(JoinPoint jp) {
 		if (jp.getTarget()!=null) {
 			@SuppressWarnings("rawtypes")
@@ -46,7 +46,7 @@ public class AspectClass {
 		}
 	}
 
-	@After("allMethod()")
+	//@After("allMethod()")
 	public void afterLog(JoinPoint jp) {
 		if (null != jp.getTarget()) {
 			@SuppressWarnings("rawtypes")
@@ -62,12 +62,12 @@ public class AspectClass {
 		}
 	}
 	
-	@AfterReturning(pointcut = "allMethod()", returning = "result") 
+	//@AfterReturning(pointcut = "allMethod()", returning = "result") 
 	public void afterReturnung(JoinPoint jp, Object result) {
 		System.out.println(jp+":"+result);
 	}
 	
-	@AfterThrowing(pointcut = "allMethod()", throwing = "ex") 
+	 //@AfterThrowing(pointcut = "allMethod()", throwing = "ex") 
 	public void afterReturnung(JoinPoint jp, Throwable ex) {
 		System.out.println(jp+":"+ex);
 	}

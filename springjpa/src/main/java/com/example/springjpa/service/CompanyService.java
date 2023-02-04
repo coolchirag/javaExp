@@ -25,7 +25,7 @@ import com.example.springjpa.repository.CompanyRepository;
 import com.example.springjpa.repository.EmployeeRepository;
 
 @Service
-@Transactional(propagation = Propagation.NESTED)
+@Transactional//(propagation = Propagation.NESTED)
 public class CompanyService {
 	
 	@Autowired
@@ -113,6 +113,23 @@ public class CompanyService {
 		 * 
 		 * System.out.println("Done1");
 		 */
+	}
+	
+	@Transactional
+	public void compareCmpBean() {
+		Company cmp =  new Company();
+		cmp.setCompanyName("cmp5");
+		cmp.setCity("city5");
+		cmp.setIsActive(true);
+		cmpRepo.save(cmp);
+		
+		Company cmp1 = cmpRepo.findOne(cmp.getId());
+		Company cmp2 = cmpRepo.findByCompanyName("cmp5");
+		cmp2.setCity("temp");
+		//cmpRepo.saveAndFlush(cmp2);
+		Company cmp3 = cmpRepo.findOne(cmp.getId());
+		System.out.println(cmp.hashCode()+ " : "+ cmp1.hashCode()+" : "+cmp2.hashCode()+" : "+cmp3.hashCode());
+		
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
