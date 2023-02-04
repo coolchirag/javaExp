@@ -3,6 +3,7 @@ package com.chirag.spring.experiment.service;
 import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
@@ -24,6 +25,9 @@ public class TestService {
 
 	@Autowired
     private RestTemplateUtility restUtil;
+	
+	@Autowired
+	private ApplicationContext applicationContext;
 
 	
 	public String performOcrRequest(Integer clientId, Integer projectId, String filePath, String licenseToken, String ocrEngineName) {
@@ -56,4 +60,5 @@ public class TestService {
 			}
 			return client;
 		}
+	  
 }
