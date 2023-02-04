@@ -32,8 +32,6 @@ class A implements I1 {
 	}
 }
 
-class B extends A implements I2 {
-	public void callSUperM() {
-		super.m();
-	}
-}
+/*
+ * class B extends A implements I2 { public void callSUperM() { super.m(); } }
+ */
