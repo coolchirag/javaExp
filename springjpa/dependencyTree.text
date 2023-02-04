@@ -1,0 +1,86 @@
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m-----------------------< [0;36mcom.example:springjpa[0;1m >------------------------[m
+[[1;34mINFO[m] [1mBuilding springjpa 0.0.1-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-dependency-plugin:2.10:tree[m [1m(default-cli)[m @ [36mspringjpa[0;1m ---[m
+[[1;34mINFO[m] com.example:springjpa:jar:0.0.1-SNAPSHOT
+[[1;34mINFO[m] +- org.springframework.boot:spring-boot-starter-data-jpa:jar:1.5.8.RELEASE:compile
+[[1;34mINFO[m] |  +- org.springframework.boot:spring-boot-starter:jar:1.5.8.RELEASE:compile
+[[1;34mINFO[m] |  |  +- org.springframework.boot:spring-boot:jar:1.5.8.RELEASE:compile
+[[1;34mINFO[m] |  |  \- org.springframework.boot:spring-boot-autoconfigure:jar:1.5.8.RELEASE:compile
+[[1;34mINFO[m] |  +- org.springframework.boot:spring-boot-starter-aop:jar:1.5.8.RELEASE:compile
+[[1;34mINFO[m] |  |  +- org.springframework:spring-aop:jar:4.3.12.RELEASE:compile
+[[1;34mINFO[m] |  |  \- org.aspectj:aspectjweaver:jar:1.8.11:compile
+[[1;34mINFO[m] |  +- org.springframework.boot:spring-boot-starter-jdbc:jar:1.5.8.RELEASE:compile
+[[1;34mINFO[m] |  |  +- org.apache.tomcat:tomcat-jdbc:jar:8.5.23:compile
+[[1;34mINFO[m] |  |  |  \- org.apache.tomcat:tomcat-juli:jar:8.5.23:compile
+[[1;34mINFO[m] |  |  \- org.springframework:spring-jdbc:jar:4.3.12.RELEASE:compile
+[[1;34mINFO[m] |  +- org.hibernate:hibernate-core:jar:5.0.12.Final:compile
+[[1;34mINFO[m] |  |  +- org.jboss.logging:jboss-logging:jar:3.3.1.Final:compile
+[[1;34mINFO[m] |  |  +- org.hibernate.javax.persistence:hibernate-jpa-2.1-api:jar:1.0.0.Final:compile
+[[1;34mINFO[m] |  |  +- org.javassist:javassist:jar:3.21.0-GA:compile
+[[1;34mINFO[m] |  |  +- antlr:antlr:jar:2.7.7:compile
+[[1;34mINFO[m] |  |  +- org.jboss:jandex:jar:2.0.0.Final:compile
+[[1;34mINFO[m] |  |  +- dom4j:dom4j:jar:1.6.1:compile
+[[1;34mINFO[m] |  |  \- org.hibernate.common:hibernate-commons-annotations:jar:5.0.1.Final:compile
+[[1;34mINFO[m] |  +- org.hibernate:hibernate-entitymanager:jar:5.0.12.Final:compile
+[[1;34mINFO[m] |  +- javax.transaction:javax.transaction-api:jar:1.2:compile
+[[1;34mINFO[m] |  +- org.springframework.data:spring-data-jpa:jar:1.11.8.RELEASE:compile
+[[1;34mINFO[m] |  |  +- org.springframework.data:spring-data-commons:jar:1.13.8.RELEASE:compile
+[[1;34mINFO[m] |  |  +- org.springframework:spring-orm:jar:4.3.12.RELEASE:compile
+[[1;34mINFO[m] |  |  +- org.springframework:spring-context:jar:4.3.12.RELEASE:compile
+[[1;34mINFO[m] |  |  +- org.springframework:spring-tx:jar:4.3.12.RELEASE:compile
+[[1;34mINFO[m] |  |  \- org.springframework:spring-beans:jar:4.3.12.RELEASE:compile
+[[1;34mINFO[m] |  \- org.springframework:spring-aspects:jar:4.3.12.RELEASE:compile
+[[1;34mINFO[m] +- org.springframework.boot:spring-boot-starter-web:jar:1.5.8.RELEASE:compile
+[[1;34mINFO[m] |  +- org.springframework.boot:spring-boot-starter-tomcat:jar:1.5.8.RELEASE:compile
+[[1;34mINFO[m] |  |  +- org.apache.tomcat.embed:tomcat-embed-core:jar:8.5.23:compile
+[[1;34mINFO[m] |  |  |  \- org.apache.tomcat:tomcat-annotations-api:jar:8.5.23:compile
+[[1;34mINFO[m] |  |  +- org.apache.tomcat.embed:tomcat-embed-el:jar:8.5.23:compile
+[[1;34mINFO[m] |  |  \- org.apache.tomcat.embed:tomcat-embed-websocket:jar:8.5.23:compile
+[[1;34mINFO[m] |  +- org.hibernate:hibernate-validator:jar:5.3.5.Final:compile
+[[1;34mINFO[m] |  |  +- javax.validation:validation-api:jar:1.1.0.Final:compile
+[[1;34mINFO[m] |  |  \- com.fasterxml:classmate:jar:1.3.4:compile
+[[1;34mINFO[m] |  +- com.fasterxml.jackson.core:jackson-databind:jar:2.13.1:compile
+[[1;34mINFO[m] |  |  +- com.fasterxml.jackson.core:jackson-annotations:jar:2.13.1:compile
+[[1;34mINFO[m] |  |  \- com.fasterxml.jackson.core:jackson-core:jar:2.13.1:compile
+[[1;34mINFO[m] |  +- org.springframework:spring-web:jar:4.3.12.RELEASE:compile
+[[1;34mINFO[m] |  \- org.springframework:spring-webmvc:jar:4.3.12.RELEASE:compile
+[[1;34mINFO[m] |     \- org.springframework:spring-expression:jar:4.3.12.RELEASE:compile
+[[1;34mINFO[m] +- mysql:mysql-connector-java:jar:8.0.22:compile
+[[1;34mINFO[m] |  \- com.google.protobuf:protobuf-java:jar:3.11.4:compile
+[[1;34mINFO[m] +- org.liquibase:liquibase-core:jar:3.5.3:compile
+[[1;34mINFO[m] |  \- org.yaml:snakeyaml:jar:1.17:compile
+[[1;34mINFO[m] +- org.springframework.boot:spring-boot-starter-test:jar:1.5.8.RELEASE:test
+[[1;34mINFO[m] |  +- org.springframework.boot:spring-boot-test:jar:1.5.8.RELEASE:test
+[[1;34mINFO[m] |  +- org.springframework.boot:spring-boot-test-autoconfigure:jar:1.5.8.RELEASE:test
+[[1;34mINFO[m] |  +- com.jayway.jsonpath:json-path:jar:2.2.0:test
+[[1;34mINFO[m] |  |  \- net.minidev:json-smart:jar:2.2.1:test
+[[1;34mINFO[m] |  |     \- net.minidev:accessors-smart:jar:1.1:test
+[[1;34mINFO[m] |  |        \- org.ow2.asm:asm:jar:5.0.3:test
+[[1;34mINFO[m] |  +- junit:junit:jar:4.12:test
+[[1;34mINFO[m] |  +- org.assertj:assertj-core:jar:2.6.0:test
+[[1;34mINFO[m] |  +- org.mockito:mockito-core:jar:1.10.19:test
+[[1;34mINFO[m] |  |  \- org.objenesis:objenesis:jar:2.1:test
+[[1;34mINFO[m] |  +- org.hamcrest:hamcrest-core:jar:1.3:test
+[[1;34mINFO[m] |  +- org.hamcrest:hamcrest-library:jar:1.3:test
+[[1;34mINFO[m] |  +- org.skyscreamer:jsonassert:jar:1.4.0:test
+[[1;34mINFO[m] |  |  \- com.vaadin.external.google:android-json:jar:0.0.20131108.vaadin1:test
+[[1;34mINFO[m] |  +- org.springframework:spring-core:jar:4.3.12.RELEASE:compile
+[[1;34mINFO[m] |  \- org.springframework:spring-test:jar:4.3.12.RELEASE:test
+[[1;34mINFO[m] +- com.ezdi.kpmg:common-logging:jar:1.0.0.14:compile
+[[1;34mINFO[m] |  +- org.slf4j:slf4j-api:jar:1.7.25:compile
+[[1;34mINFO[m] |  +- org.apache.logging.log4j:log4j-core:jar:2.16.0:compile
+[[1;34mINFO[m] |  +- org.apache.logging.log4j:log4j-api:jar:2.16.0:compile
+[[1;34mINFO[m] |  \- org.apache.logging.log4j:log4j-slf4j-impl:jar:2.16.0:compile
+[[1;34mINFO[m] \- org.springframework.boot:spring-boot-starter-log4j2:jar:1.5.8.RELEASE:compile
+[[1;34mINFO[m]    +- org.slf4j:jcl-over-slf4j:jar:1.7.25:compile
+[[1;34mINFO[m]    \- org.slf4j:jul-to-slf4j:jar:1.7.25:compile
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  1.084 s
+[[1;34mINFO[m] Finished at: 2023-01-03T14:51:38+05:30
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
