@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.chirag.spring.experiment.dto.TestRequest;
 
-//@Component
+@Component
 public class TestSchedular {
 	
 	ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
@@ -28,7 +28,7 @@ public class TestSchedular {
 		scheduler.initialize();
 	}
 
-	//@Scheduled(fixedDelay = 5000)
+	@Scheduled(fixedDelay = 5000)
 	public void testTask() {
 		System.out.println("Task one executed : "+count++);
 		scheduler.schedule(() -> testTask(), new Date(System.currentTimeMillis()));

@@ -10,11 +10,8 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class DecryptionUtility extends CryptoUtility {
-	private static Logger LOG = LoggerFactory.getLogger(DecryptionUtility.class);
+	//private static Logger LOG = LoggerFactory.getLogger(DecryptionUtility.class);
 
 	public static String decrypt(String strToDecrypt) {
         try {
@@ -28,7 +25,7 @@ public class DecryptionUtility extends CryptoUtility {
             cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
         } catch (Exception e) {
-            LOG.error("Error while decrypting: " + e.getMessage(), e);
+            //LOG.error("Error while decrypting: " + e.getMessage(), e);
         }
         return null;
     }

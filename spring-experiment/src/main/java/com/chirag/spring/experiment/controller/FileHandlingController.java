@@ -7,13 +7,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.FileSystemResource;
@@ -40,7 +38,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.chirag.spring.experiment.dto.FileWithDataRequest;
 import com.chirag.spring.experiment.dto.FileWithDataResponse;
-import com.chirag.spring.experiment.dto.TempDto;
 
 @RestController
 public class FileHandlingController {
@@ -114,8 +111,8 @@ public class FileHandlingController {
 		response.setData("TestData");
 		//org.apache.tomcat.util.http.fileupload.FileItem fi = new DiskFileItem("file", "text", false, "/home/chiragjivani/git/javaExp/spring-experiment/src/main/resources/test.txt", 10, new File("/home/chiragjivani/git/javaExp/spring-experiment/src/main/resources/ctest.txt"));
 		
-		org.apache.commons.fileupload.FileItem fi2 = new org.apache.commons.fileupload.disk.DiskFileItem("file", "text", false, "/home/chiragjivani/git/javaExp/spring-experiment/src/main/resources/test.txt", 10, new File("/home/chiragjivani/git/javaExp/spring-experiment/src/main/resources/ctest.txt"));
-		fi2.getOutputStream();
+		//org.apache.commons.fileupload.FileItem fi2 = new org.apache.commons.fileupload.disk.DiskFileItem("file", "text", false, "/home/chiragjivani/git/javaExp/spring-experiment/src/main/resources/test.txt", 10, new File("/home/chiragjivani/git/javaExp/spring-experiment/src/main/resources/ctest.txt"));
+		//fi2.getOutputStream();
 		/*CommonsMultipartFile cmf = new CommonsMultipartFile(fi2);
 		response.setmFile(cmf);*/
 		FileSystemResource fileResource = new FileSystemResource(
@@ -139,7 +136,7 @@ public class FileHandlingController {
 			public File extractData(ClientHttpResponse response) throws IOException {
 				response.getBody();
 				File file = File.createTempFile("temp", ".txt");
-				FileUtils.copyInputStreamToFile(response.getBody(), file);
+				//FileUtils.copyInputStreamToFile(response.getBody(), file);
 				
 				return file;
 			}

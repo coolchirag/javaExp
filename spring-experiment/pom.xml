@@ -3,136 +3,269 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
+	<!-- <parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.8.RELEASE</version>
-		<relativePath /> <!-- lookup parent from repository -->
-	</parent>
+		<version>2.7.7</version>
+		<relativePath /> lookup parent from repository
+	</parent> -->
+	
 	<groupId>com.chirag</groupId>
 	<artifactId>spring-experiment</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Spring Experiment</name>
 	<description>Demo project for Spring Boot</description>
+	<parent>
+		<groupId>com.raapid.common</groupId>
+		<artifactId>paas-parent</artifactId>
+		<version>1.1.0</version>
+	</parent>
+	
 
 	<properties>
 		<java.version>1.8</java.version>
+        <interceptor.version>1.2</interceptor.version>
+        <org.mapstruct.version>1.2.0.Final</org.mapstruct.version>
+        <hcc.service.version>1.0.9-SNAPSHOT</hcc.service.version>
+        <nlpapigateway.service.version>1.1.0-SNAPSHOT</nlpapigateway.service.version>
+        <jackson.version>2.14.2</jackson.version>
+        <capc.apigateway.version>1.1.0-SNAPSHOT</capc.apigateway.version>
 	</properties>
-	
-	<dependencyManagement>
-    	<dependencies>
-    		<dependency>
-    			<artifactId>jackson-databind</artifactId>
+
+	<!-- <dependencyManagement>
+		<dependencies>
+			<dependency>
+				<artifactId>jackson-databind</artifactId>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<version>2.13.1</version>
-    		</dependency>
-    		<dependency>
-    			<artifactId>jackson-core</artifactId>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<version>2.13.1</version>
-    		</dependency>
-    		<dependency>
-    			<artifactId>jackson-annotations</artifactId>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<version>2.13.1</version>
-    		</dependency>
-    		<dependency>
-			    <groupId>com.fasterxml.jackson.datatype</groupId>
-			    <artifactId>jackson-datatype-jsr310</artifactId>
-			    <version>2.13.1</version>
 			</dependency>
 			<dependency>
-			    <groupId>com.fasterxml.jackson.datatype</groupId>
-			    <artifactId>jackson-datatype-joda</artifactId>
-			    <version>2.10.1</version>
-			</dependency>
-    		<dependency>
-    			<groupId>com.fasterxml.jackson.dataformat</groupId>
-  				<artifactId>jackson-dataformat-xml</artifactId>
+				<artifactId>jackson-core</artifactId>
+				<groupId>com.fasterxml.jackson.core</groupId>
 				<version>2.13.1</version>
-    		</dependency>
-    		 <dependency>
-      			<groupId>io.projectreactor</groupId>
-      			<artifactId>reactor-core</artifactId>
-      			<version>3.4.21</version>
-    		</dependency>
-    	</dependencies>
-    </dependencyManagement>
+			</dependency>
+			<dependency>
+				<artifactId>jackson-annotations</artifactId>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<version>2.13.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.datatype</groupId>
+				<artifactId>jackson-datatype-jsr310</artifactId>
+				<version>2.13.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.datatype</groupId>
+				<artifactId>jackson-datatype-joda</artifactId>
+				<version>2.10.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.dataformat</groupId>
+				<artifactId>jackson-dataformat-xml</artifactId>
+				<version>2.13.1</version>
+			</dependency>
+			<dependency>
+				<groupId>io.projectreactor</groupId>
+				<artifactId>reactor-core</artifactId>
+				<version>3.4.21</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement> -->
 
 	<dependencies>
+        <!-- <dependency>
+            <groupId>au.com.bytecode</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>2.4</version>
+        </dependency> -->
+	<!-- <dependency>
+      		<groupId>io.projectreactor</groupId>
+      		<artifactId>reactor-core</artifactId>
+      		<version>3.3.11.RELEASE</version> {x-version-update;io.projectreactor:reactor-core;external_dependency}
+    	</dependency> -->
+        <!--<dependency>
+            <groupId>com.ezdi</groupId>
+            <artifactId>microsoft-azure-utility</artifactId>
+        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.opensaml/opensaml -->
+        <!-- <dependency>
+            <groupId>org.opensaml</groupId>
+            <artifactId>opensaml</artifactId>
+            <version>2.6.4</version>
+        </dependency> -->
+        <!-- <dependency>
+           <groupId>org.springframework.security.extensions</groupId>
+           <artifactId>spring-security-saml-dsl</artifactId>
+           <version>1.0.0.M3</version>
+       </dependency> -->
+		
+		<!-- <dependency>
+			<groupId>com.raapid.service</groupId>
+			<artifactId>capc-apigateway-dto</artifactId>
+			<version>${capc.apigateway.version}</version>
+		</dependency> -->
+		 <!-- <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>nz.net.ultraq.thymeleaf</groupId>
+            <artifactId>thymeleaf-layout-dialect</artifactId>
+        </dependency> -->
+
+		<!-- <dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>3.13.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.raapid.common</groupId>
+			<artifactId>common-exception</artifactId>
+		</dependency> -->
+		<!-- <dependency>
+			<groupId>com.raapid.common</groupId>
+			<artifactId>common-security</artifactId>
+			<version>1.1.0.27</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-io</groupId>
+  				<artifactId>commons-io</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency> -->
+		
+		<!-- We have re-declare oauth2 dependency to access latest version. -->
+		<!-- <dependency>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+			<version>2.3.5.RELEASE</version>
+		</dependency> -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<!-- <exclusions>
+			<exclusions>
 				<exclusion>
-					<groupId>org.jboss.logging</groupId>
-        			<artifactId>jboss-logging</artifactId>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
-			</exclusions> -->
+			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<artifactId>spring-boot-starter-mail</artifactId>
+			 <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 			<exclusions>
-				<exclusion>
-					<groupId>org.junit.vintage</groupId>
-					<artifactId>junit-vintage-engine</artifactId>
-				</exclusion>
-			</exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<!-- <version>4.5.3</version> -->
-		</dependency>
-
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.6</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ezdi.kpmg</groupId>
+		<!-- <dependency>
+			<groupId>com.raapid.common</groupId>
 			<artifactId>common-utility</artifactId>
-			<version>1.0.0.11</version>
+		</dependency>
+		<dependency>
+			<groupId>com.raapid.common</groupId>
+			<artifactId>common-logging</artifactId>
+		</dependency>
+        <dependency>
+        	<groupId>com.raapid.common</groupId>
+        	<artifactId>common-license-utility</artifactId>
+        	<version>1.0.0.8</version>
+        </dependency> -->
+		<!-- <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency> -->
+		<!-- <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			 <exclusions>
+		        <exclusion>
+		            <groupId>com.zaxxer</groupId>
+		            <artifactId>HikariCP</artifactId>
+		        </exclusion>
+		    </exclusions>
+		</dependency> -->
+		<!-- <dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.22</version>
+		</dependency> -->
+		<!-- <dependency>
+			<groupId>javax.interceptor</groupId>
+			<artifactId>javax.interceptor-api</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct-jdk8</artifactId>
+			<version>${org.mapstruct.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.7.0</version>
 			<exclusions>
 				<exclusion>
-				<groupId>com.ezdi.kpmg</groupId> 
-			<!-- <groupId>commons-logging</groupId> -->
-  				<artifactId>commons-logging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		
-		<dependency>
-		<groupId>com.ezdi.kpmg</groupId>
-		<artifactId>common-logging</artifactId>
-		<version>1.0.0</version>
-		</dependency>
-		
-		<dependency>
-  <groupId>com.azure</groupId>
-  <artifactId>azure-messaging-servicebus</artifactId>
-  <version>7.11.0</version>
-</dependency>
+					<groupId>org.mapstruct</groupId>
+                    <artifactId>mapstruct-jdk8</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.7.0</version>
+        </dependency>
+       
 
-<dependency>
-			<groupId>com.azure</groupId>
-			<artifactId>azure-identity</artifactId>
-			<version>1.6.0</version>
-		</dependency>
-		
-<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
-<dependency>
-    <groupId>commons-fileupload</groupId>
-    <artifactId>commons-fileupload</artifactId>
-    <version>1.4</version>
-</dependency>
+        <dependency>
+        	<groupId>com.raapid.apigateway</groupId>
+			<artifactId>nlp-v1-dto</artifactId>
+			<version>${nlpapigateway.service.version}</version>
+        </dependency>
 
-		
+		<dependency>
+			<groupId>com.raapid.common</groupId>
+			<artifactId>common-cloud-utility</artifactId>
+		</dependency> -->
+
 	</dependencies>
 
 	<build>
@@ -141,13 +274,10 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<!-- <plugin> <artifactId>maven-compiler-plugin</artifactId> <version>3.8.0</version> 
-				<configuration> <source>1.8</source> <target>1.8</target> </configuration> 
-				</plugin> -->
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> 
-				<configuration> <source>1.8</source> <target>1.8</target> </configuration> 
-				</plugin> -->
+		
 		</plugins>
 	</build>
+	
+	
 
 </project>

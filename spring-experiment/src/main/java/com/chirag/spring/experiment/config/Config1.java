@@ -18,7 +18,7 @@ public class Config1 {
 	@ConditionalOnProperty(name = "pro1", matchIfMissing = false)
 	@Bean
 	public FileWithDataRequest getBean1() {
-		return null;//new FileWithDataRequest();
+		return new FileWithDataRequest();
 	}
 	
 	@PostConstruct
