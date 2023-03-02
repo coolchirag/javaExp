@@ -123,11 +123,11 @@ public class CompanyService {
 		cmp.setIsActive(true);
 		cmpRepo.save(cmp);
 		
-		Company cmp1 = cmpRepo.findOne(cmp.getId());
+		Company cmp1 = null;//cmpRepo.findById(cmp.getId());
 		Company cmp2 = cmpRepo.findByCompanyName("cmp5");
 		cmp2.setCity("temp");
 		//cmpRepo.saveAndFlush(cmp2);
-		Company cmp3 = cmpRepo.findOne(cmp.getId());
+		Company cmp3 = null;//cmpRepo.findById(cmp.getId());
 		System.out.println(cmp.hashCode()+ " : "+ cmp1.hashCode()+" : "+cmp2.hashCode()+" : "+cmp3.hashCode());
 		
 	}

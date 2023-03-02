@@ -78,7 +78,7 @@ public class EmployeeService {
 		 * System.out.println(emps);
 		 */
 		//Employee employee = empRepo.findOne(19);//empRepo.findByEmployeeName("test");
-		List<Employee> employee = empRepo.findByEmployeeName("test", new PageRequest(0, 10));
+		List<Employee> employee = empRepo.findByEmployeeName("test", PageRequest.of(0, 10));
 		System.out.println(employee);
 		Company company = employee.get(0).getCompnayToEmpMap();
 		System.out.println(company.getId());

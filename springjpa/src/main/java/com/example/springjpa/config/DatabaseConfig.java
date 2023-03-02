@@ -2,10 +2,8 @@ package com.example.springjpa.config;
 
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseDataSource;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -13,7 +11,7 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class DatabaseConfig {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(DatabaseConfig.class);
+	//private static final Logger LOG = LoggerFactory.getLogger(DatabaseConfig.class);
 	
 	@Bean
 	@Primary
@@ -74,7 +72,7 @@ public class DatabaseConfig {
 				apacheDataSource.setInitialSize(apacheDataSource.getMinIdle());
 		} else {
 			final String errorMsg = "Connection pool property is not set for DataSource of type : "+dataSource.getClass(); 
-			LOG.warn(errorMsg);
+			//LOG.warn(errorMsg);
 			throw new RuntimeException(errorMsg);
 		}
 		return dataSource;
