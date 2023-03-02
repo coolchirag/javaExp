@@ -26,7 +26,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
 	
 	Company findFirstByCompanyNameOrderByIdDesc(String name);
 	
-	@Query("select c from Company c inner join fetch c.emp e where c.city = :city")
+	@Query("select distinct c from Company c inner join fetch c.emp e where c.city = :city")
 	List<Company> findByCityWithEmployee(@Param("city") String city);
 	
 	@Query("select c from Company c inner join fetch c.emp e where c.id in (:ids) order by c.id")

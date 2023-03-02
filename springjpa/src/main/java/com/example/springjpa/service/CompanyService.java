@@ -46,13 +46,12 @@ public class CompanyService {
 	}
 	
 	public void getCompanysByCity() {
-		Map<Integer, String> map = new HashMap();
-		map.put(7, "7");
-		map.put(8, "8");
-		List<Company> companies = cmpRepo.findByIdsWithEmployee(map.keySet());
-		System.out.println(companies.get(0).getEmp());
-		List<Company> list2 = cmpRepo.findByCity("test");
-		System.out.println(list2);
+		/*
+		 * Map<Integer, String> map = new HashMap(); map.put(7, "7"); map.put(8, "8");
+		 * List<Company> companies = cmpRepo.findByIdsWithEmployee(map.keySet());
+		 * System.out.println(companies.get(0).getEmp()); List<Company> list2 =
+		 * cmpRepo.findByCity("test"); System.out.println(list2);
+		 */
 		List<Company> list3 = cmpRepo.findByCityWithEmployee("test");
 		System.out.println(list3);
 	}

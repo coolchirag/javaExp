@@ -146,6 +146,12 @@ public class Company {
 		this.isActive = isActive;
 	}
 
+	@Override
+	public String toString() {
+		return "Company [id=" + id + ", companyName=" + companyName + ", city=" + city + ", emp=" + emp + ", isActive="
+				+ isActive + "]";
+	}
+
 	/*
 	 * @Override public String toString() { return "Company [id=" + id +
 	 * ", companyName=" + companyName + ", city=" + city + ", employeeList=" +
