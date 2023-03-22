@@ -2,6 +2,7 @@ package com.example.springjpa.bean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +30,7 @@ public class Project {
 	private Integer companyId;
 	
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="cmp_id"/*, insertable = false, updatable = false*/)
 	@Where(clause=" is_active = 1 ")
 	private Company projectCompany;
@@ -106,9 +107,11 @@ public class Project {
 
 	@Override
 	public String toString() {
-		return "Project [id=" + id + ", projectName=" + projectName + ", companyId=" + companyId + ", projectCompany="
-				+ projectCompany + ", isActive=" + isActive + "]";
+		return "Project [id=" + id + ", projectName=" + projectName + ", companyId=" + companyId + ", isActive="
+				+ isActive + "]";
 	}
+
+
 
 	
 	

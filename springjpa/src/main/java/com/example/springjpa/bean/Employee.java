@@ -1,6 +1,7 @@
 package com.example.springjpa.bean;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -50,7 +51,7 @@ public class Employee {
 	
 	@OneToMany(mappedBy = "projectEmpMapEmployee")
 	//@Transient
-	private List<ProjectEmpMap> empProjectEmp;
+	private Set<ProjectEmpMap> empProjectEmp;
 	
 	@OneToMany
 	@JoinTable(name = "project_emp_map",
@@ -126,13 +127,13 @@ public class Employee {
 
 	
 
-	public List<ProjectEmpMap> getEmpProjectEmp() {
+	public Set<ProjectEmpMap> getEmpProjectEmp() {
 		return empProjectEmp;
 	}
 
 
 
-	public void setEmpProjectEmp(List<ProjectEmpMap> empProjectEmp) {
+	public void setEmpProjectEmp(Set<ProjectEmpMap> empProjectEmp) {
 		this.empProjectEmp = empProjectEmp;
 	}
 
@@ -153,8 +154,7 @@ public class Employee {
 	@Override
 	public String toString() {
 		return "Employee [id=" + id + ", employeeName=" + employeeName + ", salary=" + salary + ", companyId="
-				+ companyId + ", compnayToEmpMap=" + compnayToEmpMap + ", empProjectEmp=" + empProjectEmp
-				+ ", empProject=" + empProject + ", isActive=" + isActive + "]";
+				+ companyId + ", isActive=" + isActive + "]";
 	}
 
 

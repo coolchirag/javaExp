@@ -2,6 +2,7 @@ package com.example.springjpa.bean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,13 +31,13 @@ public class ProjectEmpMap {
 	private Integer empId;
 	
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="emp_id"/*, insertable = false, updatable = false*/)
 	@Where(clause=" is_active = 1 ")
 	//@Transient
 	private Employee projectEmpMapEmployee;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="project_id"/*, insertable = false, updatable = false*/)
 	//@Transient
 	@Where(clause=" is_active = 1 ")
@@ -127,10 +128,13 @@ public class ProjectEmpMap {
 
 	@Override
 	public String toString() {
-		return "ProjectEmpMap [id=" + id + ", projectId=" + projectId + ", empId=" + empId + ", projectEmpMapEmployee="
-				+ projectEmpMapEmployee + ", projectEmpMapProject=" + projectEmpMapProject + ", isActive=" + isActive
+		return "ProjectEmpMap [id=" + id + ", projectId=" + projectId + ", empId=" + empId + ", isActive=" + isActive
 				+ "]";
 	}
+
+
+
+	
 
 
 
