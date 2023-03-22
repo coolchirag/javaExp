@@ -31,7 +31,8 @@ public class TestController {
 		 * j = 5 / i;
 		 */
 		//cs.compareCmpBean();
-		cs.getCompanysByCity();
+		//cs.getCompanysByCity();
+		cs.getCompanyFullDetails();
 		//cs.getCmpByCityCount();
 		//cs.callJpaRepo();
 		//threadExecution();

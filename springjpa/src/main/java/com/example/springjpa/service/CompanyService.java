@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -43,6 +44,26 @@ public class CompanyService {
 	public void getCmpByCityCount() {
 		List<Object> cmps = cmpRepo.findByCityCount();
 		System.out.println(cmps);
+	}
+	
+	public void getCompanyFullDetails() {
+		/*
+		 * Optional<Company> cmpOption = cmpRepo.findOne((root, query, criteriaBuilder)
+		 * -> { Fetch<Object, Object> employee = root.fetch("emp", JoinType.LEFT);
+		 * return criteriaBuilder.equal(root.get("id"), 1); });
+		 * if(cmpOption.isPresent()) { Company company = cmpOption.get();
+		 * System.out.println(company); System.out.println(company.getEmp()); }
+		 */
+		
+		List<Company> allCMps = cmpRepo.findAll((root, query, criteriaBuilder) -> {
+			Fetch<Object, Object> employee = root.fetch("emp", JoinType.LEFT);
+			query.distinct(true);
+			return criteriaBuilder.equal(root.get("isActive"), true);
+		});
+		for(Company cmp : allCMps) {
+			System.out.println(cmp);
+			System.out.println(cmp.getEmp());
+		}
 	}
 	
 	public void getCompanysByCity() {
