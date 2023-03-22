@@ -1,22 +1,15 @@
 package com.example.springjpa.bean;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
@@ -36,12 +29,9 @@ public class Project {
 	private Integer companyId;
 	
 	
+	@ManyToOne
 	@JoinColumn(name="cmp_id"/*, insertable = false, updatable = false*/)
-	//@Transient
 	@Where(clause=" is_active = 1 ")
-	
-	//@OneToOne
-	//@JoinColumn(name = "cmp_id", referencedColumnName = "id" /*, insertable = false, updatable = false*/)
 	private Company projectCompany;
 	
 	@Column(name = "is_active")

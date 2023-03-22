@@ -1,22 +1,15 @@
 package com.example.springjpa.bean;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
@@ -37,21 +30,17 @@ public class ProjectEmpMap {
 	private Integer empId;
 	
 	
+	@ManyToOne
 	@JoinColumn(name="emp_id"/*, insertable = false, updatable = false*/)
-	//@Transient
 	@Where(clause=" is_active = 1 ")
+	//@Transient
+	private Employee projectEmpMapEmployee;
 	
-	//@OneToOne
-	//@JoinColumn(name = "cmp_id", referencedColumnName = "id" /*, insertable = false, updatable = false*/)
-	private Employee projectMapEmployee;
-	
+	@ManyToOne
 	@JoinColumn(name="project_id"/*, insertable = false, updatable = false*/)
 	//@Transient
 	@Where(clause=" is_active = 1 ")
-	
-	//@OneToOne
-	//@JoinColumn(name = "cmp_id", referencedColumnName = "id" /*, insertable = false, updatable = false*/)
-	private Project projectMapProject;
+	private Project projectEmpMapProject;
 	
 	@Column(name = "is_active")
 	private Integer isActive;
@@ -110,32 +99,42 @@ public class ProjectEmpMap {
 
 
 
-	public Employee getProjectMapEmployee() {
-		return projectMapEmployee;
+	
+
+	public Employee getProjectEmpMapEmployee() {
+		return projectEmpMapEmployee;
 	}
 
 
 
-	public void setProjectMapEmployee(Employee projectMapEmployee) {
-		this.projectMapEmployee = projectMapEmployee;
+	public void setProjectEmpMapEmployee(Employee projectEmpMapEmployee) {
+		this.projectEmpMapEmployee = projectEmpMapEmployee;
 	}
 
 
 
-	public Project getProjectMapProject() {
-		return projectMapProject;
+	public Project getProjectEmpMapProject() {
+		return projectEmpMapProject;
 	}
 
 
 
-	public void setProjectMapProject(Project projectMapProject) {
-		this.projectMapProject = projectMapProject;
+	public void setProjectEmpMapProject(Project projectEmpMapProject) {
+		this.projectEmpMapProject = projectEmpMapProject;
 	}
+
+
 
 	@Override
 	public String toString() {
-		return "ProjectEmpMap [id=" + id + ", projectId=" + projectId + ", empId=" + empId + ", projectMapEmployee="
-				+ projectMapEmployee + ", projectMapProject=" + projectMapProject + ", isActive=" + isActive + "]";
+		return "ProjectEmpMap [id=" + id + ", projectId=" + projectId + ", empId=" + empId + ", projectEmpMapEmployee="
+				+ projectEmpMapEmployee + ", projectEmpMapProject=" + projectEmpMapProject + ", isActive=" + isActive
+				+ "]";
 	}
+
+
+
+	
+	
 
 }

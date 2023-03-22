@@ -1,21 +1,19 @@
 package com.example.springjpa.bean;
 
-import javax.persistence.CascadeType;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -49,6 +47,16 @@ public class Employee {
 	//@OneToOne
 	//@JoinColumn(name = "cmp_id", referencedColumnName = "id" /*, insertable = false, updatable = false*/)
 	private Company compnayToEmpMap;
+	
+	@OneToMany(mappedBy = "projectEmpMapEmployee")
+	//@Transient
+	private List<ProjectEmpMap> empProjectEmp;
+	
+	@OneToMany
+	@JoinTable(name = "project_emp_map",
+			joinColumns =  {@JoinColumn(name="emp_id")},
+			inverseJoinColumns = {@JoinColumn(name="project_id")})
+	private List<Project> empProject;
 	
 	@Column(name = "is_active")
 	private Integer isActive;
@@ -118,14 +126,37 @@ public class Employee {
 
 	
 
-	@Override
-	public String toString() {
-		return "Employee [id=" + id + ", employeeName=" + employeeName + ", salary=" + salary + ", companyId=" + companyId +"]";
+	public List<ProjectEmpMap> getEmpProjectEmp() {
+		return empProjectEmp;
 	}
 
-	
-	
-	
-	
-	
+
+
+	public void setEmpProjectEmp(List<ProjectEmpMap> empProjectEmp) {
+		this.empProjectEmp = empProjectEmp;
+	}
+
+
+
+	public List<Project> getEmpProject() {
+		return empProject;
+	}
+
+
+
+	public void setEmpProject(List<Project> empProject) {
+		this.empProject = empProject;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", employeeName=" + employeeName + ", salary=" + salary + ", companyId="
+				+ companyId + ", compnayToEmpMap=" + compnayToEmpMap + ", empProjectEmp=" + empProjectEmp
+				+ ", empProject=" + empProject + ", isActive=" + isActive + "]";
+	}
+
+
+
 }
