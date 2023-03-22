@@ -42,7 +42,7 @@ public class Project {
 	
 	//@OneToOne
 	//@JoinColumn(name = "cmp_id", referencedColumnName = "id" /*, insertable = false, updatable = false*/)
-	private Company compnayToEmpMap;
+	private Company projectCompany;
 	
 	@Column(name = "is_active")
 	private Integer isActive;
@@ -88,16 +88,21 @@ public class Project {
 
 
 
-	public Company getCompnayToEmpMap() {
-		return compnayToEmpMap;
+	
+	
+	
+
+	public Company getProjectCompany() {
+		return projectCompany;
 	}
 
-	public void setCompnayToEmpMap(Company compnayToEmpMap) {
-		//this.companyId = compnayToEmpMap.getId();
-		this.compnayToEmpMap = compnayToEmpMap;
+
+
+	public void setProjectCompany(Company projectCompany) {
+		this.projectCompany = projectCompany;
 	}
-	
-	
+
+
 
 	public Integer getCompanyId() {
 		return companyId;
@@ -107,10 +112,14 @@ public class Project {
 		this.companyId = companyId;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "Project [id=" + id + ", projectName=" + projectName + ", companyId=" + companyId + ", compnayToEmpMap="
-				+ compnayToEmpMap + ", isActive=" + isActive + "]";
+		return "Project [id=" + id + ", projectName=" + projectName + ", companyId=" + companyId + ", projectCompany="
+				+ projectCompany + ", isActive=" + isActive + "]";
 	}
+
+	
 	
 }

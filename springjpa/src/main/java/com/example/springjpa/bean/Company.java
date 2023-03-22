@@ -53,6 +53,11 @@ public class Company {
 	@Where(clause = "is_active = 1")
 	private List<Employee> emp;
 	
+	@OneToMany(mappedBy = "projectCompany", fetch = FetchType.LAZY)
+	//@Fetch(FetchMode.JOIN)
+	@Where(clause = "is_active = 1")
+	private List<Project> cmpProject;
+	
 	@Column(name = "is_active")
 	private Boolean isActive;
 	
@@ -146,18 +151,18 @@ public class Company {
 		this.isActive = isActive;
 	}
 
-	@Override
-	public String toString() {
-		return "Company [id=" + id + ", companyName=" + companyName + ", city=" + city + ", emp=" + emp + ", isActive="
-				+ isActive + "]";
+	public List<Project> getCmpProject() {
+		return cmpProject;
 	}
 
-	/*
-	 * @Override public String toString() { return "Company [id=" + id +
-	 * ", companyName=" + companyName + ", city=" + city + ", employeeList=" +
-	 * employeeList + "]"; }
-	 */
-	
+	public void setCmpProject(List<Project> cmpProject) {
+		this.cmpProject = cmpProject;
+	}
 
-		
+	@Override
+	public String toString() {
+		return "Company [id=" + id + ", companyName=" + companyName + ", city=" + city + ", emp=" + emp
+				+ ", cmpProject=" + cmpProject + ", isActive=" + isActive + "]";
+	}
+
 }
