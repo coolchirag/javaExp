@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -59,9 +60,9 @@ public class CompanyService {
 		long startTime = System.currentTimeMillis();
 		List<Company> allCMps = cmpRepo.findAll((root, query, criteriaBuilder) -> {
 			Fetch<Object, Object> employee = root.fetch("emp", JoinType.LEFT);
-			employee.fetch("empProject");
+			employee.fetch("empProject"); //To work this keep Employee property Set<Project> empProject don't use List<Project> empProject because it gives hibernet exception
 			// Fetch<Object, Object> empProjectMap = employee.fetch("empProjectEmp",
-			// JoinType.LEFT);
+			// JoinType.LEFT); ////To work this keep Employee property Set<ProjectEmpMap> empProjectEmp don't use List<ProjectEmpMap> empProjectEmp because it gives hibernet exception
 			// Fetch<Object, Object> project = empProjectMap.fetch("projectEmpMapProject",
 			// JoinType.LEFT);
 			query.distinct(true);

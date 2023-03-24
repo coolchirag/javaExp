@@ -51,7 +51,7 @@ public class Employee {
 	
 	@OneToMany(mappedBy = "projectEmpMapEmployee")
 	//@Transient
-	private Set<ProjectEmpMap> empProjectEmp;
+	private List<ProjectEmpMap> empProjectEmp;
 	
 	@OneToMany
 	@JoinTable(name = "project_emp_map",
@@ -127,13 +127,13 @@ public class Employee {
 
 	
 
-	public Set<ProjectEmpMap> getEmpProjectEmp() {
+	public List<ProjectEmpMap> getEmpProjectEmp() {
 		return empProjectEmp;
 	}
 
 
 
-	public void setEmpProjectEmp(Set<ProjectEmpMap> empProjectEmp) {
+	public void setEmpProjectEmp(List<ProjectEmpMap> empProjectEmp) {
 		this.empProjectEmp = empProjectEmp;
 	}
 
