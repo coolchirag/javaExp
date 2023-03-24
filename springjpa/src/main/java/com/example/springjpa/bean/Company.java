@@ -61,6 +61,11 @@ public class Company {
 	@Column(name = "is_active")
 	private Boolean isActive;
 	
+	/*
+	 * public Company(C List<Employee> emp, List<Project> cmpProject) { super();
+	 * this.emp = emp; this.cmpProject = cmpProject; }
+	 */
+
 	@PrePersist
 	private void onCreate() {
 		isActive = true;

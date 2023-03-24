@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.Fetch;
+import javax.persistence.criteria.JoinType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.springjpa.bean.Company;
 import com.example.springjpa.bean.Employee;
+import com.example.springjpa.bean.Project;
 import com.example.springjpa.repository.CompanyRepository;
 import com.example.springjpa.repository.EmployeeRepository;
 
@@ -28,6 +31,46 @@ public class EmployeeService {
 	
 	@Autowired
 	private CompanyRepository cmpRepo;
+	
+	public void getEmployeeFullDetails() {
+		/*
+		 * Optional<Company> cmpOption = cmpRepo.findOne((root, query, criteriaBuilder)
+		 * -> { Fetch<Object, Object> employee = root.fetch("emp", JoinType.LEFT);
+		 * return criteriaBuilder.equal(root.get("id"), 1); });
+		 * if(cmpOption.isPresent()) { Company company = cmpOption.get();
+		 * System.out.println(company); System.out.println(company.getEmp()); }
+		 */
+		long startTime = System.currentTimeMillis();
+		List<Employee> allEmps = empRepo.findAll((root, query, criteriaBuilder) -> {
+			
+			root.fetch("empProject"); //To work this keep Employee property Set<Project> empProject don't use List<Project> empProject because it gives hibernet exception (org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.example.springjpa.bean.Company.emp, com.example.springjpa.bean.Employee.empProject]
+			// Fetch<Object, Object> empProjectMap = employee.fetch("empProjectEmp",
+			// JoinType.LEFT); ////To work this keep Employee property Set<ProjectEmpMap> empProjectEmp don't use List<ProjectEmpMap> empProjectEmp because it gives hibernet exception (org.hibernate.loader.MultipleBagFetchException)
+			// Fetch<Object, Object> project = empProjectMap.fetch("projectEmpMapProject",
+			// JoinType.LEFT);
+			query.distinct(true);
+			return criteriaBuilder.equal(root.get("isActive"), 1);
+		});
+		long queuryENdTime = System.currentTimeMillis() - startTime;
+		System.out.println("query end : " + queuryENdTime);
+		for (Employee emp : allEmps) {
+			System.out.println(emp);
+
+			for (Project project : emp.getEmpProject()) {
+				System.out.println(project);
+			}
+
+			/*
+			 * System.out.println(cmp.getEmp().get(0).getEmpProjectEmp()); for
+			 * (ProjectEmpMap peMap : cmp.getEmp().get(0).getEmpProjectEmp()) {
+			 * System.out.println(peMap.getProjectEmpMapProject()); }
+			 */
+
+			// System.out.println(cmp.getEmp().get(0).getEmpProject());
+		}
+		System.out.println("s end : " + (System.currentTimeMillis() - startTime - queuryENdTime));
+
+	}
 
 	public void insertEmployeeWithCompany() {
 		Company c = new Company();
