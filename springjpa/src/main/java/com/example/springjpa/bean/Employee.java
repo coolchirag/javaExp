@@ -57,7 +57,7 @@ public class Employee {
 	@JoinTable(name = "project_emp_map",
 			joinColumns =  {@JoinColumn(name="emp_id")},
 			inverseJoinColumns = {@JoinColumn(name="project_id")})
-	private List<Project> empProject;
+	private Set<Project> empProject;
 	
 	@Column(name = "is_active")
 	private Integer isActive;
@@ -139,13 +139,13 @@ public class Employee {
 
 
 
-	public List<Project> getEmpProject() {
+	public Set<Project> getEmpProject() {
 		return empProject;
 	}
 
 
 
-	public void setEmpProject(List<Project> empProject) {
+	public void setEmpProject(Set<Project> empProject) {
 		this.empProject = empProject;
 	}
 

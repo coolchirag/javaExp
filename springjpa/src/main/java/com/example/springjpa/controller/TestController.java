@@ -32,7 +32,9 @@ public class TestController {
 		 */
 		//cs.compareCmpBean();
 		//cs.getCompanysByCity();
+		long startTime = System.currentTimeMillis();
 		cs.getCompanyFullDetails();
+		System.out.println("C end : "+(System.currentTimeMillis()-startTime));
 		//cs.getCmpByCityCount();
 		//cs.callJpaRepo();
 		//threadExecution();
