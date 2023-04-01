@@ -9,25 +9,40 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
+import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PostRemove;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "company")
-//@Where(clause = "is_active=1")
+@Where(clause = "is_active=1")
 @SQLDelete(sql = "update company set is_active = null where id = ? ")
+@NamedEntityGraphs({
+	@NamedEntityGraph(
+			name = "cmpwithemp",
+			attributeNodes = @NamedAttributeNode("emp")),
+	@NamedEntityGraph(
+			name = "cmpwithempwithprojectmap",
+			attributeNodes = @NamedAttributeNode(value = "emp",subgraph = "sub.project"),
+			subgraphs = @NamedSubgraph(name ="sub.project", attributeNodes = @NamedAttributeNode(value = "empProjectEmp"))),
+	@NamedEntityGraph(
+			name = "cmpwithempwithprojectmst",
+			attributeNodes = @NamedAttributeNode(value = "emp",subgraph = "sub.project"),
+			subgraphs = {
+					@NamedSubgraph(name ="sub.project", attributeNodes = @NamedAttributeNode(value = "empProjectEmp", subgraph = "sub.project.mst")),
+					@NamedSubgraph(name = "sub.project.mst", attributeNodes = @NamedAttributeNode(value = "projectEmpMapProject"))
+			})
+})
 public class Company {
 
 	@Id

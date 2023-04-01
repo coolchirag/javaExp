@@ -3,6 +3,7 @@ package com.example.springjpa.repository;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -30,6 +31,10 @@ public interface CompanyRepository extends JpaRepository<Company, Integer>, JpaS
 	Company findByCompanyName(String name);
 	
 	List<Company> findByCity(String city);
+	
+	//@EntityGraph("cmpwithemp")
+	@EntityGraph("cmpwithempwithprojectmst")
+	List<Company> findAll();
 	
 	@Query("from Company where companyName=:name")
 	Company findCMTest(@Param("name") String name);
