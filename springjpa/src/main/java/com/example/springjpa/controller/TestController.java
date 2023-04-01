@@ -26,16 +26,18 @@ public class TestController {
 	
 	@GetMapping("/")
 	public String test() throws InterruptedException {
+		long startTime = System.currentTimeMillis();
 		/*
 		 * MDC.put("event", "Test event"); LOG.warn("Inside controller"); int i = 0; int
 		 * j = 5 / i;
 		 */
 		//cs.compareCmpBean();
 		//cs.getCompanysByCity();
-		long startTime = System.currentTimeMillis();
-		//cs.getCompanyFullDetails();
-		es.getEmployeeFullDetails();
-		System.out.println("C end : "+(System.currentTimeMillis()-startTime));
+		
+		//cs.insertMultipleCompany();
+		cs.getCompanyFullDetails();
+		//es.getEmployeeFullDetails();
+		
 		//cs.getCmpByCityCount();
 		//cs.callJpaRepo();
 		//threadExecution();
@@ -49,6 +51,7 @@ public class TestController {
 		//cs.insertCompanyWithEmp();
 		//es.insertEmployeINExistingCompany();
 		//es.findEmp();
+		System.out.println("================================== C end : "+(System.currentTimeMillis()-startTime));
 		return "Hello";
 	}
 	

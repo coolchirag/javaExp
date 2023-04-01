@@ -44,6 +44,10 @@ public interface CompanyRepository extends JpaRepository<Company, Integer>, JpaS
 			+ "where  c.companyName=:name and c.isActive = true and e2.id is null")
 	List<Company> findByNameWithEmployee(@Param("name") String name);
 	
+	@Query("select distinct c from Company c inner join c.emp e on e.salary >:salary "
+			+ "where c.isActive = true")
+	List<Company> findByNameWithEmployeeSalary(@Param("salary") Integer salary);
+	
 	@Query("select new com.example.springjpa.dto.CustomCmpDto(c.id as id, c.city as city) from Company c where c.companyName=:name")
 	List<CustomCmpDto> findDtoByName(@Param("name") String name);
 

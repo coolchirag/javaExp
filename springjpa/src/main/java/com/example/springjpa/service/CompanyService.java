@@ -1,5 +1,6 @@
 package com.example.springjpa.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -58,9 +59,10 @@ public class CompanyService {
 		 * System.out.println(company); System.out.println(company.getEmp()); }
 		 */
 		long startTime = System.currentTimeMillis();
+		//List<Company> allCMps = cmpRepo.findByNameWithEmployeeSalary(100);
 		List<Company> allCMps = cmpRepo.findAll((root, query, criteriaBuilder) -> {
 			Fetch<Object, Object> employee = root.fetch("emp", JoinType.LEFT);
-			employee.fetch("empProject"); //To work this keep Employee property Set<Project> empProject don't use List<Project> empProject because it gives hibernet exception (org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.example.springjpa.bean.Company.emp, com.example.springjpa.bean.Employee.empProject]
+			//employee.fetch("empProject"); //To work this keep Employee property Set<Project> empProject don't use List<Project> empProject because it gives hibernet exception (org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.example.springjpa.bean.Company.emp, com.example.springjpa.bean.Employee.empProject]
 			// Fetch<Object, Object> empProjectMap = employee.fetch("empProjectEmp",
 			// JoinType.LEFT); ////To work this keep Employee property Set<ProjectEmpMap> empProjectEmp don't use List<ProjectEmpMap> empProjectEmp because it gives hibernet exception (org.hibernate.loader.MultipleBagFetchException)
 			// Fetch<Object, Object> project = empProjectMap.fetch("projectEmpMapProject",
@@ -69,14 +71,15 @@ public class CompanyService {
 			return criteriaBuilder.equal(root.get("isActive"), true);
 		});
 		long queuryENdTime = System.currentTimeMillis() - startTime;
-		System.out.println("query end : " + queuryENdTime);
+		System.out.println("query end : " + queuryENdTime+" : "+allCMps.size());
 		for (Company cmp : allCMps) {
-			System.out.println(cmp);
-			System.out.println(cmp.getEmp());
+			//System.out.println(cmp);
+			//System.out.println(cmp.getEmp().size());
 
-			for (Project project : cmp.getEmp().get(0).getEmpProject()) {
-				System.out.println(project);
-			}
+			/*
+			 * for (Project project : cmp.getEmp().get(0).getEmpProject()) {
+			 * System.out.println(project); }
+			 */
 
 			/*
 			 * System.out.println(cmp.getEmp().get(0).getEmpProjectEmp()); for
@@ -108,7 +111,7 @@ public class CompanyService {
 		// Company nullId = cmpRepo.findOne(id);
 		Company nullId = cmpRepo.findByCompanyName("test");
 		System.out.println(nullId);
-		nullId.getEmployeeList();
+		//nullId.getEmployeeList();
 		List<Employee> empList = nullId.getEmp();
 		System.out.println(empList.size());
 		Company cmp = cmpRepo.findCMTest("cmp1");
@@ -208,18 +211,31 @@ public class CompanyService {
 	}
 
 	public void insertMultipleCompany() {
-		for (int i = 0; i < 10; i++) {
+		for (int i = 181; i < 401; i++) {
 			Company c = new Company();
-			c.setCity("test");
-			c.setCompanyName("test5" + i);
+			c.setCity("temp_test_performance");
+			String cmp_name = "temp_test_performance_"+i;
+			c.setCompanyName(cmp_name);
+			
+			List<Employee> eList = new ArrayList<>();
+			for(int j = 1; j<10;j++) {
+			Employee emp = new Employee(); emp.setEmployeeName(cmp_name+"_emp_"+j);
+			  emp.setSalary(100000);
+			  emp.setCompnayToEmpMap(c);
+			  eList.add(emp);
+			}
+			  
+			  c.setEmp(eList);
+			  
+			  
 			em.persist(c);
+			
+			
+			  
 		}
-		try {
-			Thread.sleep(20 * 1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		
+	
 		System.out.println("saved2");
 		System.out.println("Done2");
 	}
@@ -227,10 +243,10 @@ public class CompanyService {
 	public void mergeCompany() {
 		Company c = em.find(Company.class, 1);
 		Company c2 = em.find(Company.class, 2);
-		for (Employee emp : c2.getEmployeeList()) {
-			emp.setCompnayToEmpMap(c);
-			c.getEmployeeList().add(emp);
-		}
+		/*
+		 * for (Employee emp : c2.getEmployeeList()) { emp.setCompnayToEmpMap(c);
+		 * c.getEmployeeList().add(emp); }
+		 */
 		// c.getEmployeeList().addAll(c2.getEmployeeList());
 		c.setCity(c.getCity() + 1);
 		c2.setCity(c2.getCity() + 1);
