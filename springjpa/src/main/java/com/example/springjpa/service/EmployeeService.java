@@ -73,7 +73,7 @@ public class EmployeeService {
 	}
 
 	public void insertEmployeeWithCompany() {
-		Company c = new Company();
+		Company c = null;//new Company();
 		c.setCity("c5");
 		c.setCompanyName("c5");
 		//c.setEmployeeList(new ArrayList<Employee>());
