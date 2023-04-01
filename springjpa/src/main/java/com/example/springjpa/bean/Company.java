@@ -66,7 +66,7 @@ public class Company {
 	 * this.emp = emp; this.cmpProject = cmpProject; }
 	 */
 
-	/*@Column(name = "cmp_column1")
+	@Column(name = "cmp_column1")
 	private String cmpColumn1;
 	@Column(name = "cmp_column2")
 	private String cmpColumn2;
@@ -169,9 +169,84 @@ public class Company {
 	@Column(name = "cmp_column49")
 	private String cmpColumn49;
 	@Column(name = "cmp_column50")
-	private String cmpColumn50;*/
+	private String cmpColumn50;
 	
 	
+	
+
+	public Company() {
+		super();
+	}
+
+	public Company(int id, String city,
+			String cmpColumn1, String cmpColumn2, String cmpColumn3, String cmpColumn4, String cmpColumn5,
+			String cmpColumn6, String cmpColumn7, String cmpColumn8, String cmpColumn9, String cmpColumn10,
+			String cmpColumn11, String cmpColumn12, String cmpColumn13, String cmpColumn14, String cmpColumn15,
+			String cmpColumn16, String cmpColumn17, String cmpColumn18, String cmpColumn19, String cmpColumn20,
+			String cmpColumn21, String cmpColumn22, String cmpColumn23, String cmpColumn24, String cmpColumn25,
+			String cmpColumn26, String cmpColumn27, String cmpColumn28, String cmpColumn29, String cmpColumn30,
+			String cmpColumn31, String cmpColumn32, String cmpColumn33, String cmpColumn34, String cmpColumn35,
+			String cmpColumn36, String cmpColumn37, String cmpColumn38, String cmpColumn39, String cmpColumn40,
+			String cmpColumn41, String cmpColumn42, String cmpColumn43, String cmpColumn44, String cmpColumn45,
+			String cmpColumn46, String cmpColumn47, String cmpColumn48, String cmpColumn49, String cmpColumn50, String companyName, Boolean isActive) {
+		super();
+		this.id = id;
+		this.companyName = companyName;
+		this.city = city;
+		this.cmpProject = cmpProject;
+		this.isActive = isActive;
+		this.cmpColumn1 = cmpColumn1;
+		this.cmpColumn2 = cmpColumn2;
+		this.cmpColumn3 = cmpColumn3;
+		this.cmpColumn4 = cmpColumn4;
+		this.cmpColumn5 = cmpColumn5;
+		this.cmpColumn6 = cmpColumn6;
+		this.cmpColumn7 = cmpColumn7;
+		this.cmpColumn8 = cmpColumn8;
+		this.cmpColumn9 = cmpColumn9;
+		this.cmpColumn10 = cmpColumn10;
+		this.cmpColumn11 = cmpColumn11;
+		this.cmpColumn12 = cmpColumn12;
+		this.cmpColumn13 = cmpColumn13;
+		this.cmpColumn14 = cmpColumn14;
+		this.cmpColumn15 = cmpColumn15;
+		this.cmpColumn16 = cmpColumn16;
+		this.cmpColumn17 = cmpColumn17;
+		this.cmpColumn18 = cmpColumn18;
+		this.cmpColumn19 = cmpColumn19;
+		this.cmpColumn20 = cmpColumn20;
+		this.cmpColumn21 = cmpColumn21;
+		this.cmpColumn22 = cmpColumn22;
+		this.cmpColumn23 = cmpColumn23;
+		this.cmpColumn24 = cmpColumn24;
+		this.cmpColumn25 = cmpColumn25;
+		this.cmpColumn26 = cmpColumn26;
+		this.cmpColumn27 = cmpColumn27;
+		this.cmpColumn28 = cmpColumn28;
+		this.cmpColumn29 = cmpColumn29;
+		this.cmpColumn30 = cmpColumn30;
+		this.cmpColumn31 = cmpColumn31;
+		this.cmpColumn32 = cmpColumn32;
+		this.cmpColumn33 = cmpColumn33;
+		this.cmpColumn34 = cmpColumn34;
+		this.cmpColumn35 = cmpColumn35;
+		this.cmpColumn36 = cmpColumn36;
+		this.cmpColumn37 = cmpColumn37;
+		this.cmpColumn38 = cmpColumn38;
+		this.cmpColumn39 = cmpColumn39;
+		this.cmpColumn40 = cmpColumn40;
+		this.cmpColumn41 = cmpColumn41;
+		this.cmpColumn42 = cmpColumn42;
+		this.cmpColumn43 = cmpColumn43;
+		this.cmpColumn44 = cmpColumn44;
+		this.cmpColumn45 = cmpColumn45;
+		this.cmpColumn46 = cmpColumn46;
+		this.cmpColumn47 = cmpColumn47;
+		this.cmpColumn48 = cmpColumn48;
+		this.cmpColumn49 = cmpColumn49;
+		this.cmpColumn50 = cmpColumn50;
+	}
+
 	@PrePersist
 	private void onCreate() {
 		isActive = true;
@@ -262,7 +337,7 @@ public class Company {
 		this.cmpProject = cmpProject;
 	}
 
-	/*public String getCmpColumn1() {
+	public String getCmpColumn1() {
 		return cmpColumn1;
 	}
 
@@ -660,7 +735,7 @@ public class Company {
 
 	public void setCmpColumn50(String cmpColumn50) {
 		this.cmpColumn50 = cmpColumn50;
-	}*/
+	}
 
 	@Override
 	public String toString() {

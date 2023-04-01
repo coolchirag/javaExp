@@ -62,7 +62,7 @@ public class Employee {
 	@Column(name = "is_active")
 	private Integer isActive;
 	
-	/*@Column(name = "emp_column1")
+	@Column(name = "emp_column1")
 	private String empColumn1;
 	@Column(name = "emp_column2")
 	private String empColumn2;
@@ -165,7 +165,7 @@ public class Employee {
 	@Column(name = "emp_column49")
 	private String empColumn49;
 	@Column(name = "emp_column50")
-	private String empColumn50;*/
+	private String empColumn50;
 	
 	
 	@PrePersist
@@ -256,7 +256,7 @@ public class Employee {
 
 
 
-	/*public String getEmpColumn1() {
+	public String getEmpColumn1() {
 		return empColumn1;
 	}
 
@@ -852,7 +852,7 @@ public class Employee {
 
 	public void setEmpColumn50(String empColumn50) {
 		this.empColumn50 = empColumn50;
-	}*/
+	}
 
 
 
