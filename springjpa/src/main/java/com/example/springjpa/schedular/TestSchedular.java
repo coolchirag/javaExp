@@ -16,7 +16,7 @@ public class TestSchedular {
 	@Autowired
 	private TestService testService;
 
-	//@Scheduled(fixedDelay = 1000)
+	@Scheduled(fixedDelay = 1000)
 	public void testTask() {
 		System.out.println("Task one executed : "+count++);
 		try {
@@ -26,6 +26,6 @@ public class TestSchedular {
 			e.printStackTrace();
 		}
 		//testTask();
-		System.out.println("Method return");
+		System.out.println("==================Method return : "+System.currentTimeMillis());
 	}
 }

@@ -15,9 +15,9 @@ public class QueueMessageEventHandler {
     @TransactionalEventListener
     public void onQueueMessageEvent(String event) throws Exception {
 
-        LOGGER.debug("Start:: sending message from QueueMessageEventHandler to queue="+ event);
+        LOGGER.debug("========================Start:: sending message from QueueMessageEventHandler to queue="+ event+ " : "+System.currentTimeMillis());
         Thread.sleep(1000);
-        LOGGER.debug("Start:: sending message from QueueMessageEventHandler to queue="+ event);
+        LOGGER.debug("Start:: sending message from QueueMessageEventHandler to queue="+ event+" : "+System.currentTimeMillis());
 
         
     }

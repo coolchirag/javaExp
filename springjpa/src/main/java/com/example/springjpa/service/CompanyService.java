@@ -59,15 +59,15 @@ public class CompanyService {
 		 * System.out.println(company); System.out.println(company.getEmp()); }
 		 */
 		long startTime = System.currentTimeMillis();
-		//List<Company> allCMps = cmpRepo.findAll();
-		List<Company> allCMps = cmpRepo.findAll((root, query, criteriaBuilder) -> {
+		List<Company> allCMps = cmpRepo.findAll();
+		/*List<Company> allCMps = cmpRepo.findAll((root, query, criteriaBuilder) -> {
 			Fetch<Object, Object> employee = root.fetch("emp", JoinType.LEFT);
 			//employee.fetch("empProject"); //To work this keep Employee property Set<Project> empProject don't use List<Project> empProject because it gives hibernet exception (org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.example.springjpa.bean.Company.emp, com.example.springjpa.bean.Employee.empProject]
 			Fetch<Object, Object> empProjectMap = employee.fetch("empProjectEmp", JoinType.LEFT); ////To work this keep Employee property Set<ProjectEmpMap> empProjectEmp don't use List<ProjectEmpMap> empProjectEmp because it gives hibernet exception (org.hibernate.loader.MultipleBagFetchException)
 			Fetch<Object, Object> project = empProjectMap.fetch("projectEmpMapProject", JoinType.LEFT);
 			query.distinct(true);
 			return criteriaBuilder.equal(root.get("isActive"), true);
-		});
+		});*/
 		long queuryENdTime = System.currentTimeMillis() - startTime;
 		System.out.println("query end : " + queuryENdTime+" : "+allCMps.size());
 		for (Company cmp : allCMps) {
@@ -209,7 +209,7 @@ public class CompanyService {
 	}
 
 	public void insertMultipleCompany() {
-		for (int i = 401; i < 800; i++) {
+		for (int i = 801; i < 802; i++) {
 			Company c = new Company();
 			c.setCity("temp_test_performance");
 			String cmp_name = "temp_test_performance_"+i;
