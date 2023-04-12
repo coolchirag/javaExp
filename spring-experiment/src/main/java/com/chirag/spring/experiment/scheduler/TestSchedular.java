@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.chirag.spring.experiment.dto.TestRequest;
 
-@Component
+//@Component
 public class TestSchedular {
 	
 	ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
