@@ -7,10 +7,15 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.net.ssl.SSLContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
@@ -150,6 +155,38 @@ public class TestController {
 			      .setSSLSocketFactory(socketFactory)
 			      .build();
 			   return new HttpComponentsClientHttpRequestFactory(httpClient);
+	}
+	private static final String[] IP_HEADERS = {
+	        "X-Forwarded-For",
+	        "Proxy-Client-IP",
+	        "WL-Proxy-Client-IP",
+	        "HTTP_X_FORWARDED_FOR",
+	        "HTTP_X_FORWARDED",
+	        "HTTP_X_CLUSTER_CLIENT_IP",
+	        "HTTP_CLIENT_IP",
+	        "HTTP_FORWARDED_FOR",
+	        "HTTP_FORWARDED",
+	        "HTTP_VIA",
+	        "REMOTE_ADDR"
+
+	        // you can add more matching headers here ...
+	    };
+	
+	@GetMapping("/ipadd")
+	public String getIp(HttpServletRequest request) {
+		Enumeration<String> headerNames = request.getHeaderNames();
+		String respone = "";
+		Set<String> headerNameSet = new HashSet<>();
+		headerNameSet.addAll(Arrays.asList(IP_HEADERS));
+		while(headerNames.hasMoreElements()) {
+			headerNameSet.add(headerNames.nextElement());
+		}
+		
+		for (String header: headerNameSet) {
+            String value = request.getHeader(header);
+            respone = respone + header+" : "+value+"\n"; 
+        }
+        return respone;
 	}
 	@PostMapping("/testList")
 	public String loadDataList(@RequestBody(required = false) List<TestRequest> data) {

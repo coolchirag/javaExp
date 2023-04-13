@@ -34,7 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * This class intercept request and response and perfrom encypt and decrypt it*/
 
 
-@Component
+//@Component
 public class RequestResposeInterceptor extends AbstractHttpMessageConverter<Object> {
     private static final Logger LOGGER = LoggerFactory.getLogger(RequestResposeInterceptor.class);
     @Autowired
