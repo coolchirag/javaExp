@@ -34,8 +34,8 @@ public class TestController {
 		//cs.compareCmpBean();
 		//cs.getCompanysByCity();
 		
-		//cs.insertMultipleCompany();
-		cs.getCompanyFullDetails();
+		cs.insertMultipleCompany();
+		//cs.getCompanyFullDetails();
 		//es.getEmployeeFullDetails();
 		
 		//cs.getCmpByCityCount();

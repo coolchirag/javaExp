@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -25,7 +26,9 @@ import org.hibernate.annotations.Where;
 public class Employee {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(generator = "abc")
+	@GenericGenerator(name = "abc", strategy = "increment")
 	private int id;
 
 	@Column(name = "emp_name")

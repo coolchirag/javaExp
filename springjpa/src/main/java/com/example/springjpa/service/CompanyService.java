@@ -209,30 +209,31 @@ public class CompanyService {
 	}
 
 	public void insertMultipleCompany() {
-		for (int i = 801; i < 802; i++) {
+		List<Company> clist = new ArrayList<Company>();
+		for (int i = 801; i < 1010; i++) {
 			Company c = new Company();
 			c.setCity("temp_test_performance");
 			String cmp_name = "temp_test_performance_"+i;
 			c.setCompanyName(cmp_name);
 			
 			List<Employee> eList = new ArrayList<>();
-			for(int j = 1; j<10;j++) {
-			Employee emp = new Employee(); emp.setEmployeeName(cmp_name+"_emp_"+j);
-			  emp.setSalary(100000);
-			  emp.setCompnayToEmpMap(c);
-			  eList.add(emp);
-			}
+			
+			  for(int j = 1; j<10;j++) { Employee emp = new Employee();
+			  emp.setEmployeeName(cmp_name+"_emp_"+j); emp.setSalary(100000);
+			  emp.setCompnayToEmpMap(c); eList.add(emp); }
 			  
 			  c.setEmp(eList);
+			 
 			  
 			  
-			em.persist(c);
+			//em.persist(c);
+			clist.add(c);
 			
 			
 			  
 		}
 		
-		
+		cmpRepo.saveAll(clist);
 	
 		System.out.println("saved2");
 		System.out.println("Done2");

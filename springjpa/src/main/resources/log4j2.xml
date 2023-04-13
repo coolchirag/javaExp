@@ -56,11 +56,11 @@
 			<appender-ref ref="file-console" level="error" />
 			<appender-ref ref="CustomeLog4j2Appender" level="all" />
 		</logger>
-		<logger name="org.hibernate" level="error" additivity="false">
-			<appender-ref ref="console" level="error" />
+		<logger name="org.hibernate" level="debug" additivity="false">
+			<appender-ref ref="console" level="debug" />
 			<appender-ref ref="file-log" level="error" />
 			<appender-ref ref="file-console" level="error" />
-			<appender-ref ref="CustomeLog4j2Appender" level="all" />
+			<appender-ref ref="CustomeLog4j2Appender" level="debug" />
 		</logger>
 		<logger name="com.example" level="debug" additivity="false">
 			<appender-ref ref="console" level="debug" />
