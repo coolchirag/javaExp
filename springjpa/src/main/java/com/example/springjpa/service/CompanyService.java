@@ -164,10 +164,10 @@ public class CompanyService {
 	}
 	
 	public void insertMultipleCompany() {
-		for(int i=0; i<10;i++) {
+		for(int i=0; i<200;i++) {
 		Company c = new Company();
-		c.setCity("test");
-		c.setCompanyName("test5"+i);
+		c.setCity("test2");
+		c.setCompanyName("test6"+i);
 		em.persist(c);
 		}
 		try {
