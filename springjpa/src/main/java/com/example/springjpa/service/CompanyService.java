@@ -1,5 +1,6 @@
 package com.example.springjpa.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -164,18 +165,19 @@ public class CompanyService {
 	}
 	
 	public void insertMultipleCompany() {
+		List<Company> clist = new ArrayList<Company>();
 		for(int i=0; i<200;i++) {
 		Company c = new Company();
-		c.setCity("test2");
+		c.setCity("test5");
 		c.setCompanyName("test6"+i);
-		em.persist(c);
+		//em.persist(c);
+		clist.add(c);
 		}
-		try {
-			Thread.sleep(20*1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		cmpRepo.save(clist);
+		/*
+		 * try { Thread.sleep(20*1000); } catch (InterruptedException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); }
+		 */
 		System.out.println("saved2");
 		System.out.println("Done2");
 	}

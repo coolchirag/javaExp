@@ -21,6 +21,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -31,8 +32,10 @@ import org.hibernate.annotations.Where;
 public class Company {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", insertable = false, updatable = false)
+	@GeneratedValue(generator = "abc")
+	@GenericGenerator(name = "abc", strategy = "increment")
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Column(name = "id", insertable = false, updatable = false)
 	private int id;
 
 	@Column(name = "name")

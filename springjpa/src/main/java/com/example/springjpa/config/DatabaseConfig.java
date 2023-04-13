@@ -10,20 +10,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-@Configuration
+//@Configuration
 public class DatabaseConfig {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(DatabaseConfig.class);
 	
-	@Bean
-	@Primary
+	//@Bean
+	//@Primary
 	public DataSource getDatasource() {
 		//return generateDataSource("test_db@int-coding-platform-document-pipeline", "password", false);
 		return generateDataSource("newuser", "password2", false);
 	}
 	
-	@LiquibaseDataSource
-	@Bean
+	//@LiquibaseDataSource
+	//@Bean
 	public DataSource getLiquibasedDatasource() {
 		//return generateDataSource("test_db@int-coding-platform-document-pipeline", "password", true);
 		return generateDataSource("newuser", "password2", true);
