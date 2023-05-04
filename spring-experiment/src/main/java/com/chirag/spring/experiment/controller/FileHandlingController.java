@@ -38,6 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.chirag.spring.experiment.dto.FileWithDataRequest;
 import com.chirag.spring.experiment.dto.FileWithDataResponse;
+import com.chirag.spring.experiment.dto.TestRequest;
 
 @RestController
 public class FileHandlingController {
@@ -52,7 +53,7 @@ public class FileHandlingController {
 		return "Done";
 	}
 	@PostMapping(value = "/uploadFileWIthJson")
-	public String uploadFileWIthJson(@RequestPart("file") MultipartFile file, @RequestParam("data") String tempDto) {
+	public String uploadFileWIthJson(@RequestPart("file") MultipartFile file1, @RequestPart("file2") MultipartFile file2, @RequestPart("data") TestRequest tempDto) {
 		return "received";
 	}
 	
@@ -156,6 +157,23 @@ public class FileHandlingController {
 		formData.add("file", new FileSystemResource("/home/chiragj/git/javaExp/spring-experiment/src/main/resources/test.txt"));
 		
 		ResponseEntity<String> response = restTemplate.exchange(new URI("http://localhost:8080/uploadFileData"), HttpMethod.POST, new HttpEntity<MultiValueMap>(formData, headers), new ParameterizedTypeReference<String>() {
+		});
+		return "Done : " + response.getBody();
+	}
+	
+	@GetMapping("/internalUploadFilesWithJson")
+	public String internalUploadFilesWIthJson() throws RestClientException, URISyntaxException {
+		RestTemplate restTemplate = new RestTemplate();
+		
+		final MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+		headers.add(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE);
+		
+		MultiValueMap<String, Object> formData = new LinkedMultiValueMap<String, Object>();
+		formData.add("data", new TestRequest());
+		formData.add("file", new FileSystemResource("/home/chiragj/git/javaExp/spring-experiment/src/main/resources/test.txt"));
+		formData.add("file2", new FileSystemResource("/home/chiragj/git/javaExp/spring-experiment/src/main/resources/test.txt"));
+		
+		ResponseEntity<String> response = restTemplate.exchange(new URI("http://localhost:8080/uploadFileWIthJson"), HttpMethod.POST, new HttpEntity<MultiValueMap>(formData, headers), new ParameterizedTypeReference<String>() {
 		});
 		return "Done : " + response.getBody();
 	}

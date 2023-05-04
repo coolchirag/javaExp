@@ -1,7 +1,15 @@
 package com.example.springjpa.controller;
 
+import java.util.Set;
+import java.util.logging.LogManager;
+
 import javax.sql.DataSource;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.spi.ExtendedLogger;
+import org.apache.logging.log4j.spi.LoggerContext;
+import org.apache.logging.slf4j.Log4jLoggerFactory;
+import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -26,13 +34,33 @@ public class TestController {
 	
 	@GetMapping("/")
 	public String test() throws InterruptedException {
+		MDC.put("corel", "testc1"+System.currentTimeMillis());
+		LoggerContext context = org.apache.logging.log4j.LogManager.getContext();
+		LOG.isDebugEnabled();
 		long startTime = System.currentTimeMillis();
+		LOG.info("======================Start");
+		//ILoggerFactory iLoggerFactory = LoggerFactory.getILoggerFactory();
+		//LoggerContext cl = (LoggerContext) iLoggerFactory;
+		//cl.getLogger("com.example").setLevel(Level.ERROR);
+		/*Logger restClientLogger = (Logger) LoggerFactory.getLogger(TestController.class);
+		restClientLogger.setLevel(Level.DEBUG);
+		Log4jLoggerFactory obj = (Log4jLoggerFactory) iLoggerFactory;
+		Set<org.apache.logging.log4j.spi.LoggerContext> loggerContexts = obj.getLoggerContexts();
+		for(org.apache.logging.log4j.spi.LoggerContext ctx : loggerContexts) {
+			ExtendedLogger logger = ctx.getLogger("");
+			LOG.
+		}*/
+		
+		
+		
+		LOG.info("======================Start2");
 		/*
 		 * MDC.put("event", "Test event"); LOG.warn("Inside controller"); int i = 0; int
 		 * j = 5 / i;
 		 */
 		//cs.compareCmpBean();
 		//cs.getCompanysByCity();
+		
 		
 		cs.insertMultipleCompany();
 		//cs.getCompanyFullDetails();

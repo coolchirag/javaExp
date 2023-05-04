@@ -26,9 +26,9 @@ import org.hibernate.annotations.Where;
 public class Employee {
 
 	@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@GeneratedValue(generator = "abc")
-	@GenericGenerator(name = "abc", strategy = "increment")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	//@GeneratedValue(generator = "abc")
+	//@GenericGenerator(name = "abc", strategy = "increment")
 	private int id;
 
 	@Column(name = "emp_name")

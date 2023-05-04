@@ -210,7 +210,7 @@ public class CompanyService {
 
 	public void insertMultipleCompany() {
 		List<Company> clist = new ArrayList<Company>();
-		for (int i = 801; i < 1010; i++) {
+		for (int i = 2511; i < 2512; i++) {
 			Company c = new Company();
 			c.setCity("temp_test_performance");
 			String cmp_name = "temp_test_performance_"+i;
@@ -227,13 +227,13 @@ public class CompanyService {
 			  
 			  
 			//em.persist(c);
-			clist.add(c);
-			
-			
-			  
+			//clist.add(c);
+			cmpRepo.save(c);
+			System.out.println("Saved");
+			System.out.println(c.getId());  
 		}
 		
-		cmpRepo.saveAll(clist);
+		//cmpRepo.saveAll(clist);
 	
 		System.out.println("saved2");
 		System.out.println("Done2");

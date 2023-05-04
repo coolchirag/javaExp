@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
@@ -19,7 +20,6 @@ import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -46,9 +46,9 @@ import org.hibernate.annotations.Where;
 public class Company {
 
 	@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@GeneratedValue(generator = "abc")
-	@GenericGenerator(name = "abc", strategy = "increment")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	//@GeneratedValue(generator = "abc")
+	//@GenericGenerator(name = "abc", strategy = "increment")
 	@Column(name = "id", insertable = false, updatable = false)
 	private int id;
 

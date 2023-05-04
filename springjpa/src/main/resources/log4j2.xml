@@ -62,7 +62,7 @@
 			<appender-ref ref="file-console" level="error" />
 			<appender-ref ref="CustomeLog4j2Appender" level="debug" />
 		</logger>
-		<logger name="com.example" level="debug" additivity="false">
+		<logger name="com.example" level="debug2" additivity="false">
 			<appender-ref ref="console" level="debug" />
 			<appender-ref ref="file-log" level="debug" />
 			<appender-ref ref="file-console" level="debug" />
