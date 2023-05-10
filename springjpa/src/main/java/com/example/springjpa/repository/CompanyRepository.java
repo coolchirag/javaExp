@@ -50,7 +50,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer>, JpaS
 	@Query("select c.city from Company c group by c.city having count(1) > 1")
 	List<Object> findByCityCount();
 	
-	@Query("select group_concat(c.city) from Company c group by c.city")
+	@Query("select c.city from Company c group by c.city")
 	List<Object> findByCityCountGroup();
 	
 	@Query("select distinct c.city from Company c where c.companyName=:name")

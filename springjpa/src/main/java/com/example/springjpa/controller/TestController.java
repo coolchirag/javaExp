@@ -1,15 +1,8 @@
 package com.example.springjpa.controller;
 
-import java.util.Set;
-import java.util.logging.LogManager;
-
 import javax.sql.DataSource;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.spi.ExtendedLogger;
 import org.apache.logging.log4j.spi.LoggerContext;
-import org.apache.logging.slf4j.Log4jLoggerFactory;
-import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -18,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.springjpa.service.CompanyHierarchyService;
 import com.example.springjpa.service.CompanyService;
 import com.example.springjpa.service.EmployeeService;
 
@@ -31,6 +25,9 @@ public class TestController {
 	
 	@Autowired
 	private EmployeeService es;
+
+	@Autowired
+	private CompanyHierarchyService companyHierarchyService;
 	
 	@GetMapping("/")
 	public String test() throws InterruptedException {
@@ -62,7 +59,13 @@ public class TestController {
 		//cs.getCompanysByCity();
 		
 		
-		cs.insertMultipleCompany();
+		
+		//companyHierarchyService.getChildCompanyes();
+		cs.getCompany();
+		
+		
+		//cs.insertCompanyWithEmp();
+		//cs.insertMultipleCompany();
 		//cs.getCompanyFullDetails();
 		//es.getEmployeeFullDetails();
 		

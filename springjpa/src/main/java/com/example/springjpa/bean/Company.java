@@ -14,12 +14,14 @@ import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedEntityGraphs;
 import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PostRemove;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -46,7 +48,7 @@ import org.hibernate.annotations.Where;
 public class Company {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	//@GeneratedValue(generator = "abc")
 	//@GenericGenerator(name = "abc", strategy = "increment")
 	@Column(name = "id", insertable = false, updatable = false)
@@ -75,7 +77,7 @@ public class Company {
 	@Where(clause = "is_active = 1")
 	private List<Project> cmpProject;
 	
-	@Column(name = "is_active")
+	@Column(name = "is_active", nullable = false)
 	private Boolean isActive;
 	
 	/*
@@ -188,6 +190,8 @@ public class Company {
 	@Column(name = "cmp_column50")
 	private String cmpColumn50;
 	
+	@OneToOne(mappedBy = "childCompany")
+	private CompanyHierarchy childCmpHierarchy;
 	
 	
 
@@ -266,7 +270,7 @@ public class Company {
 
 	@PrePersist
 	private void onCreate() {
-		isActive = true;
+		//isActive = true;
 	}
 	
 	/*
@@ -752,6 +756,14 @@ public class Company {
 
 	public void setCmpColumn50(String cmpColumn50) {
 		this.cmpColumn50 = cmpColumn50;
+	}
+
+	public CompanyHierarchy getChildCmpHierarchy() {
+		return childCmpHierarchy;
+	}
+
+	public void setChildCmpHierarchy(CompanyHierarchy childCmpHierarchy) {
+		this.childCmpHierarchy = childCmpHierarchy;
 	}
 
 	@Override

@@ -103,6 +103,9 @@ public class CompanyService {
 	}
 
 	public void getCompany() {
+		Optional<Company> cmpOPtional = cmpRepo.findById(2);
+		Company company = cmpOPtional.get();
+		System.out.println(company);
 		// Company nullName = cmpRepo.findByCompanyName(null);
 		// System.out.println(nullName);
 		Integer id = 7;
@@ -180,10 +183,10 @@ public class CompanyService {
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void insertCompanyWithEmp() {
-		Company cmp = null;//new Company();
-		cmp.setCompanyName("test25");
+		Company cmp = new Company();
+		cmp.setCompanyName("test2525");
 		String str1 = "Status code 404, \"﻿<?xml";
-		cmp.setCity(str1);
+		cmp.setCity("hello");
 		cmpRepo.save(cmp);
 
 		/*
@@ -193,9 +196,9 @@ public class CompanyService {
 		 * em.detach(cmp);
 		 */
 
-		Company fetchedCmp = cmpRepo.findByCompanyName("test2");
+		//Company fetchedCmp = cmpRepo.findByCompanyName("test2");
 
-		System.out.println(fetchedCmp);
+		//System.out.println(fetchedCmp);
 		// emp.setCompnayToEmpMap(cmp);
 
 		// cmp.setEmployeeList(Collections.singletonList(emp));
