@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedEntityGraphs;
@@ -22,6 +23,8 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -85,7 +88,7 @@ public class Company {
 	 * this.emp = emp; this.cmpProject = cmpProject; }
 	 */
 
-	@Column(name = "cmp_column1")
+	/*@Column(name = "cmp_column1")
 	private String cmpColumn1;
 	@Column(name = "cmp_column2")
 	private String cmpColumn2;
@@ -188,10 +191,12 @@ public class Company {
 	@Column(name = "cmp_column49")
 	private String cmpColumn49;
 	@Column(name = "cmp_column50")
-	private String cmpColumn50;
+	private String cmpColumn50;*/
 	
-	@OneToOne(mappedBy = "childCompany")
-	private CompanyHierarchy childCmpHierarchy;
+	@OneToMany(fetch = FetchType.EAGER) /* (mappedBy = "childCompany") */
+	@JoinColumn(name = "c_cmp_id")
+	@Fetch(FetchMode.SUBSELECT)
+	private List<CompanyHierarchy> childCmpHierarchy;
 	
 	
 
@@ -216,7 +221,7 @@ public class Company {
 		this.city = city;
 		this.cmpProject = cmpProject;
 		this.isActive = isActive;
-		this.cmpColumn1 = cmpColumn1;
+		/*this.cmpColumn1 = cmpColumn1;
 		this.cmpColumn2 = cmpColumn2;
 		this.cmpColumn3 = cmpColumn3;
 		this.cmpColumn4 = cmpColumn4;
@@ -265,7 +270,7 @@ public class Company {
 		this.cmpColumn47 = cmpColumn47;
 		this.cmpColumn48 = cmpColumn48;
 		this.cmpColumn49 = cmpColumn49;
-		this.cmpColumn50 = cmpColumn50;
+		this.cmpColumn50 = cmpColumn50;*/
 	}
 
 	@PrePersist
@@ -358,7 +363,7 @@ public class Company {
 		this.cmpProject = cmpProject;
 	}
 
-	public String getCmpColumn1() {
+	/*public String getCmpColumn1() {
 		return cmpColumn1;
 	}
 
@@ -756,13 +761,13 @@ public class Company {
 
 	public void setCmpColumn50(String cmpColumn50) {
 		this.cmpColumn50 = cmpColumn50;
-	}
+	}*/
 
-	public CompanyHierarchy getChildCmpHierarchy() {
+	public List<CompanyHierarchy> getChildCmpHierarchy() {
 		return childCmpHierarchy;
 	}
 
-	public void setChildCmpHierarchy(CompanyHierarchy childCmpHierarchy) {
+	public void setChildCmpHierarchy(List<CompanyHierarchy> childCmpHierarchy) {
 		this.childCmpHierarchy = childCmpHierarchy;
 	}
 

@@ -103,6 +103,8 @@ public class CompanyService {
 	}
 
 	public void getCompany() {
+		List<Company> cmpByCity = cmpRepo.findByCityWithEmployeeBeanJoin("test");
+		System.out.println(cmpByCity);
 		Optional<Company> cmpOPtional = cmpRepo.findById(2);
 		Company company = cmpOPtional.get();
 		System.out.println(company);
