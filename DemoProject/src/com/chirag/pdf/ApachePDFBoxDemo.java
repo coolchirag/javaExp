@@ -6,9 +6,13 @@ import java.io.IOException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 
-public class PDFSpliter {
+public class ApachePDFBoxDemo {
 
 	public static void main(String[] args) {
+		splitPDFPerPage();
+	}
+	
+	private static void splitPDFPerPage() {
 		long currentTimeMillis = System.currentTimeMillis();
 		try {
 			// Load the PDF document
