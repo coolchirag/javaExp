@@ -38,7 +38,7 @@
 			<JsonLayout compact="true" properties="true" locationInfo="true" eventEol="true" includeStacktrace="true">
 				<KeyValuePair key="datetime" value="$${date:yyyy-MM-dd'T'HH:mm:ss.SSSZ}" />
 				<KeyValuePair key="sc" value="${ctx:corel}" />
-				<KeyValuePair key="lv" value="${event:Level}"/><!-- {date, ctx, lower, upper, main, env, sys, sd, java, marker, jvmrunargs, event, bundle, map, log4j} -->
+				<KeyValuePair key="lv" value="${event:Level}"/><!-- {date, ctx, lower, upper, main, env, sys, sd, java, marker, jvmrunargs, event, bundle, map, log4j}  are part of package name org.apache.logging.log4j.core.lookup i.e for event EventLookup.java-->
 			</JsonLayout>
 			<!-- <PatternLayout
 					pattern="[%-5level] %X{IP}:%X{ServiceID}:%X{corel}:%X{trans} %d{yyyy-MM-dd HH:mm:ss.SSS} %X{client} %X{username} [%t] [%c{15}:%M:%line] || %msg%n" /> -->
