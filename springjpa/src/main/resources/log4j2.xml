@@ -36,15 +36,15 @@
 		</RollingFile>
 		<Console name="console" target="SYSTEM_OUT">
 			<PatternLayout
-					pattern="[%-5level] %X{IP}:%X{ServiceID}:%X{corel}:%X{trans} %d{yyyy-MM-dd HH:mm:ss.SSS} %X{client} %X{username} [%t] %c{15}:%M || %msg%n" />
+					pattern="[%-5level] %X{IP}:%X{ServiceID}:%X{corel}:%X{trans} %d{yyyy-MM-dd HH:mm:ss.SSS} %X{client} %X{username} [%t] [%c{15}:%M:%line] || %msg%n" />
 		</Console>
 		<CustomeLog4j2Appender name = "CustomeLog4j2Appender">
 		<PatternLayout
-					pattern="[%-5level] %X{IP}:%X{ServiceID}:%X{corel}:%X{trans} %d{yyyy-MM-dd HH:mm:ss.SSS} %X{client} %X{username} [%t] %c{15}:%M || %msg%n" />
+					pattern="[%-5level] %X{IP}:%X{ServiceID}:%X{corel}:%X{trans} %d{yyyy-MM-dd HH:mm:ss.SSS} %X{client} %X{username} [%t] [%c{15}:%M:%line] || %msg%n" />
 		</CustomeLog4j2Appender>
 	</Appenders>
 	<Loggers>
-		<logger name="org.springframework" level="all" additivity="false">
+		<logger name="org.springframework" level="warn" additivity="false">
 			<appender-ref ref="console" level="all" />
 			<appender-ref ref="file-log" level="error" />
 			<appender-ref ref="file-console" level="error" />
@@ -62,7 +62,7 @@
 			<appender-ref ref="file-console" level="error" />
 			<appender-ref ref="CustomeLog4j2Appender" level="debug" />
 		</logger>
-		<logger name="com.example" level="debug2" additivity="false">
+		<logger name="com.example" level="debug" additivity="false">
 			<appender-ref ref="console" level="debug" />
 			<appender-ref ref="file-log" level="debug" />
 			<appender-ref ref="file-console" level="debug" />
