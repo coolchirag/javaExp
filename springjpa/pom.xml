@@ -8,15 +8,12 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<!-- <version>1.5.8.RELEASE</version> -->
 		<version>2.7.7</version>
-		<relativePath /> 
+		<relativePath />
 	</parent>
-	
-	<!-- <parent>
-		<groupId>com.ezdi.kpmg</groupId>
-		<artifactId>paas-parent</artifactId>
-		<version>1.0.0</version>
-	</parent> -->
-	
+
+	<!-- <parent> <groupId>com.ezdi.kpmg</groupId> <artifactId>paas-parent</artifactId> 
+		<version>1.0.0</version> </parent> -->
+
 	<groupId>com.example</groupId>
 	<artifactId>springjpa</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -27,112 +24,90 @@
 		<java.version>8</java.version>
 		<log4j.version>2.16.0</log4j.version>
 	</properties>
-	
-	<!-- <dependencyManagement>
-    	<dependencies>
-    	<dependency>
-				<groupId>org.apache.logging.log4j</groupId>
-				<artifactId>log4j-core</artifactId>
-				<version>${log4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.logging.log4j</groupId>
-				<artifactId>log4j-api</artifactId>
-				<version>${log4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.logging.log4j</groupId>
-				<artifactId>log4j-slf4j-impl</artifactId>
-				<version>${log4j.version}</version>
-			</dependency>
-			
-    		<dependency>
-    			<artifactId>jackson-databind</artifactId>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<version>2.13.1</version>
-    		</dependency>
-    		<dependency>
-    			<artifactId>jackson-core</artifactId>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<version>2.13.1</version>
-    		</dependency>
-    		<dependency>
-    			<artifactId>jackson-annotations</artifactId>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<version>2.13.1</version>
-    		</dependency>
-    		<dependency>
-			    <groupId>com.fasterxml.jackson.datatype</groupId>
-			    <artifactId>jackson-datatype-jsr310</artifactId>
-			    <version>2.13.1</version>
-			</dependency>
-			<dependency>
-			    <groupId>com.fasterxml.jackson.datatype</groupId>
-			    <artifactId>jackson-datatype-joda</artifactId>
-			    <version>2.10.1</version>
-			</dependency>
-    		<dependency>
-    			<groupId>com.fasterxml.jackson.dataformat</groupId>
-  				<artifactId>jackson-dataformat-xml</artifactId>
-				<version>2.13.1</version>
-    		</dependency>
-    		 <dependency>
-      			<groupId>io.projectreactor</groupId>
-      			<artifactId>reactor-core</artifactId>
-      			<version>3.4.13</version>
-    		</dependency>
-    	</dependencies>
-    </dependencyManagement> -->
+
+	<!-- <dependencyManagement> <dependencies> <dependency> <groupId>org.apache.logging.log4j</groupId> 
+		<artifactId>log4j-core</artifactId> <version>${log4j.version}</version> </dependency> 
+		<dependency> <groupId>org.apache.logging.log4j</groupId> <artifactId>log4j-api</artifactId> 
+		<version>${log4j.version}</version> </dependency> <dependency> <groupId>org.apache.logging.log4j</groupId> 
+		<artifactId>log4j-slf4j-impl</artifactId> <version>${log4j.version}</version> 
+		</dependency> <dependency> <artifactId>jackson-databind</artifactId> <groupId>com.fasterxml.jackson.core</groupId> 
+		<version>2.13.1</version> </dependency> <dependency> <artifactId>jackson-core</artifactId> 
+		<groupId>com.fasterxml.jackson.core</groupId> <version>2.13.1</version> </dependency> 
+		<dependency> <artifactId>jackson-annotations</artifactId> <groupId>com.fasterxml.jackson.core</groupId> 
+		<version>2.13.1</version> </dependency> <dependency> <groupId>com.fasterxml.jackson.datatype</groupId> 
+		<artifactId>jackson-datatype-jsr310</artifactId> <version>2.13.1</version> 
+		</dependency> <dependency> <groupId>com.fasterxml.jackson.datatype</groupId> 
+		<artifactId>jackson-datatype-joda</artifactId> <version>2.10.1</version> 
+		</dependency> <dependency> <groupId>com.fasterxml.jackson.dataformat</groupId> 
+		<artifactId>jackson-dataformat-xml</artifactId> <version>2.13.1</version> 
+		</dependency> <dependency> <groupId>io.projectreactor</groupId> <artifactId>reactor-core</artifactId> 
+		<version>3.4.13</version> </dependency> </dependencies> </dependencyManagement> -->
 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 			<exclusions>
-                <!-- <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion> -->
-                <exclusion>
-		            <groupId>com.zaxxer</groupId>
-		            <artifactId>HikariCP</artifactId>
-		        </exclusion>
-            </exclusions>
+				<!-- <exclusion> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-logging</artifactId> 
+					</exclusion> -->
+				<exclusion>
+					<groupId>com.zaxxer</groupId>
+					<artifactId>HikariCP</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-		
-		<!-- <dependency>
-			<groupId>com.raapid.common</groupId>
-			<artifactId>common-security</artifactId>
-			<version>1.1.0</version>
-		</dependency> -->
-		
-<dependency>
-		  <groupId>org.apache.tomcat</groupId>
-		  <artifactId>tomcat-jdbc</artifactId>
+
+		<!-- <dependency> <groupId>com.raapid.common</groupId> <artifactId>common-security</artifactId> 
+			<version>1.1.0</version> </dependency> -->
+
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-jdbc</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-		
+
+		<!-- <dependency>
+			<groupId>com.raapid.common</groupId>
+			<artifactId>common-security</artifactId>
+			<version>1.1.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-io</groupId>
+					<artifactId>commons-io</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.powermock</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+
+				</exclusion>
+			</exclusions>
+		</dependency> -->
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.22</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -142,30 +117,41 @@
 					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-		
-		<!-- <dependency>
-			<groupId>com.ezdi.kpmg</groupId>
-			<artifactId>common-logging</artifactId>
-			<version>1.0.0.14</version>
 		</dependency> -->
-		
+
+		<dependency> 
+			<groupId>org.springframework.boot</groupId> 
+			<artifactId>spring-boot-starter-test</artifactId> 
+			<scope>test</scope> 
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- <dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-inline</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<version>5.4.11</version>
+			<scope>test</scope>
+		</dependency> -->
+
+		<!-- <dependency> <groupId>com.ezdi.kpmg</groupId> <artifactId>common-logging</artifactId> 
+			<version>1.0.0.14</version> </dependency> -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-log4j2</artifactId>
 		</dependency>
-		
-		<!-- <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-core</artifactId>
-        <version>2.10.0</version>
-    </dependency>
 
-    <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>2.13.0</version>
-    </dependency> -->
+		<!-- <dependency> <groupId>org.apache.logging.log4j</groupId> <artifactId>log4j-core</artifactId> 
+			<version>2.10.0</version> </dependency> <dependency> <groupId>com.fasterxml.jackson.core</groupId> 
+			<artifactId>jackson-databind</artifactId> <version>2.13.0</version> </dependency> -->
 	</dependencies>
 
 	<build>
@@ -173,6 +159,48 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.9.0.2155</version>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.9</version>
+				<configuration>
+					<append>true</append>
+					<outputEncoding>UTF-8</outputEncoding>
+					<destFile>${sonar.jacoco.reportPaths}</destFile>
+					<dataFile>${sonar.jacoco.reportPaths}</dataFile>
+					<outputDirectory>${jacoco.output.path}</outputDirectory>
+					<excludes>
+						<exclude>com/raapid/service/apigateway/capc/**/*.class</exclude>
+						<exclude>com/raapid/service/apigateway/capc/dto/**</exclude>
+						<exclude>com/raapid/service/apigateway/capc/dtos/**</exclude>
+						<exclude>com/raapid/service/apigateway/capc/dao/**</exclude>
+						<exclude>com/raapid/service/apigateway/capc/repo/**</exclude>
+						<exclude>com/raapid/service/apigateway/capc/scheduler/**</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-site</id>
+						<phase>package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

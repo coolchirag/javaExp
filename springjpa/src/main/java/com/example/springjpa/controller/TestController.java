@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.springjpa.bean.Company;
 import com.example.springjpa.service.CompanyHierarchyService;
 import com.example.springjpa.service.CompanyService;
 import com.example.springjpa.service.EmployeeService;
@@ -32,7 +33,7 @@ public class TestController {
 	@GetMapping("/")
 	public String test() throws InterruptedException {
 		MDC.put("corel", "testc1"+System.currentTimeMillis());
-		LoggerContext context = org.apache.logging.log4j.LogManager.getContext();
+		//LoggerContext context = org.apache.logging.log4j.LogManager.getContext();
 		LOG.isDebugEnabled();
 		long startTime = System.currentTimeMillis();
 		LOG.info("======================Start");
@@ -61,7 +62,9 @@ public class TestController {
 		
 		
 		//companyHierarchyService.getChildCompanyes();
-		cs.getCompany();
+		//cs.getCompany();
+		
+		cs.updateCompany();
 		
 		
 		//cs.insertCompanyWithEmp();

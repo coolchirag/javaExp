@@ -90,6 +90,16 @@ public class CompanyService {
 		System.out.println("s end : " + (System.currentTimeMillis() - startTime - queuryENdTime));
 
 	}
+	
+	public void updateCompany() {
+		Company company = cmpRepo.findById(1).get();
+		company.setCity("pt2");
+		cmpRepo.save(company);
+		System.out.println("-----------------Done1-----------------");
+		em.flush();
+		System.out.println("-----------------Done2-----------------");
+		
+	}
 
 	public void getCompanysByCity() {
 		/*
