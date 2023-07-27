@@ -41,7 +41,7 @@ public class TestControllerTestCases {
 	@Test
 	public void test() throws Exception {
 		
-		//this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+		//this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();//By this linke we are also mocking entier webApplicationCOntext means we will bypass all filters and other things
 		
 		Optional<Company> cmpOp = Optional.of(new Company());
 		Mockito.when(cmpRepo.findById(anyInt())).thenReturn(cmpOp);
