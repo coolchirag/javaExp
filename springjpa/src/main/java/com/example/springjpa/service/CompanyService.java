@@ -91,6 +91,10 @@ public class CompanyService {
 
 	}
 	
+	public Integer getData(String data) {
+		return null;
+	}
+	
 	public void updateCompany() {
 		Company company = cmpRepo.findById(1).get();
 		company.setCity("pt2");

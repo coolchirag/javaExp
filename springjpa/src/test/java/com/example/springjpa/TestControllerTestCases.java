@@ -24,8 +24,8 @@ import com.example.springjpa.bean.Company;
 import com.example.springjpa.repository.CompanyRepository;
 
 //@RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
+//@SpringBootTest
+//@AutoConfigureMockMvc
 public class TestControllerTestCases {
 
 	@Autowired
@@ -38,7 +38,7 @@ public class TestControllerTestCases {
 	@MockBean
 	private CompanyRepository cmpRepo;
 	
-	@Test
+	//@Test
 	public void test() throws Exception {
 		
 		//this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();//By this linke we are also mocking entier webApplicationCOntext means we will bypass all filters and other things

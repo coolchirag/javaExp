@@ -30,6 +30,13 @@ public class TestController {
 	@Autowired
 	private CompanyHierarchyService companyHierarchyService;
 	
+	@GetMapping("/exp")
+	public String testExp() throws InterruptedException {
+		int i =0;
+		int b=10/i;
+		return "";
+	}
+	
 	@GetMapping("/")
 	public String test() throws InterruptedException {
 		MDC.put("corel", "testc1"+System.currentTimeMillis());
@@ -37,6 +44,7 @@ public class TestController {
 		LOG.isDebugEnabled();
 		long startTime = System.currentTimeMillis();
 		LOG.info("======================Start");
+		cs.getData("hello");
 		//ILoggerFactory iLoggerFactory = LoggerFactory.getILoggerFactory();
 		//LoggerContext cl = (LoggerContext) iLoggerFactory;
 		//cl.getLogger("com.example").setLevel(Level.ERROR);
@@ -64,7 +72,7 @@ public class TestController {
 		//companyHierarchyService.getChildCompanyes();
 		//cs.getCompany();
 		
-		cs.updateCompany();
+		//cs.updateCompany();
 		
 		
 		//cs.insertCompanyWithEmp();
