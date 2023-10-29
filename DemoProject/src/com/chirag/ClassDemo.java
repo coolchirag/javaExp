@@ -3,6 +3,7 @@ package com.chirag;
 public class ClassDemo {
 
 	public static void f3(I obj) {
+		
 		System.out.println("I");
 	}
 	
