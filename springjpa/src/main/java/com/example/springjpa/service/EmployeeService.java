@@ -71,6 +71,11 @@ public class EmployeeService {
 		System.out.println("s end : " + (System.currentTimeMillis() - startTime - queuryENdTime));
 
 	}
+	
+	public void countEmpsByCmp() {
+		long empCounts = empRepo.countByCompanyId(1);
+		System.out.println(empCounts);
+	}
 
 	public void insertEmployeeWithCompany() {
 		Company c = null;//new Company();

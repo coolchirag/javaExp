@@ -40,5 +40,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>, Jp
 	
 	Employee findByEmployeeNameAndCompanyId(String name, Integer id);
 
+	long countByCompanyId(Integer companyId);
 	
 }

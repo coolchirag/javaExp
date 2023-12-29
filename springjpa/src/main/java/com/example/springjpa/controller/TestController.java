@@ -44,7 +44,8 @@ public class TestController {
 		LOG.isDebugEnabled();
 		long startTime = System.currentTimeMillis();
 		LOG.info("======================Start");
-		cs.getData("hello");
+		//cs.getData("hello");
+		es.countEmpsByCmp();
 		//ILoggerFactory iLoggerFactory = LoggerFactory.getILoggerFactory();
 		//LoggerContext cl = (LoggerContext) iLoggerFactory;
 		//cl.getLogger("com.example").setLevel(Level.ERROR);
