@@ -6,7 +6,6 @@ public class BitOPeration {
 		Integer i = 3;
 		Integer j = 1;
 		Integer k = i & j;
-		
 		System.out.println(k);
 	}
 }
