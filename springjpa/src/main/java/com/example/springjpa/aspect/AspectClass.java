@@ -76,8 +76,8 @@ public class AspectClass {
 		System.out.println(jp+":"+ex+" : "+name);
 	}*/
 	
-	@Around("allMethod()")
-	public void aroundAspect(ProceedingJoinPoint jp) throws Throwable {
+	//@Around("allMethod()")
+	//public void aroundAspect(ProceedingJoinPoint jp) throws Throwable {
 		/*
 		 * System.out.println("Inside around1");
 		 * 
@@ -92,7 +92,7 @@ public class AspectClass {
 		 * System.out.println("Around exception : "+e); throw e; }
 		 * 
 		 * 
-		 */}
+		 }*/
 	@Pointcut("execution(* com.example.springjpa..*(..)) && !execution(* com.example.springjpa.SpringjpaApplication.*(..)) ")
 	public void allMethod() {
 		//No need to provide implementation
