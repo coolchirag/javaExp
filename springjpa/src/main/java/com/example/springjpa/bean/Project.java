@@ -2,38 +2,34 @@ package com.example.springjpa.bean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Where;
-
+import javax.persistence.Transient;
 @Entity
 @Table(name = "project")
-@Where(clause = " is_active = 1 ")
 public class Project {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	@Column(name = "id", insertable = false, updatable = false)
+	private Integer id;
 
 	@Column(name = "project_name")
 	private String projectName;
 	
-	@Column(name = "cmp_id", insertable = false, updatable = false )
+	@Column(name = "cmp_id")
 	//@Transient
 	private Integer companyId;
 	
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="cmp_id"/*, insertable = false, updatable = false*/)
-	@Where(clause=" is_active = 1 ")
-	private Company projectCompany;
+	//@ManyToOne(fetch = FetchType.LAZY)
+	//@JoinColumn(name="cmp_id"/*, insertable = false, updatable = false*/)
+	//@Where(clause=" is_active = 1 ")
+	@Transient
+	//private Company projectCompany;
 	
 	@Column(name = "is_active")
 	private Integer isActive;
@@ -56,17 +52,22 @@ public class Project {
 		this.isActive = isActive;
 	}
 
+	
 
 
-	public int getId() {
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+
+
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	
+
+
 	public String getProjectName() {
 		return projectName;
 	}
@@ -82,18 +83,6 @@ public class Project {
 	
 	
 	
-
-	public Company getProjectCompany() {
-		return projectCompany;
-	}
-
-
-
-	public void setProjectCompany(Company projectCompany) {
-		this.projectCompany = projectCompany;
-	}
-
-
 
 	public Integer getCompanyId() {
 		return companyId;

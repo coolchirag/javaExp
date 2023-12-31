@@ -2,7 +2,6 @@ package com.example.springjpa.controller;
 
 import javax.sql.DataSource;
 
-import org.apache.logging.log4j.spi.LoggerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -11,24 +10,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.springjpa.bean.Company;
-import com.example.springjpa.service.CompanyHierarchyService;
-import com.example.springjpa.service.CompanyService;
-import com.example.springjpa.service.EmployeeService;
+import com.example.springjpa.service.ProjectService;
 
 @RestController
 public class TestController {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(TestController.class);
 	
-	@Autowired
-	private CompanyService cs;
+	//@Autowired
+	//private CompanyService cs;
+	
+	//@Autowired
+	//private EmployeeService es;
 	
 	@Autowired
-	private EmployeeService es;
+	private ProjectService projectService;
 
-	@Autowired
-	private CompanyHierarchyService companyHierarchyService;
+	//@Autowired
+	//private CompanyHierarchyService companyHierarchyService;
 	
 	@GetMapping("/exp")
 	public String testExp() throws InterruptedException {
@@ -44,8 +43,9 @@ public class TestController {
 		LOG.isDebugEnabled();
 		long startTime = System.currentTimeMillis();
 		LOG.info("======================Start");
+		projectService.getProject();
 		//cs.getData("hello");
-		es.countEmpsByCmp();
+		//es.countEmpsByCmp();
 		//ILoggerFactory iLoggerFactory = LoggerFactory.getILoggerFactory();
 		//LoggerContext cl = (LoggerContext) iLoggerFactory;
 		//cl.getLogger("com.example").setLevel(Level.ERROR);
@@ -99,21 +99,11 @@ public class TestController {
 	}
 	
 	private void threadExecution() {
-		int threadSize = 10;
-		long threadSleep = 20000;
-		for(int i=0; i<threadSize; i++) {
-			Thread t = new Thread(() -> cs.getCompany());
-			t.start();
-		}
+		
 	}
 	
 	@GetMapping("/test2")
-	public String test2() throws InterruptedException {
-		cs.insertCompanyWithEmp();
-		System.out.println("test2 "+Thread.currentThread().getId());
-		Thread.sleep(60*1000);
-		return "Hello";
-	}
+	public String test2() throws InterruptedException {return "";}
 	
 	@Autowired
 	private DataSource ds;

@@ -67,12 +67,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<exclusions>
+			<!--<exclusions>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
-			</exclusions>
+			</exclusions>-->
 		</dependency>
 
 		<!-- <dependency>
@@ -102,10 +102,10 @@
 			<version>8.0.22</version>
 		</dependency>
 
-		<dependency>
+		<!--<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
-		</dependency>
+		</dependency>-->
 
 		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -119,7 +119,7 @@
 			</exclusions>
 		</dependency> -->
 
-		<dependency> 
+		<!--<dependency> 
 			<groupId>org.springframework.boot</groupId> 
 			<artifactId>spring-boot-starter-test</artifactId> 
 			<scope>test</scope> 
@@ -128,7 +128,7 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
 			<scope>test</scope>
-		</dependency>
+		</dependency>-->
 		<!-- <dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-inline</artifactId>
@@ -144,10 +144,10 @@
 		<!-- <dependency> <groupId>com.ezdi.kpmg</groupId> <artifactId>common-logging</artifactId> 
 			<version>1.0.0.14</version> </dependency> -->
 
-		<dependency>
+		<!--<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-log4j2</artifactId>
-		</dependency>
+		</dependency>-->
 
 		<!-- <dependency> <groupId>org.apache.logging.log4j</groupId> <artifactId>log4j-core</artifactId> 
 			<version>2.10.0</version> </dependency> <dependency> <groupId>com.fasterxml.jackson.core</groupId> 
@@ -162,46 +162,6 @@
 			</plugin>
 
 
-			<plugin>
-				<groupId>org.sonarsource.scanner.maven</groupId>
-				<artifactId>sonar-maven-plugin</artifactId>
-				<version>3.9.0.2155</version>
-			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.9</version>
-				<configuration>
-					<append>true</append>
-					<outputEncoding>UTF-8</outputEncoding>
-					<destFile>${sonar.jacoco.reportPaths}</destFile>
-					<dataFile>${sonar.jacoco.reportPaths}</dataFile>
-					<outputDirectory>${jacoco.output.path}</outputDirectory>
-					<excludes>
-						<exclude>com/raapid/service/apigateway/capc/**/*.class</exclude>
-						<exclude>com/raapid/service/apigateway/capc/dto/**</exclude>
-						<exclude>com/raapid/service/apigateway/capc/dtos/**</exclude>
-						<exclude>com/raapid/service/apigateway/capc/dao/**</exclude>
-						<exclude>com/raapid/service/apigateway/capc/repo/**</exclude>
-						<exclude>com/raapid/service/apigateway/capc/scheduler/**</exclude>
-					</excludes>
-				</configuration>
-				<executions>
-					<execution>
-						<id>agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>jacoco-site</id>
-						<phase>package</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
 
