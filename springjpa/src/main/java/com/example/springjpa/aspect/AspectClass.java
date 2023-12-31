@@ -76,22 +76,32 @@ public class AspectClass {
 		System.out.println(jp+":"+ex+" : "+name);
 	}*/
 	
-	//@Around("allMethod()")
-	//public void aroundAspect(ProceedingJoinPoint jp) throws Throwable {
-		/*
-		 * System.out.println("Inside around1");
-		 * 
-		 * Class className = jp.getTarget().getClass(); Signature signature =
-		 * jp.getSignature(); String methodName = signature.getName(); //final Logger
-		 * log = LoggerFactory.getLogger(className); final StringBuilder logStr = new
-		 * StringBuilder("Inside : " + className.getName() + "." + methodName);
-		 * 
-		 * if (className.getPackage().getName().contains(".controller")) {
-		 * 
-		 * } try { jp.proceed(); System.out.println("around2"); } catch (Throwable e) {
-		 * System.out.println("Around exception : "+e); throw e; }
-		 * 
-		 * 
+	/*@Around("allMethod()")
+	public void aroundAspect(ProceedingJoinPoint jp) throws Throwable {
+		
+		  System.out.println("Inside around1");
+		  
+		  Class className = jp.getTarget().getClass(); Signature signature =
+		  jp.getSignature(); String methodName = signature.getName(); 
+		  final Logger
+		  log = LoggerFactory.getLogger(className); 
+		  final StringBuilder logStr = new
+		  StringBuilder("Inside : " + className.getName() + "." + methodName);
+		  
+			*
+			 * if (className.getPackage().getName().contains(".controller")) {
+			 * 
+			 * }
+			  
+		  try {
+			  jp.proceed(); 
+			  System.out.println("around2");
+			  } catch (Throwable e) {
+				  System.out.println("Around exception : "+e); 
+				  throw e;
+				  }
+		  
+		  
 		 }*/
 	@Pointcut("execution(* com.example.springjpa..*(..)) && !execution(* com.example.springjpa.SpringjpaApplication.*(..)) ")
 	public void allMethod() {
