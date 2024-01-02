@@ -1,18 +1,15 @@
 package com.example.springjpa.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Fetch;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
@@ -23,8 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.springjpa.bean.Company;
 import com.example.springjpa.bean.Employee;
-import com.example.springjpa.bean.Project;
-import com.example.springjpa.bean.ProjectEmpMap;
 import com.example.springjpa.dto.CustomCmpDto;
 import com.example.springjpa.repository.CompanyRepository;
 import com.example.springjpa.repository.EmployeeRepository;
@@ -49,6 +44,22 @@ public class CompanyService {
 		List<Object> cmps = cmpRepo.findByCityCount();
 		System.out.println(cmps);
 	}
+	
+	public void getCompanyDetailByCriteriaBuilder() {
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Company> criteriaQuery = builder.createQuery(Company.class);
+    	Root<Company> company = criteriaQuery.from(Company.class);
+    	Fetch<Object, Object> emp = company.fetch("emp", JoinType.LEFT);
+		Join<Object, Object> project = company.join("cmpProject");
+		project.on(builder.equal(project.get("projectName"), "test1"));
+		criteriaQuery.where(builder.equal(company.get("companyName"), "cmp1"), builder.equal(company.get("city"), "city1"));
+   	 TypedQuery<Company> query = em.createQuery(criteriaQuery);
+   	 List<Company> companies = query.getResultList();
+   	 for(Company cmp : companies) {
+   		 System.out.println(cmp);
+   	 }
+		
+	}
 
 	public void getCompanyFullDetails() {
 		/*
@@ -63,8 +74,8 @@ public class CompanyService {
 		List<Company> allCMps = cmpRepo.findAll((root, query, criteriaBuilder) -> {
 			Fetch<Object, Object> employee = root.fetch("emp", JoinType.LEFT);
 			//employee.fetch("empProject"); //To work this keep Employee property Set<Project> empProject don't use List<Project> empProject because it gives hibernet exception (org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.example.springjpa.bean.Company.emp, com.example.springjpa.bean.Employee.empProject]
-			//Fetch<Object, Object> empProjectMap = employee.fetch("empProjectEmp", JoinType.LEFT); ////To work this keep Employee property Set<ProjectEmpMap> empProjectEmp don't use List<ProjectEmpMap> empProjectEmp because it gives hibernet exception (org.hibernate.loader.MultipleBagFetchException)
-			//Fetch<Object, Object> project = empProjectMap.fetch("projectEmpMapProject", JoinType.LEFT);
+			Fetch<Object, Object> empProjectMap = employee.fetch("empProjectEmp", JoinType.LEFT); ////To work this keep Employee property Set<ProjectEmpMap> empProjectEmp don't use List<ProjectEmpMap> empProjectEmp because it gives hibernet exception (org.hibernate.loader.MultipleBagFetchException)
+			Fetch<Object, Object> project = empProjectMap.fetch("projectEmpMapProject", JoinType.LEFT);
 			//query.distinct(true);
 			return criteriaBuilder.equal(root.get("isActive"), true);
 		});
