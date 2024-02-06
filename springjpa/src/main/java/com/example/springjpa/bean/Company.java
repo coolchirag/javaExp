@@ -193,7 +193,7 @@ public class Company {
 	@Column(name = "cmp_column50")
 	private String cmpColumn50;*/
 	
-	@OneToMany(fetch = FetchType.EAGER) /* (mappedBy = "childCompany") */
+	@OneToMany(fetch = FetchType.LAZY) /* (mappedBy = "childCompany") */
 	@JoinColumn(name = "c_cmp_id")
 	@Fetch(FetchMode.SUBSELECT)
 	private List<CompanyHierarchy> childCmpHierarchy;
@@ -306,6 +306,7 @@ public class Company {
 	}
 
 	public void setEmp(List<Employee> emp) {
+		System.out.println("---------------------hello--------");
 		emp.stream().forEach(e -> e.setCompnayToEmpMap(this));
 		this.emp = emp;
 	}

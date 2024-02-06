@@ -45,7 +45,7 @@ public class TestController {
 		long startTime = System.currentTimeMillis();
 		LOG.info("======================Start");
 		//cs.getData("hello");
-		cs.getCompanyDetailByCriteriaBuilder();
+		cs.getCompanyDetailByJPQL();
 		//cs.getCompanyFullDetails();
 		//es.countEmpsByCmp();
 		//ILoggerFactory iLoggerFactory = LoggerFactory.getILoggerFactory();

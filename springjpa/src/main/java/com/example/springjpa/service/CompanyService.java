@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -51,14 +52,43 @@ public class CompanyService {
     	Root<Company> company = criteriaQuery.from(Company.class);
     	Fetch<Object, Object> emp = company.fetch("emp", JoinType.LEFT);
 		Join<Object, Object> project = company.join("cmpProject");
-		project.on(builder.equal(project.get("projectName"), "test1"));
-		criteriaQuery.where(builder.equal(company.get("companyName"), "cmp1"), builder.equal(company.get("city"), "city1"));
+		//project.on(builder.equal(project.get("projectName"), "test1"));
+		//criteriaQuery.where(builder.equal(company.get("companyName"), "cmp1"), builder.equal(company.get("city"), "city1"));
    	 TypedQuery<Company> query = em.createQuery(criteriaQuery);
    	 List<Company> companies = query.getResultList();
    	 for(Company cmp : companies) {
    		 System.out.println(cmp);
    	 }
 		
+	}
+	
+	public void getCompanyDetailByCriteriaBuilderTemp() {
+		cmpRepo.joinCOmpanyWIthoutRelation();
+		
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Company> criteriaQuery = builder.createQuery(Company.class);
+    	Root<Company> company = criteriaQuery.from(Company.class);
+    	Root<Employee> emp = criteriaQuery.from(Employee.class);
+    	criteriaQuery.where(builder.or(builder.equal(emp.get("companyId"), 1), builder.equal(emp.get("salary"),1000)));
+    	//emp.on(builder.or(builder.equal(emp.get("salary"),1000) ));
+		//Join<Object, Object> project = company.join("cmpProject");
+		//project.on(builder.equal(project.get("projectName"), "test1"));
+		//criteriaQuery.where(builder.equal(company.get("companyName"), "cmp1"), builder.equal(company.get("city"), "city1"));
+   	 TypedQuery<Company> query = em.createQuery(criteriaQuery);
+   	 List<Company> companies = query.getResultList();
+   	 for(Company cmp : companies) {
+   		 System.out.println(cmp);
+   	 }
+		
+	}
+	
+	public void getCompanyDetailByJPQL() {
+		StringBuilder sb = new StringBuilder("Select distinct c from Company c inner join Fetch c.emp e");
+		Query query = em.createQuery(sb.toString());
+		List<Company> companies = query.getResultList();
+		 for(Company cmp : companies) {
+	   		 System.out.println(cmp);
+	   	 }
 	}
 
 	public void getCompanyFullDetails() {

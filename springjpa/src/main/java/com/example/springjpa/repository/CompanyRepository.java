@@ -44,6 +44,9 @@ public interface CompanyRepository extends JpaRepository<Company, Integer>, JpaS
 	@Query("select distinct c from Company c inner join fetch Employee e on c.id = e.companyId where c.city = :city")
 	List<Company> findByCityWithEmployeeBeanJoin(@Param("city") String city);
 	
+	@Query("select c from Company c inner join fetch Employee e on e.id= c.id")
+	List<Company> joinCOmpanyWIthoutRelation();
+	
 	@Query("select distinct c from Company c inner join fetch c.emp e where c.city = :city")
 	List<Company> findByCityWithEmployee(@Param("city") String city);
 	
