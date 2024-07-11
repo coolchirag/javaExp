@@ -20,7 +20,7 @@ import com.example.springjpa.repository.CompanyRepository;
 import com.example.springjpa.repository.EmployeeRepository;
 
 @Service
-@Transactional
+@javax.transaction.Transactional
 public class EmployeeService {
 	
 	@Autowired
@@ -31,6 +31,12 @@ public class EmployeeService {
 	
 	@Autowired
 	private CompanyRepository cmpRepo;
+	
+	public void throwException() {
+		/*Not  Works bracking transection*/
+		int i = 0;
+		int b = 5/i;
+	}
 	
 	public void getEmployeeFullDetails() {
 		/*

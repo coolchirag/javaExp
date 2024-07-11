@@ -14,6 +14,9 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -28,6 +31,8 @@ import com.example.springjpa.repository.EmployeeRepository;
 @Service
 @Transactional // (propagation = Propagation.NESTED)
 public class CompanyService {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(CompanyService.class);
 
 	@Autowired
 	private EntityManager em;
@@ -41,6 +46,25 @@ public class CompanyService {
 	@Autowired
 	private EmployeeService empService;
 
+	public void checkTrasection() {
+		Company company = cmpRepo.findById(1).get();
+		company.setCity(company.getCity()+5);
+		cmpRepo.save(company);
+		em.flush();
+		try {
+			empService.throwException();
+			//throwException();
+		} catch(Exception e) {
+			
+		}
+	}
+	
+	public void throwException() {
+		/* Works fine without bracking transection*/
+		int i = 0;
+		int b = 5/i;
+	}
+	
 	public void getCmpByCityCount() {
 		List<Object> cmps = cmpRepo.findByCityCount();
 		System.out.println(cmps);
@@ -270,7 +294,7 @@ public class CompanyService {
 
 	public void insertMultipleCompany() {
 		List<Company> clist = new ArrayList<Company>();
-		for (int i = 2511; i < 2512; i++) {
+		for (int i = 1; i < 20; i++) {
 			Company c = new Company();
 			c.setCity("temp_test_performance");
 			String cmp_name = "temp_test_performance_"+i;
@@ -287,13 +311,13 @@ public class CompanyService {
 			  
 			  
 			//em.persist(c);
-			//clist.add(c);
-			cmpRepo.save(c);
+			clist.add(c);
+			//cmpRepo.save(c);
 			System.out.println("Saved");
 			System.out.println(c.getId());  
 		}
 		
-		//cmpRepo.saveAll(clist);
+		cmpRepo.saveAll(clist);
 	
 		System.out.println("saved2");
 		System.out.println("Done2");
