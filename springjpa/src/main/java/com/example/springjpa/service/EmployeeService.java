@@ -20,13 +20,13 @@ import com.example.springjpa.repository.CompanyRepository;
 import com.example.springjpa.repository.EmployeeRepository;
 
 @Service
-@javax.transaction.Transactional
+@Transactional
 public class EmployeeService {
 	
 	@Autowired
 	private EntityManager em;
 	
-	@Autowired
+	//@Autowired
 	private EmployeeRepository empRepo;
 	
 	@Autowired

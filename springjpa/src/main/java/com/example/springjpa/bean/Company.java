@@ -21,6 +21,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Fetch;
@@ -33,7 +34,7 @@ import org.hibernate.annotations.Where;
 @Table(name = "company")
 @Where(clause = "is_active=1")
 @SQLDelete(sql = "update company set is_active = null where id = ? ")
-@NamedEntityGraphs({
+/*@NamedEntityGraphs({
 	@NamedEntityGraph(
 			name = "cmpwithemp",
 			attributeNodes = @NamedAttributeNode("emp")),
@@ -48,13 +49,14 @@ import org.hibernate.annotations.Where;
 					@NamedSubgraph(name ="sub.project", attributeNodes = @NamedAttributeNode(value = "empProjectEmp", subgraph = "sub.project.mst")),
 					@NamedSubgraph(name = "sub.project.mst", attributeNodes = @NamedAttributeNode(value = "projectEmpMapProject"))
 			})
-})
+})*/
 public class Company {
 
 	@Id
 	//@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@GeneratedValue(generator = "abc")
-	@GenericGenerator(name = "abc", strategy = "increment")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	//@GeneratedValue(generator = "abc")
+	//@GenericGenerator(name = "abc", strategy = "increment")
 	@Column(name = "id")
 	private int id;
 
@@ -71,14 +73,16 @@ public class Company {
 	//@JoinColumn(name = "company_id"/* , insertable = false, updatable = false */)
 	//private List<Employee> employeeList;
 	
+	//@Transient
 	@OneToMany(mappedBy = "compnayToEmpMap", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	//@Fetch(FetchMode.JOIN)
-	@Where(clause = "is_active = 1")
+	//@Where(clause = "is_active = 1")
 	private List<Employee> emp;
 	
-	@OneToMany(mappedBy = "projectCompany", fetch = FetchType.LAZY)
+	//@OneToMany(mappedBy = "projectCompany", fetch = FetchType.LAZY)
 	//@Fetch(FetchMode.JOIN)
-	@Where(clause = "is_active = 1")
+	//@Where(clause = "is_active = 1")
+	@Transient
 	private List<Project> cmpProject;
 	
 	@Column(name = "is_active", nullable = false)
@@ -194,9 +198,10 @@ public class Company {
 	@Column(name = "cmp_column50")
 	private String cmpColumn50;*/
 	
-	@OneToMany(fetch = FetchType.LAZY) /* (mappedBy = "childCompany") */
-	@JoinColumn(name = "c_cmp_id")
-	@Fetch(FetchMode.SUBSELECT)
+	//@OneToMany(fetch = FetchType.LAZY) /* (mappedBy = "childCompany") */
+	//@JoinColumn(name = "c_cmp_id")
+	//@Fetch(FetchMode.SUBSELECT)
+	@Transient
 	private List<CompanyHierarchy> childCmpHierarchy;
 	
 	

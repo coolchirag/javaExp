@@ -13,8 +13,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Where;
 
-@Entity
-@Table(name = "project")
+//@Entity
+//@Table(name = "project")
 @Where(clause = " is_active = 1 ")
 public class Project {
 

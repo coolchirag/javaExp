@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.example.springjpa.bean.ProjectEmpMap;
 
 @Repository
-public interface ProjectRepository extends JpaRepository<ProjectEmpMap, Integer>{
+public interface ProjectRepository /*extends JpaRepository<ProjectEmpMap, Integer>*/{
 	
 }

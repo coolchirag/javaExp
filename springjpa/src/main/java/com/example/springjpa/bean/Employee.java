@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
@@ -21,7 +22,7 @@ import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "employee")
-//@Where(clause = " is_active = 1 ")
+@Where(clause = " is_active = 1 ")
 @SQLDelete(sql = "update employee set is_active = null where id = ? ")
 public class Employee {
 
@@ -52,14 +53,15 @@ public class Employee {
 	//@JoinColumn(name = "cmp_id", referencedColumnName = "id" /*, insertable = false, updatable = false*/)
 	private Company compnayToEmpMap;
 	
-	@OneToMany(mappedBy = "projectEmpMapEmployee")
-	//@Transient
+	//@OneToMany(mappedBy = "projectEmpMapEmployee")
+	@Transient
 	private Set<ProjectEmpMap> empProjectEmp;
 	
-	@OneToMany
+	@Transient
+	/*@OneToMany
 	@JoinTable(name = "project_emp_map",
 			joinColumns =  {@JoinColumn(name="emp_id")},
-			inverseJoinColumns = {@JoinColumn(name="project_id")})
+			inverseJoinColumns = {@JoinColumn(name="project_id")})*/
 	private List<Project> empProject;
 	
 	@Column(name = "is_active")

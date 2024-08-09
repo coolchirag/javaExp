@@ -15,6 +15,7 @@ import com.example.springjpa.dto.CustomCmpDto;
 
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Integer>, JpaSpecificationExecutor<Company> {
+	
 
 	@Query("select count(c.id), c.city from Company c group by c.city")
 	List<Object> countDemo();

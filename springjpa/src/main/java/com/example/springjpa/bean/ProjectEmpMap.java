@@ -13,8 +13,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Where;
 
-@Entity
-@Table(name = "project_emp_map")
+//@Entity
+//@Table(name = "project_emp_map")
 @Where(clause = " is_active = 1 ")
 public class ProjectEmpMap {
 

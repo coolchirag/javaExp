@@ -14,7 +14,7 @@ import com.example.springjpa.repository.CompanyHierarchyRepository;
 @Transactional
 public class CompanyHierarchyService {
 
-	@Autowired
+	//@Autowired
 	private CompanyHierarchyRepository companyHierarchyRepo;
 	
 	public void getChildCompanyes() {

@@ -43,6 +43,16 @@ public class TestController {
 		return "";
 	}
 	
+	@GetMapping("/log")
+	public String testLog(HttpServletRequest request) throws InterruptedException {
+		LOG.trace("Inside trace");
+		LOG.debug("Inside debug");
+		LOG.info("Inside info");
+		LOG.warn("Inside warn");
+		LOG.error("Inside error");
+		return "done";
+	}
+	
 	@GetMapping("/")
 	public String test(HttpServletRequest request) throws InterruptedException {
 		MDC.put("corel", "testc1"+System.currentTimeMillis());
@@ -51,7 +61,7 @@ public class TestController {
 		long startTime = System.currentTimeMillis();
 		LOG.info("======================Start");
 		cs.insertMultipleCompany();
-		//cs.checkTrasection();
+		cs.checkTrasection();
 		//cs.getData("hello");
 		//cs.getCompanyDetailByJPQL();
 		//cs.getCompanyFullDetails();
@@ -146,5 +156,19 @@ public class TestController {
 		return response + " : "+ds.toString();
 	}
 
+	@GetMapping("/exception")
+	public String checkException() {
+		LOG.warn("Test inside controller");
+		cs.checkException();
+		/*
+		 * try {
+		 * 
+		 * } catch (Exception e) { //LOG.warn("Error : "+e.getMessage(),e);
+		 * //e.printStackTrace(); //StackTraceElement[] stackTrace = e.getStackTrace();
+		 * System.out.println(e); throw e; }
+		 */
+		
+		return "";
+	}
 	
 }

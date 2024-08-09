@@ -40,22 +40,22 @@ public class CompanyService {
 	@Autowired
 	private CompanyRepository cmpRepo;
 
-	@Autowired
+	//@Autowired
 	private EmployeeRepository empRepo;
 
 	@Autowired
 	private EmployeeService empService;
 
 	public void checkTrasection() {
-		Company company = cmpRepo.findById(1).get();
-		company.setCity(company.getCity()+5);
+		Company company = cmpRepo.findById(5).get();
+		company.setCity(company.getCity()+6);
 		cmpRepo.save(company);
 		em.flush();
 		try {
 			empService.throwException();
 			//throwException();
 		} catch(Exception e) {
-			
+			System.out.println("exception at cs : "+e);
 		}
 	}
 	
@@ -296,6 +296,7 @@ public class CompanyService {
 		List<Company> clist = new ArrayList<Company>();
 		for (int i = 1; i < 20; i++) {
 			Company c = new Company();
+			//c.setId(i);
 			c.setCity("temp_test_performance");
 			String cmp_name = "temp_test_performance_"+i;
 			c.setCompanyName(cmp_name);
@@ -306,7 +307,7 @@ public class CompanyService {
 			  emp.setEmployeeName(cmp_name+"_emp_"+j); emp.setSalary(100000);
 			  emp.setCompnayToEmpMap(c); eList.add(emp); }
 			  
-			  c.setEmp(eList);
+			 // c.setEmp(eList);
 			 
 			  
 			  
@@ -320,6 +321,7 @@ public class CompanyService {
 		cmpRepo.saveAll(clist);
 	
 		System.out.println("saved2");
+		//System.out.println(clist.get(0));
 		System.out.println("Done2");
 	}
 
@@ -394,5 +396,21 @@ public class CompanyService {
 		cmp.setCity(cmp.getCity() + "5");
 		cmpRepo.delete(cmp);
 
+	}
+	
+	public String checkException() {
+		Integer a = null;
+		a.byteValue();
+			//checkException2();
+		
+		return "";
+	}
+	
+	private  String checkException2() {
+		
+			Integer a = null;
+			a.byteValue();
+		
+		return "";
 	}
 }
