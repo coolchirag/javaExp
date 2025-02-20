@@ -73,8 +73,8 @@ public class Company {
 	//@JoinColumn(name = "company_id"/* , insertable = false, updatable = false */)
 	//private List<Employee> employeeList;
 	
-	//@Transient
-	@OneToMany(mappedBy = "compnayToEmpMap", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@Transient
+	//@OneToMany(mappedBy = "compnayToEmpMap", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	//@Fetch(FetchMode.JOIN)
 	//@Where(clause = "is_active = 1")
 	private List<Employee> emp;

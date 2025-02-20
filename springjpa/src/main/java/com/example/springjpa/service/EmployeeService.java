@@ -26,7 +26,7 @@ public class EmployeeService {
 	@Autowired
 	private EntityManager em;
 	
-	//@Autowired
+	@Autowired
 	private EmployeeRepository empRepo;
 	
 	@Autowired
@@ -34,7 +34,7 @@ public class EmployeeService {
 	
 	public void throwException() {
 		/*Not  Works bracking transection*/
-		int i = 0;
+		Integer i = null;
 		int b = 5/i;
 	}
 	

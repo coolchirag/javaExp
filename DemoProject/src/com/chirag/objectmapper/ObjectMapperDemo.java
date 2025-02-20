@@ -2,7 +2,7 @@ package com.chirag.objectmapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
+//import com.fasterxml.jackson.databind.ObjectReader;
 
 public class ObjectMapperDemo {
 
@@ -14,11 +14,14 @@ public class ObjectMapperDemo {
 		//userdetail.setId(1);
 		String mapperValue = "{\"name\":\"Hello\"}";//mapper.writeValueAsString(userdetail);
 		System.out.println(mapperValue);
-		System.out.println(mapper.readValue(mapperValue, UserDetail.class));
+		UserDetail userDetail = mapper.readValue(mapperValue, UserDetail.class); 
+		System.out.println(userdetail);
+		System.out.println(mapper.writeValueAsString(userDetail));
+		//System.out.println(mapper.readValue(mapperValue, UserDetail.class));
 		UserDetail newUserdetails = new UserDetail();
 		
-		ObjectReader readerForUpdating = mapper.readerForUpdating(newUserdetails);
-		newUserdetails = readerForUpdating.readValue(mapperValue);
+		//ObjectReader readerForUpdating = mapper.readerForUpdating(newUserdetails);
+		//newUserdetails = readerForUpdating.readValue(mapperValue);
 		System.out.println(newUserdetails);
 	}
 	

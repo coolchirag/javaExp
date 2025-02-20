@@ -30,10 +30,10 @@ public class TestController {
 	@Autowired
 	private CompanyService cs;
 	
-	@Autowired
+	//@Autowired
 	private EmployeeService es;
 
-	@Autowired
+	//@Autowired
 	private CompanyHierarchyService companyHierarchyService;
 	
 	@GetMapping("/exp/{id}")
@@ -45,6 +45,8 @@ public class TestController {
 	
 	@GetMapping("/log")
 	public String testLog(HttpServletRequest request) throws InterruptedException {
+		cs.insertDuplicateCOmpany();
+		System.out.println("----------------------------------Done");
 		LOG.trace("Inside trace");
 		LOG.debug("Inside debug");
 		LOG.info("Inside info");
@@ -60,8 +62,10 @@ public class TestController {
 		LOG.isDebugEnabled();
 		long startTime = System.currentTimeMillis();
 		LOG.info("======================Start");
-		cs.insertMultipleCompany();
-		cs.checkTrasection();
+		System.out.println("Start fetching company");
+		cs.getCompanysByCity();
+		//cs.insertMultipleCompany();
+		//cs.checkTrasection();
 		//cs.getData("hello");
 		//cs.getCompanyDetailByJPQL();
 		//cs.getCompanyFullDetails();

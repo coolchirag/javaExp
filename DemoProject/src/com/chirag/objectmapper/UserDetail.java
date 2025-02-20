@@ -1,8 +1,10 @@
 package com.chirag.objectmapper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-//@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDetail {
 
 	private String name;

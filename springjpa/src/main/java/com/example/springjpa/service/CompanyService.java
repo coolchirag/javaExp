@@ -16,7 +16,6 @@ import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -45,6 +44,25 @@ public class CompanyService {
 
 	@Autowired
 	private EmployeeService empService;
+	
+	public void insertDuplicateCOmpany() {
+		Company c = null;
+		empService.throwException();
+		c.setCompanyName("Acme Corp");
+		try {
+		//Company c = new Company();
+		c.setCompanyName("Acme Corp");
+		c.setCity("New York");
+		c.setIsActive(true);
+		
+		cmpRepo.save(c);
+		//int i = 5/0;
+		em.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("=========================DOne");
+	}
 
 	public void checkTrasection() {
 		Company company = cmpRepo.findById(5).get();

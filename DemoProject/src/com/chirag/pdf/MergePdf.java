@@ -43,8 +43,11 @@ public class MergePdf {
 		System.out.println("TotalMemory : "+totalMemory+" Free memory : "+freeMemory+" used : "+(totalMemory-freeMemory));
 		ByteArrayOutputStream bo = new ByteArrayOutputStream();
 		//document.save(new File("D:/temp/pdf-merging/582_Pages_2.pdf"));
-		document.save(bo);
+		
+		document.saveIncremental(bo);
 		bytearray = bo.toByteArray();
+		bo.close();
+		bi.close();
 		modifiedDocument.close();
 		//tempModifiedPageFile.delete();
 		
