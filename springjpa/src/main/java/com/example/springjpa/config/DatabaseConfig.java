@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-//@Configuration
+@Configuration
 public class DatabaseConfig {
 	
 	//private static final Logger LOG = LoggerFactory.getLogger(DatabaseConfig.class);
@@ -17,14 +17,14 @@ public class DatabaseConfig {
 	@Primary
 	public DataSource getDatasource() {
 		//return generateDataSource("test_db@int-coding-platform-document-pipeline", "password", false);
-		return generateDataSource("newuser", "password2", false);
+		return generateDataSource("root", "Chirag@2025", false);
 	}
 	
 	@LiquibaseDataSource
 	@Bean
 	public DataSource getLiquibasedDatasource() {
 		//return generateDataSource("test_db@int-coding-platform-document-pipeline", "password", true);
-		return generateDataSource("newuser", "password2", true);
+		return generateDataSource("root", "Chirag@2025", true);
 	}
 	
 	private DataSource generateDataSource(String username, String password, boolean isLbDataSource) {
@@ -69,6 +69,7 @@ public class DatabaseConfig {
 				} else {
 					apacheDataSource.setMinIdle(3);
 				}
+				apacheDataSource.setMaxActive(10);
 				apacheDataSource.setInitialSize(apacheDataSource.getMinIdle());
 		} else {
 			final String errorMsg = "Connection pool property is not set for DataSource of type : "+dataSource.getClass(); 

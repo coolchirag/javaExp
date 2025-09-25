@@ -14,6 +14,7 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
+import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -26,7 +27,7 @@ import com.example.springjpa.repository.CompanyRepository;
 import com.example.springjpa.repository.EmployeeRepository;
 
 @Service
-@Transactional // (propagation = Propagation.NESTED)
+@Transactional(readOnly = true) // (propagation = Propagation.NESTED)
 public class CompanyService {
 
 	@Autowired
@@ -40,6 +41,9 @@ public class CompanyService {
 
 	@Autowired
 	private EmployeeService empService;
+	
+	@Autowired
+	DataSource dataSource;
 
 	public void getCmpByCityCount() {
 		List<Object> cmps = cmpRepo.findByCityCount();
@@ -80,6 +84,32 @@ public class CompanyService {
    		 System.out.println(cmp);
    	 }
 		
+	}
+	
+	private String getMsg() {
+		return "active "+dataSource.getActive()+" : idle : "+dataSource.getIdle()+" : size : "+dataSource.getSize();
+	}
+	
+	public void testConcurrentConnections(int i) {
+		System.out.println("Start thread : "+i);
+		/*
+		 * try { Thread.sleep(30000l); } catch (InterruptedException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); }
+		 */
+		getMsg();
+		System.out.println(getMsg());
+		Company cmpBean = cmpRepo.findByCompanyName("Test : "+i);
+		System.out.println("COmpant for :"+i+" :: "+cmpBean);
+		System.out.println(getMsg());
+		//em.close();
+		//System.out.println(getMsg());
+//		try {
+//			Thread.sleep(30000l);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		System.out.println("Exit thread : "+i);
 	}
 	
 	public void getCompanyDetailByJPQL() {

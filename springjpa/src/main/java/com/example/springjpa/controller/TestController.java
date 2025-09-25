@@ -1,5 +1,8 @@
 package com.example.springjpa.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.apache.logging.log4j.spi.LoggerContext;
@@ -44,8 +47,11 @@ public class TestController {
 		LOG.isDebugEnabled();
 		long startTime = System.currentTimeMillis();
 		LOG.info("======================Start");
+		//threadExecution();
+		cs.testConcurrentConnections(1);
+		
 		//cs.getData("hello");
-		cs.getCompanyDetailByJPQL();
+		//cs.getCompanyDetailByJPQL();
 		//cs.getCompanyFullDetails();
 		//es.countEmpsByCmp();
 		//ILoggerFactory iLoggerFactory = LoggerFactory.getILoggerFactory();
@@ -101,11 +107,23 @@ public class TestController {
 	}
 	
 	private void threadExecution() {
-		int threadSize = 10;
-		long threadSleep = 20000;
+		int threadSize = 2000;
+		long threadSleep = 200;
+		List<Thread> threads = new ArrayList<>();
 		for(int i=0; i<threadSize; i++) {
-			Thread t = new Thread(() -> cs.getCompany());
+			final int count = i;
+			Thread t = new Thread(() -> cs.testConcurrentConnections(count));
 			t.start();
+			threads.add(t);
+		}
+		
+		for(Thread t : threads) {
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
