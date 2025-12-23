@@ -27,6 +27,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.springframework.data.annotation.Version;
 
 @Entity
 @Table(name = "company")
@@ -82,6 +83,11 @@ public class Company {
 	
 	@Column(name = "is_active", nullable = false)
 	private Boolean isActive;
+	
+	
+	@javax.persistence.Version
+	@Column(name = "version")
+	private Long version;
 	
 	/*
 	 * public Company(C List<Employee> emp, List<Project> cmpProject) { super();
@@ -771,6 +777,14 @@ public class Company {
 	public void setChildCmpHierarchy(List<CompanyHierarchy> childCmpHierarchy) {
 		this.childCmpHierarchy = childCmpHierarchy;
 	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	/*
+	 * public void setVersion(Long version) { this.version = version; }
+	 */
 
 	@Override
 	public String toString() {
