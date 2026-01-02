@@ -20,8 +20,8 @@ public class TestSchedular {
 	public void testTask() {
 		System.out.println("Task one executed : "+count++);
 		try {
-			testService.doTask();
-		} catch (InterruptedException e) {
+			testService.testTrasaction();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -113,6 +113,8 @@ public class EmployeeService {
 	}
 	
 	public void findEmp() {
+		Employee emp = empRepo.findById(1).get();
+		System.out.println(emp);
 		/*
 		 * try { //Thread.sleep(20000); } catch (InterruptedException e) { // TODO
 		 * Auto-generated catch block e.printStackTrace(); }

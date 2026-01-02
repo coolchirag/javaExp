@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,16 +38,16 @@ public class Employee {
 	@Column(name = "salary")
 	private Integer salary;
 	
-	@Column(name = "cmp_id", insertable = false, updatable = false )
+	@Column(name = "cmp_id" /*, insertable = false, updatable = false*/ )
 	//@Transient
 	private Integer companyId;
 	
 	@ManyToOne(/* cascade = CascadeType.ALL */)
 	//@Fetch(FetchMode.SELECT)
 	
-	@JoinColumn(name="cmp_id"/*, insertable = false, updatable = false*/)
+	@JoinColumn(name="cmp_id", insertable = false, updatable = false)
 	//@Transient
-	@Where(clause=" is_active = 1 ")
+	//@Where(clause=" is_active = 1 ")
 	
 	//@OneToOne
 	//@JoinColumn(name = "cmp_id", referencedColumnName = "id" /*, insertable = false, updatable = false*/)

@@ -18,6 +18,7 @@ import com.example.springjpa.bean.Company;
 import com.example.springjpa.service.CompanyHierarchyService;
 import com.example.springjpa.service.CompanyService;
 import com.example.springjpa.service.EmployeeService;
+import com.example.springjpa.service.TestService;
 
 @RestController
 public class TestController {
@@ -33,6 +34,9 @@ public class TestController {
 	@Autowired
 	private CompanyHierarchyService companyHierarchyService;
 	
+	@Autowired
+	private TestService testService;
+	
 	@GetMapping("/exp")
 	public String testExp() throws InterruptedException {
 		int i =0;
@@ -47,8 +51,10 @@ public class TestController {
 		LOG.isDebugEnabled();
 		long startTime = System.currentTimeMillis();
 		LOG.info("======================Start");
+		//es.findEmp();
 		//threadExecution();
-		cs.testConcurrentConnections(1);
+		//testService.testTrasaction();
+		//cs.testConcurrentConnections(1);
 		
 		//cs.getData("hello");
 		//cs.getCompanyDetailByJPQL();
@@ -81,10 +87,10 @@ public class TestController {
 		//companyHierarchyService.getChildCompanyes();
 		//cs.getCompany();
 		
-		//cs.updateCompany();
+		cs.updateCompany();
 		
 		
-		//cs.insertCompanyWithEmp();
+		cs.insertCompanyWithEmp();
 		//cs.insertMultipleCompany();
 		//cs.getCompanyFullDetails();
 		//es.getEmployeeFullDetails();
