@@ -2,10 +2,9 @@ package com.example.springjpa.service;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.springjpa.bean.CompanyHierarchy;
 import com.example.springjpa.repository.CompanyHierarchyRepository;
@@ -17,6 +16,7 @@ public class CompanyHierarchyService {
 	@Autowired
 	private CompanyHierarchyRepository companyHierarchyRepo;
 	
+	@Transactional(readOnly = true)
 	public void getChildCompanyes() {
 		List<CompanyHierarchy> childCmps = companyHierarchyRepo.findAll();
 		childCmps.forEach(bean -> System.out.println(bean));

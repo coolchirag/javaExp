@@ -52,6 +52,7 @@ import org.springframework.data.annotation.Version;
 public class Company {
 
 	@Id
+	//@GeneratedValue(strategy = GenerationType.AUTO)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	//@GeneratedValue(generator = "abc")
 	//@GenericGenerator(name = "abc", strategy = "increment")
@@ -82,12 +83,16 @@ public class Company {
 	private List<Project> cmpProject;
 	
 	@Column(name = "is_active", nullable = false)
-	private Boolean isActive;
+	private Boolean isActive = true;
 	
 	
-	@javax.persistence.Version
+	//@javax.persistence.Version
 	@Column(name = "version")
 	private Long version;
+	
+	@OneToMany
+	@JoinColumn(name = "cmp_id")
+	List<Employee> uniqueEmps;
 	
 	/*
 	 * public Company(C List<Employee> emp, List<Project> cmpProject) { super();
@@ -782,14 +787,28 @@ public class Company {
 		return version;
 	}
 
-	/*
-	 * public void setVersion(Long version) { this.version = version; }
-	 */
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
+	public List<Employee> getUniqueEmps() {
+		return uniqueEmps;
+	}
+
+	public void setUniqueEmps(List<Employee> uniqueEmps) {
+		this.uniqueEmps = uniqueEmps;
+	}
 
 	@Override
 	public String toString() {
-		return "Company [id=" + id + ", companyName=" + companyName + ", city=" + city + ", isActive=" + isActive + "]";
+		return "Company [id=" + id + ", companyName=" + companyName + ", city=" + city + ", emp=" + emp
+				+ ", cmpProject=" + cmpProject + ", isActive=" + isActive + ", version=" + version
+				+ ", childCmpHierarchy=" + childCmpHierarchy + "]";
 	}
+
+	/*
+	 * public void setVersion(Long version) { this.version = version; }
+	 */
 
 	
 

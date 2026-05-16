@@ -3,17 +3,24 @@ package com.example.springjpa.repository;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+import javax.persistence.criteria.CriteriaBuilder;
+
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
+import org.springframework.validation.annotation.Validated;
 
 import com.example.springjpa.bean.Company;
 import com.example.springjpa.dto.CustomCmpDto;
 
 @Repository
+@Validated
 public interface CompanyRepository extends JpaRepository<Company, Integer>, JpaSpecificationExecutor<Company> {
 
 	@Query("select count(c.id), c.city from Company c group by c.city")
@@ -30,7 +37,12 @@ public interface CompanyRepository extends JpaRepository<Company, Integer>, JpaS
 
 	Company findByCompanyName(String name);
 	
-	List<Company> findByCity(String city);
+	List<Company> findByCity(@Nonnull String city);
+	
+	@Query("from Company where city = :city")
+	List<Company> findByCityQuery(@Param("city") String city);
+	
+	List<Company> findByVersion(Long version);
 	
 	//@EntityGraph("cmpwithemp")
 	@EntityGraph("cmpwithempwithprojectmst")

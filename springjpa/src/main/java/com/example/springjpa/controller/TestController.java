@@ -3,6 +3,8 @@ package com.example.springjpa.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
 import javax.sql.DataSource;
 
 import org.apache.logging.log4j.spi.LoggerContext;
@@ -10,23 +12,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springjpa.bean.Company;
 import com.example.springjpa.service.CompanyHierarchyService;
+import com.example.springjpa.service.CompanyReadService;
 import com.example.springjpa.service.CompanyService;
 import com.example.springjpa.service.EmployeeService;
+import com.example.springjpa.service.FileHandlingService;
 import com.example.springjpa.service.TestService;
 
 @RestController
+@Validated
 public class TestController {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(TestController.class);
 	
 	@Autowired
 	private CompanyService cs;
+	
+	@Autowired
+	private CompanyReadService crs;
 	
 	@Autowired
 	private EmployeeService es;
@@ -36,12 +46,21 @@ public class TestController {
 	
 	@Autowired
 	private TestService testService;
+
+	@Autowired
+	private FileHandlingService fileHandlingService;
 	
 	@GetMapping("/exp")
-	public String testExp() throws InterruptedException {
+	public String testExp(@RequestParam(name = "data", required = false) @Nonnull @Nonnegative Integer data) throws InterruptedException {
 		int i =0;
 		int b=10/i;
 		return "";
+	}
+	@GetMapping("/read")
+	public String testRead() throws InterruptedException {
+		MDC.put("corel", "testc1"+System.currentTimeMillis());
+		crs.fetchAllCompanyRead();
+		return "Hello";
 	}
 	
 	@GetMapping("/")
@@ -79,18 +98,24 @@ public class TestController {
 		 * MDC.put("event", "Test event"); LOG.warn("Inside controller"); int i = 0; int
 		 * j = 5 / i;
 		 */
+		cs.updateCompanyAtTwoTransaction();
+		//cs.fetchAllCompany();
+		//cs.criteriaQueryJoin();
+		//cs.insertCompanyWithEmp();
+		//fileHandlingService.loadFile();
+		//cs.getCompanyDetailByCriteriaBuilder();
 		//cs.compareCmpBean();
 		//cs.getCompanysByCity();
-		
-		
+		//cs.findByCt();
+		//cs.checkInternalManagementForInsert();
 		
 		//companyHierarchyService.getChildCompanyes();
 		//cs.getCompany();
 		
-		cs.updateCompany();
+		//cs.updateCompany();
 		
 		
-		cs.insertCompanyWithEmp();
+		//cs.insertCompanyWithEmp();
 		//cs.insertMultipleCompany();
 		//cs.getCompanyFullDetails();
 		//es.getEmployeeFullDetails();

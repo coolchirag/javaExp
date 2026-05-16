@@ -27,7 +27,8 @@ import org.hibernate.annotations.Where;
 public class Employee {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@GeneratedValue(strategy = GenerationType.AUTO)
 	//@GeneratedValue(generator = "abc")
 	//@GenericGenerator(name = "abc", strategy = "increment")
 	private int id;
@@ -38,14 +39,14 @@ public class Employee {
 	@Column(name = "salary")
 	private Integer salary;
 	
-	@Column(name = "cmp_id" /*, insertable = false, updatable = false*/ )
+	@Column(name = "cmp_id" , insertable = false, updatable = false )
 	//@Transient
 	private Integer companyId;
 	
 	@ManyToOne(/* cascade = CascadeType.ALL */)
 	//@Fetch(FetchMode.SELECT)
 	
-	@JoinColumn(name="cmp_id", insertable = false, updatable = false)
+	@JoinColumn(name="cmp_id")
 	//@Transient
 	//@Where(clause=" is_active = 1 ")
 	
@@ -64,7 +65,7 @@ public class Employee {
 	private List<Project> empProject;
 	
 	@Column(name = "is_active")
-	private Integer isActive;
+	private Integer isActive=1;
 	
 	/*@Column(name = "emp_column1")
 	private String empColumn1;

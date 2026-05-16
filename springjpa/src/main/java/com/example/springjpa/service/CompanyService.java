@@ -1,6 +1,7 @@
 package com.example.springjpa.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ import javax.persistence.criteria.Root;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,19 +45,102 @@ public class CompanyService {
 	private EmployeeService empService;
 	
 	@Autowired
+	@Qualifier("writeDataSource")
 	DataSource dataSource;
+	
+	
+	@Transactional(readOnly = true)
+	public void criteriaQueryJoin2() {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Company> query = cb.createQuery(Company.class);
+		Root<Company> from = query.from(Company.class);
+		Root<Employee> emp = query.from(Employee.class);
+		query.multiselect(from).where(cb.equal(from.get("id"), emp.get("companyId")));;
+		List<Company> resultList = em.createQuery(query).getResultList();
+		System.out.println(resultList);
+		
+	}
+	
+	public void fetchAllCompany() {
+		System.out.println("Inside fetchAllCompany");
+		List<Company> all = cmpRepo.findAll();
+		all.forEach(cmp -> System.out.println(cmp));
+		System.out.println(all);
+		
+	}
+	
+	@Transactional(readOnly = true)
+	public void criteriaQueryJoin() {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Company> query = cb.createQuery(Company.class);
+		Root<Company> from = query.from(Company.class);
+		from.join("uniqueEmps", JoinType.INNER);
+		query.select(from);
+		//.where(cb.equal(from.get("id"), emp.get("companyId")));;
+		List<Company> resultList = em.createQuery(query).getResultList();
+		System.out.println(resultList);
+	}
+	
+	public void checkInternalManagementForSelect() {
+		Company company = cmpRepo.findById(2).get();
+		
+		System.out.println("first comany : "+company);
+		
+		//Company cmp2 = cmpRepo.findByVersion(4l);
+		
+		company.setCity(company.getCity()+"1");
+		
+		cmpRepo.save(company);
+		
+		System.out.println("after change");
+		
+		System.out.println("company : "+company);
+		
+		//System.out.println("cmp2 : "+cmp2);
+		
+	}
+	
+	public void checkInternalManagementForInsert() {
+		Company company = new Company();
+		company.setCity("cj15");
+		company.setCompanyName("cjname");
+		company.setVersion(4L);
+		company.setIsActive(true);
+		
+		cmpRepo.save(company);
+		
+		System.out.println("first comany : "+company);
+		
+		List<Company> cmplist = cmpRepo.findAll();
+		
+		company.setCity(company.getCity()+"8");
+		
+		cmplist.forEach(c -> System.out.println("cmp2 : "+c));
+		
+		cmpRepo.save(company);
+		
+		System.out.println("after change");
+		
+		System.out.println("company : "+company);
+		
+		cmplist.forEach(c -> System.out.println("cmp2 : "+c));
+		
+	}
 
+	@Transactional(readOnly = true)
 	public void getCmpByCityCount() {
 		List<Object> cmps = cmpRepo.findByCityCount();
 		System.out.println(cmps);
 	}
 	
+	@Transactional(readOnly = true)
 	public void getCompanyDetailByCriteriaBuilder() {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Company> criteriaQuery = builder.createQuery(Company.class);
     	Root<Company> company = criteriaQuery.from(Company.class);
     	Fetch<Object, Object> emp = company.fetch("emp", JoinType.LEFT);
 		Join<Object, Object> project = company.join("cmpProject");
+		project.on(builder.equal(project.get("projectName"), "test"));
 		//project.on(builder.equal(project.get("projectName"), "test1"));
 		//criteriaQuery.where(builder.equal(company.get("companyName"), "cmp1"), builder.equal(company.get("city"), "city1"));
    	 TypedQuery<Company> query = em.createQuery(criteriaQuery);
@@ -66,6 +151,7 @@ public class CompanyService {
 		
 	}
 	
+	@Transactional(readOnly = true)
 	public void getCompanyDetailByCriteriaBuilderTemp() {
 		cmpRepo.joinCOmpanyWIthoutRelation();
 		
@@ -90,6 +176,7 @@ public class CompanyService {
 		return "active "+dataSource.getActive()+" : idle : "+dataSource.getIdle()+" : size : "+dataSource.getSize();
 	}
 	
+	@Transactional(readOnly = true)
 	public void testConcurrentConnections(int i) {
 		System.out.println("Start thread : "+i);
 		/*
@@ -112,6 +199,7 @@ public class CompanyService {
 		System.out.println("Exit thread : "+i);
 	}
 	
+	@Transactional(readOnly = true)
 	public void getCompanyDetailByJPQL() {
 		StringBuilder sb = new StringBuilder("Select distinct c from Company c inner join Fetch c.emp e");
 		Query query = em.createQuery(sb.toString());
@@ -121,6 +209,7 @@ public class CompanyService {
 	   	 }
 	}
 
+	@Transactional(readOnly = true)
 	public void getCompanyFullDetails() {
 		/*
 		 * Optional<Company> cmpOption = cmpRepo.findOne((root, query, criteriaBuilder)
@@ -187,7 +276,14 @@ public class CompanyService {
 		System.out.println("-----------------Done2-----------------");
 		return  "";
 	}
+	
+	@Transactional(readOnly = true)
+	public void findByCt() {
+		List<Company> byCity = cmpRepo.findByCity(null);
+		System.out.println(byCity);
+	}
 
+	@Transactional(readOnly = true)
 	public void getCompanysByCity() {
 		/*
 		 * Map<Integer, String> map = new HashMap(); map.put(7, "7"); map.put(8, "8");
@@ -217,7 +313,7 @@ public class CompanyService {
 		Company cmp = cmpRepo.findCMTest("cmp1");
 		// insertCompanyWithEmp();
 		try {
-			empService.insertCompany(cmp);
+			empService.updateCompany(cmp);
 		} catch (Exception e) {
 			System.out.println("Error occured in cmp Service : " + e.getMessage());
 		}
@@ -231,6 +327,8 @@ public class CompanyService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		int i =0;
+		int j = 5/i;
 		System.out.println(cmp);
 		// Company c = em.find(Company.class, 2);//em.find(Company.class, 2);
 		/*
@@ -261,6 +359,18 @@ public class CompanyService {
 		 * System.out.println("Done1");
 		 */
 	}
+	
+	public void updateCompanyAtTwoTransaction() {
+		Company cmp = cmpRepo.findByCompanyName("test_1775705828655");
+		cmp.setVersion(2l);
+		cmpRepo.save(cmp);
+		empService.updateCompany(cmp);
+		cmp.setCompanyName("n2");
+		int i =0;
+		int j = 5/i;
+		System.out.println("Done");
+		
+	}
 
 	@Transactional
 	public void compareCmpBean() {
@@ -283,18 +393,22 @@ public class CompanyService {
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void insertCompanyWithEmp() {
 		Company cmp = new Company();
-		cmp.setCompanyName("test2525");
+		cmp.setCompanyName("test_"+System.currentTimeMillis());
 		String str1 = "Status code 404, \"﻿<?xml";
 		cmp.setCity("hello");
 		cmp.setIsActive(true);
-		cmpRepo.save(cmp);
-
-		/*
-		 * Employee emp = new Employee(); emp.setEmployeeName("test2");
-		 * emp.setSalary(100000); emp.setCompanyId(8); empRepo.save(emp);
-		 * 
-		 * em.detach(cmp);
-		 */
+		
+		List<Employee> empList = new ArrayList<>();
+		for(int i = 0;i<100;i++) {
+		  Employee emp = new Employee(); 
+		  emp.setEmployeeName("test_"+System.currentTimeMillis());
+		  emp.setSalary(100000);
+		  empList.add(emp);
+		}
+		  // empRepo.save(emp);
+		  cmp.setEmp(empList);
+		  //em.detach(cmp);
+		  cmpRepo.save(cmp); 
 
 		//Company fetchedCmp = cmpRepo.findByCompanyName("test2");
 
@@ -306,6 +420,7 @@ public class CompanyService {
 		System.out.println("Exit from insertCompanyWithEmp");
 	}
 
+	@Transactional(readOnly = true)
 	public void getCmpDetilaInDto() {
 		List<CustomCmpDto> customDtos = cmpRepo.findDtoByName("test");
 		System.out.println(customDtos);
@@ -313,7 +428,7 @@ public class CompanyService {
 
 	public void insertMultipleCompany() {
 		List<Company> clist = new ArrayList<Company>();
-		for (int i = 2511; i < 2512; i++) {
+		for (int i = 1; i < 2512; i++) {
 			Company c = new Company();
 			c.setCity("temp_test_performance");
 			String cmp_name = "temp_test_performance_"+i;
@@ -358,12 +473,14 @@ public class CompanyService {
 		System.out.println("Done");
 	}
 
+	@Transactional(readOnly = true)
 	public void callJpaRepo() {
 		List<Object> list = cmpRepo.countDemo();
 		// System.out.println(list.get(0).getClass());
 		System.out.println(list);
 	}
 
+	@Transactional(readOnly = true)
 	public void criteriaBuilderDemo() {
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 		CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(Company.class);
@@ -382,6 +499,7 @@ public class CompanyService {
 		System.out.println(result);
 	}
 
+	@Transactional(readOnly = true)
 	public void criteriaBuilderDemo2() {
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 		CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(CustomCmpDto.class);

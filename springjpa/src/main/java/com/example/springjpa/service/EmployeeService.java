@@ -1,6 +1,7 @@
 package com.example.springjpa.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -32,6 +33,7 @@ public class EmployeeService {
 	@Autowired
 	private CompanyRepository cmpRepo;
 	
+	@Transactional(readOnly = true)
 	public void getEmployeeFullDetails() {
 		/*
 		 * Optional<Company> cmpOption = cmpRepo.findOne((root, query, criteriaBuilder)
@@ -72,6 +74,7 @@ public class EmployeeService {
 
 	}
 	
+	@Transactional(readOnly = true)
 	public void countEmpsByCmp() {
 		long empCounts = empRepo.countByCompanyId(1);
 		System.out.println(empCounts);
@@ -112,6 +115,7 @@ public class EmployeeService {
 		System.out.println("Emp saved");
 	}
 	
+	@Transactional(readOnly = true)
 	public void findEmp() {
 		Employee emp = empRepo.findById(1).get();
 		System.out.println(emp);
@@ -139,11 +143,13 @@ public class EmployeeService {
 	
 	//@Transactional(propagation = Propagation.NESTED)
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void insertCompany(Company cmp) {
+	public void updateCompany(Company cmp) {
 		try {
 		//Company cmp = new Company();
-		cmp.setCity(null);
-		cmpRepo.save(cmp);
+			Company cmpN = cmpRepo.findById(305).get();
+			cmpN.setCity(null);
+		cmpRepo.save(cmpN);
+		System.out.println("Done in t2");
 		} catch (Exception e) {
 			System.out.println("Error occured in emp Service : "+e.getMessage());
 		}
