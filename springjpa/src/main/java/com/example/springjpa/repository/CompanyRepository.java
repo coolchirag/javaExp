@@ -3,13 +3,13 @@ package com.example.springjpa.repository;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
 import javax.persistence.criteria.CriteriaBuilder;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.NonNull;
@@ -37,7 +37,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer>, JpaS
 
 	Company findByCompanyName(String name);
 	
-	List<Company> findByCity(@Nonnull String city);
+	List<Company> findByCity(String city);
 	
 	@Query("from Company where city = :city")
 	List<Company> findByCityQuery(@Param("city") String city);
@@ -85,6 +85,13 @@ public interface CompanyRepository extends JpaRepository<Company, Integer>, JpaS
 	
 	@Query("select new com.example.springjpa.dto.CustomCmpDto(c.id as id, c.city as city) from Company c where c.companyName=:name")
 	List<CustomCmpDto> findDtoByName(@Param("name") String name);
+
+	@Modifying
+	@Query("update Company c set c.city = :city where c.id = :id")
+	int updateCityById(@Param("city") String city, @Param("id") Integer id);
+
+	@Query(value = "select city from company where id = :id", nativeQuery = true)
+	String findCityByIdNative(@Param("id") Integer id);
 
 	/*
 	 * @Override default void delete(Integer id) { delete(findOne(id));

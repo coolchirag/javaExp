@@ -44,7 +44,7 @@ public class CompanyService {
 	@Autowired
 	private EmployeeService empService;
 	
-	@Autowired
+	@Autowired(required = false)
 	@Qualifier("writeDataSource")
 	DataSource dataSource;
 	

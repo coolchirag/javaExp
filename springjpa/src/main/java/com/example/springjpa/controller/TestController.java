@@ -3,8 +3,6 @@ package com.example.springjpa.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nonnegative;
-import javax.annotation.Nonnull;
 import javax.sql.DataSource;
 
 import org.apache.logging.log4j.spi.LoggerContext;
@@ -19,11 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springjpa.bean.Company;
+import com.example.springjpa.service.BulkOperationService;
 import com.example.springjpa.service.CompanyHierarchyService;
+import com.example.springjpa.service.CompanyJPQLService;
 import com.example.springjpa.service.CompanyReadService;
 import com.example.springjpa.service.CompanyService;
 import com.example.springjpa.service.EmployeeService;
-import com.example.springjpa.service.FileHandlingService;
 import com.example.springjpa.service.TestService;
 
 @RestController
@@ -48,10 +47,13 @@ public class TestController {
 	private TestService testService;
 
 	@Autowired
-	private FileHandlingService fileHandlingService;
+	private BulkOperationService bulkOperationService;
+
+	@Autowired
+	private CompanyJPQLService companyJPQLService;
 	
 	@GetMapping("/exp")
-	public String testExp(@RequestParam(name = "data", required = false) @Nonnull @Nonnegative Integer data) throws InterruptedException {
+	public String testExp(@RequestParam(name = "data", required = false) Integer data) throws InterruptedException {
 		int i =0;
 		int b=10/i;
 		return "";
@@ -70,6 +72,7 @@ public class TestController {
 		LOG.isDebugEnabled();
 		long startTime = System.currentTimeMillis();
 		LOG.info("======================Start");
+		companyJPQLService.updateCityWithJpqlAndPrint();
 		//es.findEmp();
 		//threadExecution();
 		//testService.testTrasaction();
@@ -163,6 +166,33 @@ public class TestController {
 		cs.insertCompanyWithEmp();
 		System.out.println("test2 "+Thread.currentThread().getId());
 		Thread.sleep(60*1000);
+		return "Hello";
+	}
+
+	@GetMapping("/bulkInsert")
+	public String bulkInsert() {
+		bulkOperationService.insertCompaniesWithEmployees();
+		System.out.println("------Completed-----------");
+		return "Hello";
+	}
+	
+	@GetMapping("/bulkInsertNative")
+	public String bulkInsertNativ() {
+		bulkOperationService.insertCompaniesWithEmployeesNative();
+		System.out.println("------Completed-----------");
+		return "Hello";
+	}
+
+	@GetMapping("/bulkInsertJdbc")
+	public String bulkInsertJdbc() {
+		bulkOperationService.insertCompaniesWithEmployeesJdbc();
+		System.out.println("------Completed-----------");
+		return "Hello";
+	}
+
+	@GetMapping("/jpqlCityUpdate")
+	public String jpqlCityUpdate() {
+		companyJPQLService.updateCityWithJpqlAndPrint();
 		return "Hello";
 	}
 	
