@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.apache.logging.log4j.spi.LoggerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +23,7 @@ import com.example.springjpa.service.CompanyJPQLService;
 import com.example.springjpa.service.CompanyReadService;
 import com.example.springjpa.service.CompanyService;
 import com.example.springjpa.service.EmployeeService;
+import com.example.springjpa.service.RedisService;
 import com.example.springjpa.service.TestService;
 
 @RestController
@@ -52,6 +53,9 @@ public class TestController {
 	@Autowired
 	private CompanyJPQLService companyJPQLService;
 	
+	@Autowired
+	private RedisService redisService;
+	
 	@GetMapping("/exp")
 	public String testExp(@RequestParam(name = "data", required = false) Integer data) throws InterruptedException {
 		int i =0;
@@ -63,6 +67,22 @@ public class TestController {
 		MDC.put("corel", "testc1"+System.currentTimeMillis());
 		crs.fetchAllCompanyRead();
 		return "Hello";
+	}
+	
+	@GetMapping("/redis")
+	public String testRedis() throws InterruptedException {
+		MDC.put("corel", "testc1"+System.currentTimeMillis());
+		List<String> allKeys = redisService.getAllKeys();
+		
+		return "Hello : "+allKeys;
+	}
+	
+	@PutMapping("/redis")
+	public String updateRedis(@RequestParam("pass") String pass) throws InterruptedException {
+		MDC.put("corel", "testc1"+System.currentTimeMillis());
+		boolean updateRedisCredentials = redisService.updateRedisCredentials(pass);
+		
+		return "Hello : "+updateRedisCredentials;
 	}
 	
 	@GetMapping("/")
