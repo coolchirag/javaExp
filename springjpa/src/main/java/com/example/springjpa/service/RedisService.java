@@ -7,12 +7,13 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.stereotype.Service;
+
+import com.example.springjpa.config.RefreshableRedisConnectionFactory;
 
 @Service
 @Transactional
@@ -24,7 +25,7 @@ public class RedisService {
 	private RedisTemplate<String, String> redisTemplate;
 	
 	@Autowired
-	private LettuceConnectionFactory connectionFactory;
+	private RefreshableRedisConnectionFactory connectionFactory;
 
 	/**
 	 * Fetch all keys currently present in Redis.
@@ -56,8 +57,12 @@ public class RedisService {
 		});
 	}
 	
+	/**
+	 * Update the Redis password so every connection created from now on authenticates with it.
+	 *
+	 * @return true when the new password was verified and applied, false when Redis rejected it
+	 */
 	public boolean updateRedisCredentials(String password) {
-		connectionFactory.setPassword(password);
-		return true;
+		return connectionFactory.updatePassword(password);
 	}
 }

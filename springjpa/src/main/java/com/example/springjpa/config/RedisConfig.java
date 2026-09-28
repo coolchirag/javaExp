@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
@@ -32,13 +33,16 @@ public class RedisConfig {
 	}
 	
 	@Bean
-	public LettuceConnectionFactory getRedisConnectionFactory() throws Exception {
+	public RefreshableRedisConnectionFactory getRedisConnectionFactory() throws Exception {
+		return new RefreshableRedisConnectionFactory(this::createLettuceConnectionFactory, getAzureRedisPassword());
+	}
+
+	private LettuceConnectionFactory createLettuceConnectionFactory(String redisPassword) {
 		RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
         configuration.setHostName("localhost");
         configuration.setPort(6379);
         configuration.setUsername("john");
 
-        String redisPassword = getAzureRedisPassword();
         if(redisPassword != null) {
         	configuration.setPassword(redisPassword);
         }
@@ -62,7 +66,7 @@ public class RedisConfig {
 	}
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(LettuceConnectionFactory connectionFactory) throws Exception {
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) throws Exception {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(connectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
