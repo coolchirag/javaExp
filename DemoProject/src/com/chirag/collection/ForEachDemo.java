@@ -13,9 +13,16 @@ public class ForEachDemo {
         gamesList.add("Chess");  
         gamesList.add("Hocky");  
         System.out.println("------------Iterating by passing lambda expression--------------");  
-        gamesList.forEach(games -> System.out.println(games));  
+        gamesList.forEach(games -> {
+        	if(games.equalsIgnoreCase("Cricket")) {
+        		System.out.println("FOund");
+        		return;
+        	}
+        	System.out.println(games);
+        	
+        });  
         
-        LinkedHashSet<String> codes = new LinkedHashSet<>();
-		codes.forEach(data -> System.out.println(data));
+        //LinkedHashSet<String> codes = new LinkedHashSet<>();
+		//codes.forEach(data -> System.out.println(data));
 	}
 }

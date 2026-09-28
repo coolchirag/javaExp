@@ -17,6 +17,7 @@ public class MapDemo {
 		map.put(i1, srs);
 		System.out.println(map.get(i1));
 		System.out.println(map.get(i2));
-		
+		System.out.println("FInalMap");
+		System.out.println(map);
 	}
 }
