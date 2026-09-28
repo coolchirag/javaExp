@@ -1,6 +1,6 @@
 # Frontend - User Stream UI
 
-This frontend is plain HTML and JavaScript.
+This frontend is plain HTML with a TypeScript source file and browser-ready JavaScript.
 
 ## What it does
 
@@ -19,4 +19,5 @@ Backend URL used by frontend:
 ## Files
 
 - `index.html` - UI layout
-- `app.js` - SSE stream handling and table rendering
+- `app.ts` - TypeScript source for SSE stream handling and table rendering
+- `app.js` - Browser-ready JavaScript loaded by `index.html`
