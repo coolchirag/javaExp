@@ -18,7 +18,7 @@ import io.lettuce.core.ClientOptions;
 import io.lettuce.core.SocketOptions;
 import io.lettuce.core.TimeoutOptions;
 
-@Configuration
+//@Configuration
 public class RedisConfig {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(RedisConfig.class);

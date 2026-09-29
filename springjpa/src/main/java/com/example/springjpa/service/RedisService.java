@@ -7,12 +7,14 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.stereotype.Service;
 
+import com.example.springjpa.config.ManagedIdentityRedisConnectionFactory;
 import com.example.springjpa.config.RefreshableRedisConnectionFactory;
 
 @Service
@@ -25,8 +27,9 @@ public class RedisService {
 	private RedisTemplate<String, String> redisTemplate;
 	
 	@Autowired
-	private RefreshableRedisConnectionFactory connectionFactory;
-
+	//private RefreshableRedisConnectionFactory connectionFactory;
+	private RedisConnectionFactory connectionFactory;
+	
 	/**
 	 * Fetch all keys currently present in Redis.
 	 * Uses SCAN (cursor based) instead of KEYS so the Redis server is not blocked
@@ -63,6 +66,12 @@ public class RedisService {
 	 * @return true when the new password was verified and applied, false when Redis rejected it
 	 */
 	public boolean updateRedisCredentials(String password) {
-		return connectionFactory.updatePassword(password);
+		if(connectionFactory instanceof ManagedIdentityRedisConnectionFactory) {
+			ManagedIdentityRedisConnectionFactory cf = (ManagedIdentityRedisConnectionFactory) connectionFactory; 
+			cf.updateCredentials("john", password);
+		} 
+		return true;
+		//return connectionFactory.updatePassword(password);
 	}
+	
 }
