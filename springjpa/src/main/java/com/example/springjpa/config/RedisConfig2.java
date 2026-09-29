@@ -172,6 +172,6 @@ public class RedisConfig2 {
     }
 	
 	public String passwordGenerator() {
-		return password;
+		return "MySecretPassword1234";
 	}
 }

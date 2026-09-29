@@ -1,5 +1,6 @@
 package com.example.springjpa.config;
 
+import java.net.SocketAddress;
 import java.util.function.Supplier;
 
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ public class ManagedIdentityRedisConnectionFactory  extends LettuceConnectionFac
 
 	private static final Logger LOG = LoggerFactory.getLogger(ManagedIdentityRedisConnectionFactory.class);
 
-	private final RedisURI redisURI;
+	//private RedisURI redisURI;
 
 	private final Supplier<String> reconnectPasswordSupplier;
 
@@ -31,7 +32,7 @@ public class ManagedIdentityRedisConnectionFactory  extends LettuceConnectionFac
 		super(standaloneConfiguration, clientConfiguration);
 		this.reconnectPasswordSupplier = reconnectPasswordSupplier;
 
-		RedisURI.Builder builder = RedisURI.Builder
+		/*RedisURI.Builder builder = RedisURI.Builder
 				.redis(standaloneConfiguration.getHostName(), standaloneConfiguration.getPort())
 				.withDatabase(standaloneConfiguration.getDatabase())
 				.withSsl(clientConfiguration.isUseSsl())
@@ -42,18 +43,19 @@ public class ManagedIdentityRedisConnectionFactory  extends LettuceConnectionFac
 
 		this.redisURI = builder.build();
 		this.redisURI.setUsername(standaloneConfiguration.getUsername());
-		standaloneConfiguration.getPassword().toOptional().ifPresent(this.redisURI::setPassword);
+		standaloneConfiguration.getPassword().toOptional().ifPresent(this.redisURI::setPassword);*/
 	}
 
 	@Override
-	protected AbstractRedisClient createClient() {
-		RedisClient redisClient = getClientConfiguration().getClientResources()
-				.map(clientResources -> RedisClient.create(clientResources, redisURI))
-				.orElseGet(() -> RedisClient.create(redisURI));
-		getClientConfiguration().getClientOptions().ifPresent(redisClient::setOptions);
+	public void afterPropertiesSet() {
+		super.afterPropertiesSet();
+		AbstractRedisClient redisClient = getNativeClient();
 		redisClient.addListener(new ReconnectPasswordListener());
-		return redisClient;
 	}
+
+
+
+
 
 	/**
 	 * Lettuce keeps the credentials in the state of every open connection and re-sends them on each automatic reconnect,
@@ -67,6 +69,8 @@ public class ManagedIdentityRedisConnectionFactory  extends LettuceConnectionFac
 				return;
 			}
 			try {
+				RedisURI redisURI = new RedisURI();
+				redisURI.setUsername("john");
 				redisURI.setPassword(reconnectPasswordSupplier.get().toCharArray());
 				((StatefulRedisConnectionImpl<?, ?>) connection).getConnectionState().apply(redisURI);
 				LOG.info("Redis connection lost, reconnecting with a newly generated password");
@@ -77,7 +81,13 @@ public class ManagedIdentityRedisConnectionFactory  extends LettuceConnectionFac
 
 		@Override
 		public void onRedisExceptionCaught(RedisChannelHandler<?, ?> connection, Throwable cause) {
-			// nothing to do
+			System.out.println("OnRedisEception");
+		}
+		
+		@Override
+		public void onRedisConnected(RedisChannelHandler<?, ?> connection, SocketAddress socketAddress) {
+			// TODO Auto-generated method stub
+			RedisConnectionStateListener.super.onRedisConnected(connection, socketAddress);
 		}
 	}
 
