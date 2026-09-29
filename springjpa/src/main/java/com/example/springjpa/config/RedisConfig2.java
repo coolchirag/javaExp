@@ -25,6 +25,8 @@ import io.lettuce.core.TimeoutOptions;
 @Configuration
 public class RedisConfig2 {
 	
+	private String password = "MySecretPassword123";
+	
 	private static final Logger LOG = LoggerFactory.getLogger(RedisConfig2.class);
 	
 	private volatile ManagedIdentityRedisConnectionFactory managedIdentityConnectionFactory;
@@ -55,9 +57,10 @@ public class RedisConfig2 {
 		try {
 			RedisStandaloneConfiguration configuration = createStandaloneConfiguration();
 			configuration.setUsername("john");
-			configuration.setPassword(getAzureRedisPassword());
+			configuration.setPassword(password);
 
-			connectionFactory = new ManagedIdentityRedisConnectionFactory(configuration, createClientConfiguration());
+			connectionFactory = new ManagedIdentityRedisConnectionFactory(configuration, createClientConfiguration(),
+						this::passwordGenerator);
 			connectionFactory.afterPropertiesSet();
 
 			//verifyConnection(connectionFactory);
@@ -126,15 +129,15 @@ public class RedisConfig2 {
         configuration.setHostName("localhost");
         configuration.setPort(6379);
         configuration.setUsername("john");
-        configuration.setPassword(getAzureRedisPassword());
+        configuration.setPassword(password);
         
         return configuration;
 	}
 	
-	public String getAzureRedisPassword() {
-		String redisStoragePassword = "MySecretPassword123";
-		return redisStoragePassword;
-	}
+	/*
+	 * public String getAzureRedisPassword() { String redisStoragePassword =
+	 * "MySecretPassword123"; return redisStoragePassword; }
+	 */
 
 	private LettuceClientConfiguration createClientConfiguration() {
         LettuceClientConfiguration.LettuceClientConfigurationBuilder clientConfig =
@@ -154,7 +157,8 @@ public class RedisConfig2 {
 	}
 	
 	public void updatePassword(String newPassword) {
-		managedIdentityConnectionFactory.updateCredentials("john", newPassword);
+		password = newPassword;
+		//managedIdentityConnectionFactory.updateCredentials("john", newPassword);
 	}
 	
 	@Bean
@@ -166,4 +170,8 @@ public class RedisConfig2 {
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         return redisTemplate;
     }
+	
+	public String passwordGenerator() {
+		return password;
+	}
 }

@@ -1,20 +1,35 @@
 package com.example.springjpa.config;
 
+import java.util.function.Supplier;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 
 import io.lettuce.core.AbstractRedisClient;
+import io.lettuce.core.RedisChannelHandler;
 import io.lettuce.core.RedisClient;
+import io.lettuce.core.RedisConnectionStateListener;
 import io.lettuce.core.RedisURI;
+import io.lettuce.core.StatefulRedisConnectionImpl;
 
 public class ManagedIdentityRedisConnectionFactory  extends LettuceConnectionFactory {
 
+	private static final Logger LOG = LoggerFactory.getLogger(ManagedIdentityRedisConnectionFactory.class);
+
 	private final RedisURI redisURI;
 
+	private final Supplier<String> reconnectPasswordSupplier;
+
+	/**
+	 * @param reconnectPasswordSupplier supplies the password every time a dropped connection is about to be re-established
+	 */
 	public ManagedIdentityRedisConnectionFactory(RedisStandaloneConfiguration standaloneConfiguration,
-			LettuceClientConfiguration clientConfiguration) {
+			LettuceClientConfiguration clientConfiguration, Supplier<String> reconnectPasswordSupplier) {
 		super(standaloneConfiguration, clientConfiguration);
+		this.reconnectPasswordSupplier = reconnectPasswordSupplier;
 
 		RedisURI.Builder builder = RedisURI.Builder
 				.redis(standaloneConfiguration.getHostName(), standaloneConfiguration.getPort())
@@ -36,17 +51,34 @@ public class ManagedIdentityRedisConnectionFactory  extends LettuceConnectionFac
 				.map(clientResources -> RedisClient.create(clientResources, redisURI))
 				.orElseGet(() -> RedisClient.create(redisURI));
 		getClientConfiguration().getClientOptions().ifPresent(redisClient::setOptions);
+		redisClient.addListener(new ReconnectPasswordListener());
 		return redisClient;
 	}
 
 	/**
-	 * Replaces the credentials the next connections will authenticate with. The connections that are already open keep
-	 * the credentials they were opened with until they are re-authenticated with an AUTH command.
+	 * Lettuce keeps the credentials in the state of every open connection and re-sends them on each automatic reconnect,
+	 * so the disconnect event (which fires before the reconnect attempt) is used to swap in a freshly generated password.
 	 */
-	public void updateCredentials(String username, String accessToken) {
-		redisURI.setUsername(username);
-		redisURI.setPassword(accessToken != null ? accessToken.toCharArray() : null);
-		cf.
+	private class ReconnectPasswordListener implements RedisConnectionStateListener {
+
+		@Override
+		public void onRedisDisconnected(RedisChannelHandler<?, ?> connection) {
+			if(!(connection instanceof StatefulRedisConnectionImpl)) {
+				return;
+			}
+			try {
+				redisURI.setPassword(reconnectPasswordSupplier.get().toCharArray());
+				((StatefulRedisConnectionImpl<?, ?>) connection).getConnectionState().apply(redisURI);
+				LOG.info("Redis connection lost, reconnecting with a newly generated password");
+			} catch (RuntimeException e) {
+				LOG.warn("Could not refresh the redis password before reconnecting : " + e.getMessage(), e);
+			}
+		}
+
+		@Override
+		public void onRedisExceptionCaught(RedisChannelHandler<?, ?> connection, Throwable cause) {
+			// nothing to do
+		}
 	}
 
 }

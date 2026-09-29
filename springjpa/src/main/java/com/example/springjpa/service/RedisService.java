@@ -15,6 +15,7 @@ import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.stereotype.Service;
 
 import com.example.springjpa.config.ManagedIdentityRedisConnectionFactory;
+import com.example.springjpa.config.RedisConfig2;
 import com.example.springjpa.config.RefreshableRedisConnectionFactory;
 
 @Service
@@ -29,6 +30,9 @@ public class RedisService {
 	@Autowired
 	//private RefreshableRedisConnectionFactory connectionFactory;
 	private RedisConnectionFactory connectionFactory;
+	
+	@Autowired
+	private RedisConfig2 redisConfig2;
 	
 	/**
 	 * Fetch all keys currently present in Redis.
@@ -66,10 +70,11 @@ public class RedisService {
 	 * @return true when the new password was verified and applied, false when Redis rejected it
 	 */
 	public boolean updateRedisCredentials(String password) {
-		if(connectionFactory instanceof ManagedIdentityRedisConnectionFactory) {
+		/*if(connectionFactory instanceof ManagedIdentityRedisConnectionFactory) {
 			ManagedIdentityRedisConnectionFactory cf = (ManagedIdentityRedisConnectionFactory) connectionFactory; 
 			cf.updateCredentials("john", password);
-		} 
+		} */
+		redisConfig2.updatePassword(password);
 		return true;
 		//return connectionFactory.updatePassword(password);
 	}
