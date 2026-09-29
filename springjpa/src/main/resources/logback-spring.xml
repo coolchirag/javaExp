@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="LOG_PATH" value="${user.home}/logs/spring-jpa2" />
+	<!-- full class name (no abbreviation) + line number -->
+	<property name="LOG_PATTERN_FULL"
+		value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %class.%method:%line - %msg%n" />
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${LOG_PATTERN_FULL}</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/app.log</file>
+		<encoder>
+			<pattern>${LOG_PATTERN_FULL}</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/app-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+			<maxFileSize>20MB</maxFileSize>
+			<maxHistory>20</maxHistory>
+		</rollingPolicy>
+	</appender>
+
+	<logger name="com.example" level="DEBUG" />
+
+	<root level="INFO">
+		<appender-ref ref="console" />
+		<appender-ref ref="file" />
+	</root>
+</configuration>
